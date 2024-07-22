@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-1.2【functional.h】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="STL,Code,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-1.2【functional.h】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-07-04 15:12:21</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="functional-h"><a href="#functional-h" class="headerlink" title="functional.h"></a>functional.h</h1><p>介绍第一层的关键头文件【functional.h】，它定义了STL中的仿函数</p>
+<p>这个头文件包含了 mystl 的函数对象与哈希函数</p>
+<h2 id="一元函数和二元函数"><a href="#一元函数和二元函数" class="headerlink" title="一元函数和二元函数"></a>一元函数和二元函数</h2><pre><code class="c++">#ifndef MYTINYSTL_FUNCTIONAL_H_
+// 同理，避免重复定义
+
+#define MYTINYSTL_FUNCTIONAL_H_
+// 定义
+
+#include &lt;cstddef&gt;
+// 定义了常用的常量、宏、类型和函数
+
+namespace mystl
+&#123;
+
+/* 
+位于include文件夹下，是STL中的重难点：仿函数(函数对象)
+
+仿函数的分类：
+1.以操作符划分：分为一元仿函数与二元仿函数（没有其他的了）
+2.以功能划分：分为算术运算、关系运算、逻辑运算
+
+代码中首先定义了两个模板结构体unarg_function和binary_function，用于定义一元函数和二元函数的参数类型和返回值类型。
+*/
+    
+// 定义一元函数的参数型别和返回值型别
+template &lt;class Arg, class Result&gt;
+struct unarg_function
+&#123;
+  typedef Arg       argument_type;
+  typedef Result    result_type;
+&#125;;
+// &#123;&#125;内则是对 Arg和Result设置别名，这意味着在模板结构体unarg_function中，你可以使用argument_type来引用类型Arg
+
+// 定义二元函数的参数型别和返回值型别
+template &lt;class Arg1, class Arg2, class Result&gt;
+struct binary_function
+&#123;
+  typedef Arg1      first_argument_type;
+  typedef Arg2      second_argument_type;
+  typedef Result    result_type;
+&#125;;
+</code></pre>
+<hr>
+<h2 id="算术类仿函数"><a href="#算术类仿函数" class="headerlink" title="算术类仿函数"></a>算术类仿函数</h2><pre><code class="c++">// STL内建的“算术类仿函数”，支持加法、减法、乘法、除法、模数（余数）、和否定运算，除了“否定”运算为一元运算，其余都是二元运算
+
+// 函数对象：加法
+template &lt;class T&gt;
+struct plus :public binary_function&lt;T, T, T&gt;
+&#123;
+  T operator()(const T&amp; x, const T&amp; y) const &#123; return x + y; &#125;
+&#125;;
+
+// 函数对象：减法
+template &lt;class T&gt;
+struct minus :public binary_function&lt;T, T, T&gt;
+&#123;
+  T operator()(const T&amp; x, const T&amp; y) const &#123; return x - y; &#125;
+&#125;;
+
+// 函数对象：乘法
+template &lt;class T&gt;
+struct multiplies :public binary_function&lt;T, T, T&gt;
+&#123;
+  T operator()(const T&amp; x, const T&amp; y) const &#123; return x * y; &#125;
+&#125;;
+
+// 函数对象：除法
+template &lt;class T&gt;
+struct divides :public binary_function&lt;T, T, T&gt;
+&#123;
+  T operator()(const T&amp; x, const T&amp; y) const &#123; return x / y; &#125;
+&#125;;
+
+// 函数对象：取余
+template &lt;class T&gt;
+struct modulus :public binary_function&lt;T, T, T&gt;
+&#123;
+  T operator()(const T&amp; x, const T&amp; y) const &#123; return x % y; &#125;
+&#125;;
+
+// 函数对象：否定
+template &lt;class T&gt;
+struct negate :public unarg_function&lt;T, T&gt;
+&#123;
+  T operator()(const T&amp; x) const &#123; return -x; &#125;
+&#125;;
+
+// 加法的证同元素
+template &lt;class T&gt;
+T identity_element(plus&lt;T&gt;) &#123; return T(0); &#125;
+
+// 乘法的证同元素
+template &lt;class T&gt;
+T identity_element(multiplies&lt;T&gt;) &#123; return T(1); &#125;
+</code></pre>
+<hr>
+<h2 id="关系运算类仿函数"><a href="#关系运算类仿函数" class="headerlink" title="关系运算类仿函数"></a>关系运算类仿函数</h2><pre><code class="c++">// STL内建的“关系运算类仿函数”，支持等于、不等于、大于、大于等于、小于、小于等于六种运算。每一个都是二元运算。
+    
+// 函数对象：等于
+template &lt;class T&gt;
+struct equal_to :public binary_function&lt;T, T, bool&gt;
+&#123;
+  bool operator()(const T&amp; x, const T&amp; y) const &#123; return x == y; &#125;
+&#125;;
+
+// 函数对象：不等于
+template &lt;class T&gt;
+struct not_equal_to :public binary_function&lt;T, T, bool&gt;
+&#123;
+  bool operator()(const T&amp; x, const T&amp; y) const &#123; return x != y; &#125;
+&#125;;
+
+// 函数对象：大于
+template &lt;class T&gt;
+struct greater :public binary_function&lt;T, T, bool&gt;
+&#123;
+  bool operator()(const T&amp; x, const T&amp; y) const &#123; return x &gt; y; &#125;
+&#125;;
+
+// 函数对象：小于
+template &lt;class T&gt;
+struct less :public binary_function&lt;T, T, bool&gt;
+&#123;
+  bool operator()(const T&amp; x, const T&amp; y) const &#123; return x &lt; y; &#125;
+&#125;;
+
+// 函数对象：大于等于
+template &lt;class T&gt;
+struct greater_equal :public binary_function&lt;T, T, bool&gt;
+&#123;
+  bool operator()(const T&amp; x, const T&amp; y) const &#123; return x &gt;= y; &#125;
+&#125;;
+
+// 函数对象：小于等于
+template &lt;class T&gt;
+struct less_equal :public binary_function&lt;T, T, bool&gt;
+&#123;
+  bool operator()(const T&amp; x, const T&amp; y) const &#123; return x &lt;= y; &#125;
+&#125;;
+    
+// STL内建的“逻辑运算类仿函数”，支持逻辑运算中的And、Or、Not三种运算，其中And和Or为二元运算，Not为一元运算。
+
+// 函数对象：逻辑与
+template &lt;class T&gt;
+struct logical_and :public binary_function&lt;T, T, bool&gt;
+&#123;
+  bool operator()(const T&amp; x, const T&amp; y) const &#123; return x &amp;&amp; y; &#125;
+&#125;;
+
+// 函数对象：逻辑或
+template &lt;class T&gt;
+struct logical_or :public binary_function&lt;T, T, bool&gt;
+&#123;
+  bool operator()(const T&amp; x, const T&amp; y) const &#123; return x || y; &#125;
+&#125;;
+
+// 函数对象：逻辑非
+template &lt;class T&gt;
+struct logical_not :public unarg_function&lt;T, bool&gt;
+&#123;
+  bool operator()(const T&amp; x) const &#123; return !x; &#125;
+&#125;;
+</code></pre>
+<hr>
+<h2 id="证同函数，选择函数，投射函数"><a href="#证同函数，选择函数，投射函数" class="headerlink" title="证同函数，选择函数，投射函数"></a>证同函数，选择函数，投射函数</h2><pre><code class="c++">// 下面介绍的这些仿函数，都只是将其参数原封不动地传回。其中某些仿函数对传回的参数有刻意的选择，或者可以忽略。
+    
+// 证同函数：不会改变元素，返回本身
+template &lt;class T&gt;
+struct identity :public unarg_function&lt;T, bool&gt;
+&#123;
+  const T&amp; operator()(const T&amp; x) const &#123; return x; &#125;
+&#125;;
+
+// 选择函数：接受一个 pair，返回第一个元素
+template &lt;class Pair&gt;
+struct selectfirst :public unarg_function&lt;Pair, typename Pair::first_type&gt;
+&#123;
+  const typename Pair::first_type&amp; operator()(const Pair&amp; x) const
+  &#123;
+    return x.first;
+  &#125;
+&#125;;
+
+// 选择函数：接受一个 pair，返回第二个元素
+template &lt;class Pair&gt;
+struct selectsecond :public unarg_function&lt;Pair, typename Pair::second_type&gt;
+&#123;
+  const typename Pair::second_type&amp; operator()(const Pair&amp; x) const
+  &#123;
+    return x.second;
+  &#125;
+&#125;;
+
+// 投射函数：返回第一参数
+template &lt;class Arg1, class Arg2&gt;
+struct projectfirst :public binary_function&lt;Arg1, Arg2, Arg1&gt;
+&#123;
+  Arg1 operator()(const Arg1&amp; x, const Arg2&amp;) const &#123; return x; &#125;
+&#125;;
+
+// 投射函数：返回第二参数
+template &lt;class Arg1, class Arg2&gt;
+struct projectsecond :public binary_function&lt;Arg1, Arg2, Arg2&gt;
+&#123;
+  Arg2 operator()(const Arg1&amp;, const Arg2&amp; y) const &#123; return y; &#125;
+&#125;;
+</code></pre>
+<hr>
+<h2 id="哈希函数"><a href="#哈希函数" class="headerlink" title="哈希函数"></a>哈希函数</h2><pre><code class="c++">/*****************************************************************************************/
+// 哈希函数对象，定义了一个通用的哈希函数模板hash，并强调了针对指针和整数的特化版本。
+    
+// 对于大部分类型，hash function 什么都不做
+template &lt;class Key&gt;
+struct hash &#123;&#125;;
+
+// 针对指针的偏特化版本
+template &lt;class T&gt;
+struct hash&lt;T*&gt;
+&#123;
+// size_t operaor()*(T* p)  这是一个函数调用运算符的实现，这个函数接受一个指向类型T的指针p作为输入参数，并返回一个size_t类型的哈希值。
+// size_t 是一些C/C++标准在stddef.h中定义的，size_t 类型表示C中任何对象所能达到的最大长度，它是无符号整数
+  size_t operator()(T* p) const noexcept
+  &#123; return reinterpret_cast&lt;size_t&gt;(p); &#125;
+// const noexcept表示函数是一个常量成员函数并且在运行时不会引发异常。这对于哈希函数是一种良好的属性，因为哈希函数应该是高效和可预测的。
+// reinterpret_cast表示对指针进行类型转换，它可以用来在不进行任何数据转换的情况下改变指针的类型。这里的目的是将指针的位模式转换为整数，以生成哈希值。
+&#125;;
+
+// 对于整型类型，只是返回原值
+// static_cast应该表示对其他类型非指针类型进行类型转换，将val转化为size_t
+#define MYSTL_TRIVIAL_HASH_FCN(Type)         \
+template &lt;&gt; struct hash&lt;Type&gt;                \
+&#123;                                            \
+  size_t operator()(Type val) const noexcept \
+  &#123; return static_cast&lt;size_t&gt;(val); &#125;       \
+&#125;;
+
+MYSTL_TRIVIAL_HASH_FCN(bool)
+
+MYSTL_TRIVIAL_HASH_FCN(char)
+
+MYSTL_TRIVIAL_HASH_FCN(signed char)
+
+MYSTL_TRIVIAL_HASH_FCN(unsigned char)
+
+MYSTL_TRIVIAL_HASH_FCN(wchar_t)
+
+MYSTL_TRIVIAL_HASH_FCN(char16_t)
+
+MYSTL_TRIVIAL_HASH_FCN(char32_t)
+
+MYSTL_TRIVIAL_HASH_FCN(short)
+
+MYSTL_TRIVIAL_HASH_FCN(unsigned short)
+
+MYSTL_TRIVIAL_HASH_FCN(int)
+
+MYSTL_TRIVIAL_HASH_FCN(unsigned int)
+
+MYSTL_TRIVIAL_HASH_FCN(long)
+
+MYSTL_TRIVIAL_HASH_FCN(unsigned long)
+
+MYSTL_TRIVIAL_HASH_FCN(long long)
+
+MYSTL_TRIVIAL_HASH_FCN(unsigned long long)
+
+#undef MYSTL_TRIVIAL_HASH_FCN
+    
+// 这段代码比较抽象，总之，它实现了一种基于 FNV-1a (Fowler-Noll-Vo)哈希算法的哈希函数，可以用于生成输入数据块的哈希值。
+    
+// 对于浮点数，逐位哈希
+inline size_t bitwise_hash(const unsigned char* first, size_t count)
+&#123;
+#if (_MSC_VER &amp;&amp; _WIN64) || ((__GNUC__ || __clang__) &amp;&amp;__SIZEOF_POINTER__ == 8)
+  const size_t fnv_offset = 14695981039346656037ull;
+  const size_t fnv_prime = 1099511628211ull;
+#else
+  const size_t fnv_offset = 2166136261u;
+  const size_t fnv_prime = 16777619u;
+#endif
+  size_t result = fnv_offset;
+  for (size_t i = 0; i &lt; count; ++i)
+  &#123;
+    result ^= (size_t)first[i];
+    result *= fnv_prime;
+  &#125;
+  return result;
+&#125;
+
+// return val == 0.0f ? 0 : bitwise_hash((const unsigned char*)&amp;val, sizeof(float))：首先，它检查输入的浮点数val是否等于 0.0f。如果等于 0.0f，它直接返回哈希值 0，因为 0 是一个特殊的情况，可以简单地用 0 来表示。如果不等于 0.0f，则调用bitwise_hash函数来计算浮点数val的哈希值。这里将浮点数的位模式转换为字节数组，并调用bitwise_hash函数来计算哈希值。
+    
+template &lt;&gt;
+struct hash&lt;float&gt;
+&#123;
+  size_t operator()(const float&amp; val)
+  &#123; 
+    return val == 0.0f ? 0 : bitwise_hash((const unsigned char*)&amp;val, sizeof(float));
+  &#125;
+&#125;;
+
+template &lt;&gt;
+struct hash&lt;double&gt;
+&#123;
+  size_t operator()(const double&amp; val)
+  &#123;
+    return val == 0.0f ? 0 : bitwise_hash((const unsigned char*)&amp;val, sizeof(double));
+  &#125;
+&#125;;
+
+template &lt;&gt;
+struct hash&lt;long double&gt;
+&#123;
+  size_t operator()(const long double&amp; val)
+  &#123;
+    return val == 0.0f ? 0 : bitwise_hash((const unsigned char*)&amp;val, sizeof(long double));
+  &#125;
+&#125;;
+
+&#125; // namespace mystl
+#endif // !MYTINYSTL_FUNCTIONAL_H_
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/07/06/MyTinySTL-2.1%E3%80%90iterator.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-2.1【iterator.h】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/07/04/MyTinySTL-1.1%E3%80%90exceptdef.h%E3%80%91%E5%92%8C%E3%80%90type_traits.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-1.1【exceptdef.h】和【type_traits.h】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

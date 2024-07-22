@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-2.1【iterator.h】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="STL,Code,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-2.1【iterator.h】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-07-06 17:12:32</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="iterator-h"><a href="#iterator-h" class="headerlink" title="iterator.h"></a>iterator.h</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>介绍第二层的第一个也是最重要的一个头文件【iterator.h】，定义了STL的迭代器</p>
+<p>STL设计的中心思想是将容器（container）和算法（algorithm）分开，迭代器是容器（container）和算法（algorithm）之间的桥梁。</p>
+<p>指针可以用来遍历存储空间连续的数据结构，但是对于存储空间非连续的，就需要寻找一个行为类似指针的类，来对存储空间非连续的数据结构进行遍历。因此，引入迭代器概念。</p>
+<p>迭代器可以如下定义：提供一种方法，能够依序寻访某个容器内的所有元素，而又无需暴露该容器的内部表达方式。</p>
+<h2 id="迭代器种类"><a href="#迭代器种类" class="headerlink" title="迭代器种类"></a>迭代器种类</h2><p>迭代器共分为五种，分别为: 输入迭代器（Input iterator）、输出迭代器（Output iterator）、前向迭代器（Forward iterator）、双向迭代器（Bidirectional iterator）、随机存取迭代器（Random access iterator）。</p>
+<pre><code class="c++">#ifndef MYTINYSTL_ITERATOR_H_
+#define MYTINYSTL_ITERATOR_H_
+
+// 这个头文件用于迭代器设计，包含了一些模板结构体与全局函数，
+
+#include &lt;cstddef&gt;
+
+#include &quot;type_traits.h&quot;
+
+namespace mystl
+&#123;
+
+// 五种迭代器类型
+struct input_iterator_tag &#123;&#125;;
+struct output_iterator_tag &#123;&#125;;
+struct forward_iterator_tag : public input_iterator_tag &#123;&#125;;
+struct bidirectional_iterator_tag : public forward_iterator_tag &#123;&#125;;
+struct random_access_iterator_tag : public bidirectional_iterator_tag &#123;&#125;;
+
+// iterator模板共包含5个参数，用来定制不同类型的迭代器。
+// Category：这是一个用于指定迭代器类别（iterator category）的模板参数。迭代器类别用于描述迭代器的特性和行为，例如，输入迭代器、输出迭代器、前向迭代器、双向迭代器、随机访问迭代器等。不同类别的迭代器具有不同的操作和能力。
+// T：这是迭代器所指向元素的类型。也就是说，iterator用于表示访问类型为T的元素的迭代器。
+// Distance：这是一个整数类型，表示两个迭代器之间可能存在的最大距离（通常为正整数）,也就是容器的最大容量。默认情况下，它被设置为ptrdiff_t。
+// Pointer：这是一个指针类型，表示迭代器的指针类型。默认情况下，它被设置为T。
+// Reference：这是一个引用类型，表示迭代器的引用类型。默认情况下，它被设置为T&amp;。
+
+// iterator 模板
+template &lt;class Category, class T, class Distance = ptrdiff_t,
+  class Pointer = T*, class Reference = T&amp;&gt;
+  struct iterator
+&#123;
+  typedef Category                             iterator_category;
+  typedef T                                    value_type;
+  typedef Pointer                              pointer;
+  typedef Reference                            reference;
+  typedef Distance                             difference_type;
+&#125;;
+</code></pre>
+<h2 id="判断迭代器是否有category"><a href="#判断迭代器是否有category" class="headerlink" title="判断迭代器是否有category"></a>判断迭代器是否有category</h2><p>如何获取迭代器的associated type？ iterator_traits盛大出场！</p>
+<p>由于算法和容器之间是通过iterator来交互的，算法工作的时候需要知道的详细信息就是通过iterator，所以iterator 就定义了公共的接口和类型，</p>
+<p>在实际中，不只class可以作为iterator，基本类型如int也可以作为iterator。class iterator 可以定义如上几个associated type，但是基本类型没有，所以这是需要iterator_traits 来统一。</p>
+<p>萃取迭代器特性，其中包括has_iterator_cat函数和iterator_traits_helper函数</p>
+<pre><code class="c++">// 用于判断是否有category
+// 定义了struct two大小是2，用来区别char类型大小为1
+// 然后有两个重载的模板参数test，通过传入的模板类型有无typename U::iterator_category来返回two 还是char，最后value通过反映出来。
+// 也就是value = sizeof(test&lt;T&gt;(0)) == sizeof(char)中test&lt;T&gt;(0)会去匹配test函数，如果有T中有定义iterator_category类型就返回two 则value就是true，否则返回char则value就是false。
+
+template &lt;class T&gt;
+struct has_iterator_cat
+&#123;
+private:
+  struct two &#123; char a; char b; &#125;;
+  template &lt;class U&gt; static two test(...);
+  template &lt;class U&gt; static char test(typename U::iterator_category* = 0);
+public:
+  static const bool value = sizeof(test&lt;T&gt;(0)) == sizeof(char);
+&#125;;
+</code></pre>
+<p>has_iterator_cat返回值传给iterator_traits_helper第二个参数 ，如果为false就没必要继续萃取了，如果为true则继承iterator_traits_impl。</p>
+<p>接下来介绍iterator_traits_impl函数和iterator_traits_helper函数</p>
+<p>当has_iterator_cat返回值传给iterator_traits_helper第二个参数为true时，继承iterator_traits_impl，然后尝试能否隐式转换为输入迭代器或输出迭代器，如果可以转换的话，就进行萃取迭代器特性，否则就没必要萃取。</p>
+<pre><code class="c++">// iterator traits
+
+template &lt;class Iterator, bool&gt;
+struct iterator_traits_impl &#123;&#125;;
+
+template &lt;class Iterator&gt;
+struct iterator_traits_impl&lt;Iterator, true&gt;
+&#123;
+  typedef typename Iterator::iterator_category iterator_category;
+  typedef typename Iterator::value_type        value_type;
+  typedef typename Iterator::pointer           pointer;
+  typedef typename Iterator::reference         reference;
+  typedef typename Iterator::difference_type   difference_type;
+&#125;;
+
+// template &lt;class From, class To&gt; struct is_convertible;用来判断From是否可隐式转换为To。
+// 所以这边就是判断Iterator::iterator_category算否可以隐式转换为输入迭代器或输入迭代器。
+// 如果不能隐式转换也就没必要萃取了，如果能转换就得到所有迭代器信息。
+    
+template &lt;class Iterator, bool&gt;
+struct iterator_traits_helper &#123;&#125;;
+
+template &lt;class Iterator&gt;
+struct iterator_traits_helper&lt;Iterator, true&gt;
+  : public iterator_traits_impl&lt;Iterator,
+  std::is_convertible&lt;typename Iterator::iterator_category, input_iterator_tag&gt;::value ||
+  std::is_convertible&lt;typename Iterator::iterator_category, output_iterator_tag&gt;::value&gt;
+&#123;
+&#125;;
+</code></pre>
+<h2 id="萃取迭代器"><a href="#萃取迭代器" class="headerlink" title="萃取迭代器"></a>萃取迭代器</h2><p>萃取迭代器特性的函数</p>
+<pre><code class="c++">// 萃取迭代器的特性
+template &lt;class Iterator&gt;
+struct iterator_traits 
+  : public iterator_traits_helper&lt;Iterator, has_iterator_cat&lt;Iterator&gt;::value&gt; &#123;&#125;;
+
+// 针对原生指针的偏特化版本
+template &lt;class T&gt;
+struct iterator_traits&lt;T*&gt;
+&#123;
+  typedef random_access_iterator_tag           iterator_category;
+  typedef T                                    value_type;
+  typedef T*                                   pointer;
+  typedef T&amp;                                   reference;
+  typedef ptrdiff_t                            difference_type;
+&#125;;
+
+// 针对原生const指针的偏特化版本
+template &lt;class T&gt;
+struct iterator_traits&lt;const T*&gt;
+&#123;
+  typedef random_access_iterator_tag           iterator_category;
+  typedef T                                    value_type;
+  typedef const T*                             pointer;
+  typedef const T&amp;                             reference;
+  typedef ptrdiff_t                            difference_type;
+&#125;;
+</code></pre>
+<p>萃取某种迭代器，首先了解has_iterator_cat_of函数</p>
+<p>首先用has_iterator_cat函数判断有没有category，有的话，进入到下一步</p>
+<p>判断能否将T的迭代器category隐式转换到U</p>
+<pre><code class="c++">template &lt;class T, class U, bool = has_iterator_cat&lt;iterator_traits&lt;T&gt;&gt;::value&gt;
+struct has_iterator_cat_of
+  : public m_bool_constant&lt;std::is_convertible&lt;
+  typename iterator_traits&lt;T&gt;::iterator_category, U&gt;::value&gt;
+&#123;
+&#125;;
+</code></pre>
+<h2 id="萃取各种迭代器"><a href="#萃取各种迭代器" class="headerlink" title="萃取各种迭代器"></a>萃取各种迭代器</h2><p>萃取某种迭代器的函数</p>
+<pre><code class="c++">// 萃取某种迭代器
+template &lt;class T, class U&gt;
+struct has_iterator_cat_of&lt;T, U, false&gt; : public m_false_type &#123;&#125;;
+
+template &lt;class Iter&gt;
+struct is_input_iterator : public has_iterator_cat_of&lt;Iter, input_iterator_tag&gt; &#123;&#125;;
+
+template &lt;class Iter&gt;
+struct is_output_iterator : public has_iterator_cat_of&lt;Iter, output_iterator_tag&gt; &#123;&#125;;
+
+template &lt;class Iter&gt;
+struct is_forward_iterator : public has_iterator_cat_of&lt;Iter, forward_iterator_tag&gt; &#123;&#125;;
+
+template &lt;class Iter&gt;
+struct is_bidirectional_iterator : public has_iterator_cat_of&lt;Iter, bidirectional_iterator_tag&gt; &#123;&#125;;
+
+template &lt;class Iter&gt;
+struct is_random_access_iterator : public has_iterator_cat_of&lt;Iter, random_access_iterator_tag&gt; &#123;&#125;;
+</code></pre>
+<h2 id="萃取迭代器的特性"><a href="#萃取迭代器的特性" class="headerlink" title="萃取迭代器的特性"></a>萃取迭代器的特性</h2><pre><code class="c++">// 萃取某个迭代器的 category
+template &lt;class Iterator&gt;
+typename iterator_traits&lt;Iterator&gt;::iterator_category
+iterator_category(const Iterator&amp;)
+&#123;
+  typedef typename iterator_traits&lt;Iterator&gt;::iterator_category Category;
+  return Category();
+&#125;
+
+// 萃取某个迭代器的 distance_type
+template &lt;class Iterator&gt;
+typename iterator_traits&lt;Iterator&gt;::difference_type*
+distance_type(const Iterator&amp;)
+&#123;
+  return static_cast&lt;typename iterator_traits&lt;Iterator&gt;::difference_type*&gt;(0);
+&#125;
+
+// 萃取某个迭代器的 value_type
+template &lt;class Iterator&gt;
+typename iterator_traits&lt;Iterator&gt;::value_type*
+value_type(const Iterator&amp;)
+&#123;
+  return static_cast&lt;typename iterator_traits&lt;Iterator&gt;::value_type*&gt;(0);
+&#125;
+</code></pre>
+<h2 id="用于计算迭代器间的距离"><a href="#用于计算迭代器间的距离" class="headerlink" title="用于计算迭代器间的距离"></a>用于计算迭代器间的距离</h2><pre><code class="c++">// 以下函数用于计算迭代器间的距离
+
+// distance 的 input_iterator_tag 的版本
+template &lt;class InputIterator&gt;
+typename iterator_traits&lt;InputIterator&gt;::difference_type
+distance_dispatch(InputIterator first, InputIterator last, input_iterator_tag)
+&#123;
+  typename iterator_traits&lt;InputIterator&gt;::difference_type n = 0;
+  while (first != last)
+  &#123;
+    ++first;
+    ++n;
+  &#125;
+  return n;
+&#125;
+
+// distance 的 random_access_iterator_tag 的版本
+template &lt;class RandomIter&gt;
+typename iterator_traits&lt;RandomIter&gt;::difference_type
+distance_dispatch(RandomIter first, RandomIter last,
+                  random_access_iterator_tag)
+&#123;
+  return last - first;
+&#125;
+
+template &lt;class InputIterator&gt;
+typename iterator_traits&lt;InputIterator&gt;::difference_type
+distance(InputIterator first, InputIterator last)
+&#123;
+  return distance_dispatch(first, last, iterator_category(first));
+&#125;
+</code></pre>
+<h2 id="让迭代器前进n个距离"><a href="#让迭代器前进n个距离" class="headerlink" title="让迭代器前进n个距离"></a>让迭代器前进n个距离</h2><pre><code class="c++">// 以下函数用于让迭代器前进 n 个距离
+
+// advance 的 input_iterator_tag 的版本
+template &lt;class InputIterator, class Distance&gt;
+void advance_dispatch(InputIterator&amp; i, Distance n, input_iterator_tag)
+&#123;
+  while (n--) 
+    ++i;
+&#125;
+
+// advance 的 bidirectional_iterator_tag 的版本
+template &lt;class BidirectionalIterator, class Distance&gt;
+void advance_dispatch(BidirectionalIterator&amp; i, Distance n, bidirectional_iterator_tag)
+&#123;
+  if (n &gt;= 0)
+    while (n--)  ++i;
+  else
+    while (n++)  --i;
+&#125;
+
+// advance 的 random_access_iterator_tag 的版本
+template &lt;class RandomIter, class Distance&gt;
+void advance_dispatch(RandomIter&amp; i, Distance n, random_access_iterator_tag)
+&#123;
+  i += n;
+&#125;
+
+template &lt;class InputIterator, class Distance&gt;
+void advance(InputIterator&amp; i, Distance n)
+&#123;
+  advance_dispatch(i, n, iterator_category(i));
+&#125;
+</code></pre>
+<h2 id="反向迭代器"><a href="#反向迭代器" class="headerlink" title="反向迭代器"></a>反向迭代器</h2><p>反向迭代器的构造</p>
+<pre><code class="c++">// 模板类 : reverse_iterator
+// 代表反向迭代器，使前进为后退，后退为前进
+template &lt;class Iterator&gt;
+class reverse_iterator
+&#123;
+private:
+  Iterator current;  // 记录对应的正向迭代器
+
+public:
+  // 反向迭代器的五种相应型别
+  typedef typename iterator_traits&lt;Iterator&gt;::iterator_category iterator_category;
+  typedef typename iterator_traits&lt;Iterator&gt;::value_type        value_type;
+  typedef typename iterator_traits&lt;Iterator&gt;::difference_type   difference_type;
+  typedef typename iterator_traits&lt;Iterator&gt;::pointer           pointer;
+  typedef typename iterator_traits&lt;Iterator&gt;::reference         reference;
+
+  typedef Iterator                                              iterator_type;
+  typedef reverse_iterator&lt;Iterator&gt;                            self;
+
+public:
+  // 构造函数
+  // 第一个是空构造，第二个是用正向迭代器构造，第三个是用反向迭代器构造
+  reverse_iterator() &#123;&#125;
+  //  explicit是C++中的一个关键字，它用来修饰只有一个参数的类构造函数，以表明该构造函数是显式的，而非隐式的。当使用explicit修饰构造函数时，它将禁止类对象之间的隐式转换，以及禁止隐式调用拷贝构造函数。
+  explicit reverse_iterator(iterator_type i) :current(i) &#123;&#125;
+  reverse_iterator(const self&amp; rhs) :current(rhs.current) &#123;&#125;
+</code></pre>
+<p>反向迭代器的一些操作</p>
+<pre><code class="c++">public:
+  // 取出对应的正向迭代器
+  iterator_type base() const 
+  &#123; return current; &#125;
+
+  // 重载操作符
+  reference operator*() const
+  &#123; // 实际对应正向迭代器的前一个位置
+    auto tmp = current;
+    return *--tmp;
+  &#125;
+  pointer operator-&gt;() const
+  &#123;
+    return &amp;(operator*());
+  &#125;
+
+  // 前进(++)变为后退(--)
+  // 前缀 ++Interator
+  self&amp; operator++()
+  &#123;
+    --current;
+    return *this;
+  &#125;
+  // 后缀 Interator++
+  self operator++(int)
+  &#123;
+    self tmp = *this;
+    --current;
+    return tmp;
+  &#125;
+  // 后退(--)变为前进(++)
+  self&amp; operator--()
+  &#123;
+    ++current;
+    return *this;
+  &#125;
+  self operator--(int)
+  &#123;
+    self tmp = *this;
+    ++current;
+    return tmp;
+  &#125;
+
+  self&amp; operator+=(difference_type n)
+  &#123;
+    current -= n;
+    return *this;
+  &#125;
+  // 重新构造一个反向迭代器，里面的current值为current-n
+  self operator+(difference_type n) const
+  &#123;
+    return self(current - n);
+  &#125;
+  self&amp; operator-=(difference_type n)
+  &#123;
+    current += n;
+    return *this;
+  &#125;
+  self operator-(difference_type n) const
+  &#123;
+    return self(current + n);
+  &#125;
+
+  reference operator[](difference_type n) const
+  &#123;
+    return *(*this + n);
+  &#125;
+&#125;;
+</code></pre>
+<p>全局运算符</p>
+<pre><code class="c++">// 重载 operator-
+template &lt;class Iterator&gt;
+typename reverse_iterator&lt;Iterator&gt;::difference_type
+operator-(const reverse_iterator&lt;Iterator&gt;&amp; lhs,
+          const reverse_iterator&lt;Iterator&gt;&amp; rhs)
+&#123;
+  return rhs.base() - lhs.base();
+&#125;
+
+// 重载比较操作符
+template &lt;class Iterator&gt;
+bool operator==(const reverse_iterator&lt;Iterator&gt;&amp; lhs,
+                const reverse_iterator&lt;Iterator&gt;&amp; rhs)
+&#123;
+  return lhs.base() == rhs.base();
+&#125;
+
+template &lt;class Iterator&gt;
+bool operator&lt;(const reverse_iterator&lt;Iterator&gt;&amp; lhs,
+  const reverse_iterator&lt;Iterator&gt;&amp; rhs)
+&#123;
+  return rhs.base() &lt; lhs.base();
+&#125;
+
+// 以下运算符重载都可以利用已有的运算符重载，如!=利用==，&gt;利用&lt;，&lt;=利用&gt;
+template &lt;class Iterator&gt;
+bool operator!=(const reverse_iterator&lt;Iterator&gt;&amp; lhs,
+                const reverse_iterator&lt;Iterator&gt;&amp; rhs)
+&#123;
+  return !(lhs == rhs);
+&#125;
+
+template &lt;class Iterator&gt;
+bool operator&gt;(const reverse_iterator&lt;Iterator&gt;&amp; lhs,
+               const reverse_iterator&lt;Iterator&gt;&amp; rhs)
+&#123;
+  return rhs &lt; lhs;
+&#125;
+
+template &lt;class Iterator&gt;
+bool operator&lt;=(const reverse_iterator&lt;Iterator&gt;&amp; lhs,
+                const reverse_iterator&lt;Iterator&gt;&amp; rhs)
+&#123;
+  return !(rhs &lt; lhs);
+&#125;
+
+template &lt;class Iterator&gt;
+bool operator&gt;=(const reverse_iterator&lt;Iterator&gt;&amp; lhs,
+                const reverse_iterator&lt;Iterator&gt;&amp; rhs)
+&#123;
+  return !(lhs &lt; rhs);
+&#125;
+
+&#125; // namespace mystl
+
+#endif // !MYTINYSTL_ITERATOR_H_
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/07/08/MyTinySTL-2.2%E3%80%90util.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-2.2【util.h】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/07/04/MyTinySTL-1.2%E3%80%90functional.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-1.2【functional.h】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

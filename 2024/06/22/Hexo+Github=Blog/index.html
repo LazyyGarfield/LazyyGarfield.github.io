@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>Hexo+Github=Blog-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Hexo,Github,Blog,">
+<meta name="description" content="采用简约大方的扁平化Hexo-Quiet主题">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Hexo">Hexo</a></li>
+            
+            <li><a href="/tags/Github">Github</a></li>
+            
+            <li><a href="/tags/Blog">Blog</a></li>
+            
+            
+        </ul>
+        
+        <h1>Hexo+Github=Blog</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/Blog/" target="_blank" >Blog</a>
+                    
+                </div>
+                <p>2024-06-22 20:58:36</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="Blog的制作过程"><a href="#Blog的制作过程" class="headerlink" title="Blog的制作过程"></a>Blog的制作过程</h1><p>介绍如何形成个人的Blog</p>
+<hr>
+<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>安装Nodejs和Git</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://nodejs.org/">安装Nodejs</a>，下载10.15.1LTS并安装，其中一直点击next即可</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Andone_hsx/article/details/87937329">安装git</a>，安装git的详细步骤百度即可</li>
+</ol>
+<hr>
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><p>安装hexo框架</p>
+<ol>
+<li>打开终端，win10中的操作为以<strong>管理员的身份</strong>打开【win+R+cmd】，以下均为在终端中输入的命令</li>
+<li>输入命令：【node -v】和【npm -v】查看node和npm版本，测试其是否安装成功</li>
+<li>安装淘宝的cnpm管理器，命令为【npm install -g cnpm –registry&#x3D;<code>http://registry.npm.taobao.org</code>】</li>
+<li>输入命令【cnpm -v】查看cnpm版本</li>
+<li>输入【cnpm install -g hexo-cli】 安装hexo框架</li>
+<li>用命令【hexo -v】查看hexo版本</li>
+</ol>
+<hr>
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><p>搭建hexo框架</p>
+<ol>
+<li>在终端【cmd】中，进入到自己选择的文件夹目录</li>
+<li>输入命令【mkdir blog】创建blog目录</li>
+<li>输入【cd blog】进入到blog中，我们以下的所有操作均在blog文件夹中进行</li>
+<li>输入【hexo init】搭载hexo框架，如果卡在【INFO Install dependencies】可以输入【Ctrl+C】退出，然后输入【cnpm install】</li>
+<li>输入【hexo s】生成本地的初始化博客，可以在浏览器中输入地址【localhost:4000】查看，然后回到终端【cmd】中，输入【Ctrl+C】和【Y】退出该步</li>
+<li>输入【hexo n “我的第一篇博客”】创建新的文章，系统会在【blog&#x2F;source&#x2F;posts】下创建一个.md文件，可以在.md文件中进行编辑，语法为markdown语法</li>
+<li>依次输入【hexo clean】和【hexo g】更新博客</li>
+<li>重复步骤6，登入本地博客查看</li>
+</ol>
+<hr>
+<h2 id="第四步（最重要的一步）"><a href="#第四步（最重要的一步）" class="headerlink" title="第四步（最重要的一步）"></a>第四步（最重要的一步）</h2><p>将hexo部署到github中，形成远端博客</p>
+<ol>
+<li><p>登录到github中创建一个新的仓库【XXX.github.io】，其中【XXX】必须为github的用户名</p>
+</li>
+<li><p>在终端【cmd】中输入命令【cnpm install –save hexo-deployer-git】，安装git部署插件，其中忽略warning</p>
+</li>
+<li><p>在【&#x2F;blog】中找到文件【_config.yml】，在其中找到【# Deployment】并修改为如下代码</p>
+<pre><code class="html"># Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+type: git
+repo: https://github.com/XXX/XXX.github.io.git
+branch: master
+</code></pre>
+<p>其中【XXX】仍然是github的用户名</p>
+</li>
+<li><p>回到终端【cmd】，输入命令【git config –global user.email “YYY”】和【git config –global user.name “XXX”】，这里的【YYY】和【XXX】分别填写github账号的邮箱和用户名</p>
+</li>
+<li><p>在终端上输入【hexo d】，就可以将博客部署到远端啦</p>
+</li>
+<li><p>在浏览器上登陆【<code>https://github.com/XXX/XXX.github.io</code>】进入到github仓库，其中【XXX】依然是github的用户名，可以发现在仓库上已经生成了一些东西</p>
+</li>
+<li><p><strong>最终</strong>，在浏览器上登陆【<code>https://XXX.github.io</code>】，初次进入尝试多次刷新，等待博客部署到远端上，这个就是博客地址啦！</p>
+</li>
+</ol>
+<hr>
+<h2 id="更新博客"><a href="#更新博客" class="headerlink" title="更新博客"></a>更新博客</h2><ol>
+<li>在每次更新博客时，在终端上先cd到【blog】目录中，输入【hexo n “XXX”】，其中【XXX】为博客的名字，系统则会在【blog&#x2F;sources&#x2F;_posts】下创建一个【XXX.md】文件，用户可以在md文件中直接编辑，语法为markdown语法</li>
+<li>在终端上依次输入【hexo clean】和【hexo g】</li>
+<li>这一步可以选做，在终端上输入【hexo s】则可以直接在本地【<code>https://localhost:4000</code>】观察效果</li>
+<li>可以跳过第3步，直接在终端输入【hexo d】更新博客</li>
+<li>使用【hexo d】更新博客时，可能会卡住或出现【Spawn failed】错误，该错误的原因可能为访问github.com的网络域名问题，等待一段时间后再尝试或者多尝试几次即可</li>
+</ol>
+<hr>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>感谢您的观看！</p>
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/07/01/MyTinySTL-0/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-0</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/06/19/hello-world/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>Hello World</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

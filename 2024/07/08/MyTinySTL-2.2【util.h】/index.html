@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-2.2【util.h】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="STL,Code,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-2.2【util.h】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-07-08 20:33:20</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="util-h"><a href="#util-h" class="headerlink" title="util.h"></a>util.h</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>第二层的第2个头文件是【util.h】</p>
+<p>这个文件包含一些通用工具，包括 move, forward, swap 等函数，以及 pair 等 </p>
+<h2 id="函数std-enable-if"><a href="#函数std-enable-if" class="headerlink" title="函数std::enable_if"></a>函数std::enable_if</h2><pre><code class="c++">// Primary template. （基本定义）
+/// Define a member typedef @c type only if a boolean constant is true.
+template&lt;bool, typename _Tp = void&gt;
+ struct enable_if
+ &#123; &#125;;
+
+// Partial specialization for true. （偏特化版本）
+template&lt;typename _Tp&gt;
+ struct enable_if&lt;true, _Tp&gt;
+ &#123; typedef _Tp type; &#125;;
+</code></pre>
+<p>根据以上定义可以看出，如果std::enable_if的第一个参数为true，则把第二个模板参数定义为type,否则什么都没有。</p>
+<h2 id="函数-std-is-constructible-相关"><a href="#函数-std-is-constructible-相关" class="headerlink" title="函数 std::is_constructible 相关"></a>函数 std::is_constructible 相关</h2><p>std::is_constructible, std::is_default_constructible, std::is_copy_constructible，有如下继承关系</p>
+<p><img src="/2024/07/08/MyTinySTL-2.2%E3%80%90util.h%E3%80%91/Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20240711114110235.png" alt="image-20240711114110235"></p>
+<p>这几个类用于判断是否能够构造对象，它们有一个成员变量value，是true或false</p>
+<p>std::cout &lt;&lt; std::is_constructible&lt;A, int&gt;::value &lt;&lt; std::endl;表示A类可以通过int类型的参数构造，不能够通过float类型的参数构造</p>
+<p>std::is_convertible 是判断能否转换</p>
+<h2 id="move和forward"><a href="#move和forward" class="headerlink" title="move和forward"></a>move和forward</h2><pre><code class="c++">#ifndef MYTINYSTL_UTIL_H_
+#define MYTINYSTL_UTIL_H_
+
+// 这个文件包含一些通用工具，包括 move, forward, swap 等函数，以及 pair 等 
+
+#include &lt;cstddef&gt;
+
+#include &quot;type_traits.h&quot;
+
+namespace mystl
+&#123;
+
+// move 右值转发
+
+template &lt;class T&gt;
+typename std::remove_reference&lt;T&gt;::type&amp;&amp; move(T&amp;&amp; arg) noexcept
+&#123;
+  return static_cast&lt;typename std::remove_reference&lt;T&gt;::type&amp;&amp;&gt;(arg);
+&#125;
+
+// forward 完美转发
+// &amp;&amp; 表示右值引用，这个功能自C++11起才可用。移动语义是C++11新增的重要功能，其重点是对右值的操作。右值可以看作程序运行中的临时结果，右值引用可以避免复制提高效率。
+
+template &lt;class T&gt;
+T&amp;&amp; forward(typename std::remove_reference&lt;T&gt;::type&amp; arg) noexcept
+&#123;
+  return static_cast&lt;T&amp;&amp;&gt;(arg);
+&#125;
+
+template &lt;class T&gt;
+T&amp;&amp; forward(typename std::remove_reference&lt;T&gt;::type&amp;&amp; arg) noexcept
+&#123;
+  static_assert(!std::is_lvalue_reference&lt;T&gt;::value, &quot;bad forward&quot;);
+  return static_cast&lt;T&amp;&amp;&gt;(arg);
+&#125;
+</code></pre>
+<h2 id="swap"><a href="#swap" class="headerlink" title="swap"></a>swap</h2><pre><code class="c++">// swap
+
+// 一对一的交换
+template &lt;class Tp&gt;
+void swap(Tp&amp; lhs, Tp&amp; rhs)
+&#123;
+  auto tmp(mystl::move(lhs));
+  lhs = mystl::move(rhs);
+  rhs = mystl::move(tmp);
+&#125;
+
+// 范围内的交换
+template &lt;class ForwardIter1, class ForwardIter2&gt;
+ForwardIter2 swap_range(ForwardIter1 first1, ForwardIter1 last1, ForwardIter2 first2)
+&#123;
+  for (; first1 != last1; ++first1, (void) ++first2)
+    mystl::swap(*first1, *first2);
+  return first2;
+&#125;
+
+// 数组范围内的交换
+template &lt;class Tp, size_t N&gt;
+void swap(Tp(&amp;a)[N], Tp(&amp;b)[N])
+&#123;
+  mystl::swap_range(a, a + N, b);
+&#125;
+</code></pre>
+<h2 id="pair"><a href="#pair" class="headerlink" title="pair"></a>pair</h2><pre><code class="c++">// --------------------------------------------------------------------------------------
+// pair
+
+// 结构体模板 : pair
+// 两个模板参数分别表示两个数据的类型
+// 用 first 和 second 来分别取出第一个数据和第二个数据
+template &lt;class Ty1, class Ty2&gt;
+struct pair
+&#123;
+  typedef Ty1    first_type;
+  typedef Ty2    second_type;
+
+  first_type first;    // 保存第一个数据
+  second_type second;  // 保存第二个数据
+
+  // default constructiable
+  template &lt;class Other1 = Ty1, class Other2 = Ty2,
+    typename = typename std::enable_if&lt;
+    std::is_default_constructible&lt;Other1&gt;::value &amp;&amp;
+    std::is_default_constructible&lt;Other2&gt;::value, void&gt;::type&gt;
+    constexpr pair()
+    : first(), second()
+  &#123;
+  &#125;
+
+  // implicit constructiable for this type
+  // 隐式
+  template &lt;class U1 = Ty1, class U2 = Ty2,
+    typename std::enable_if&lt;
+    std::is_copy_constructible&lt;U1&gt;::value &amp;&amp;
+    std::is_copy_constructible&lt;U2&gt;::value &amp;&amp;
+    std::is_convertible&lt;const U1&amp;, Ty1&gt;::value &amp;&amp;
+    std::is_convertible&lt;const U2&amp;, Ty2&gt;::value, int&gt;::type = 0&gt;
+    constexpr pair(const Ty1&amp; a, const Ty2&amp; b)
+    : first(a), second(b)
+  &#123;
+  &#125;
+
+  // explicit constructible for this type
+  // 显式
+  template &lt;class U1 = Ty1, class U2 = Ty2,
+    typename std::enable_if&lt;
+    std::is_copy_constructible&lt;U1&gt;::value &amp;&amp;
+    std::is_copy_constructible&lt;U2&gt;::value &amp;&amp;
+    (!std::is_convertible&lt;const U1&amp;, Ty1&gt;::value ||
+     !std::is_convertible&lt;const U2&amp;, Ty2&gt;::value), int&gt;::type = 0&gt;
+    explicit constexpr pair(const Ty1&amp; a, const Ty2&amp; b)
+    : first(a), second(b)
+  &#123;
+  &#125;
+
+  pair(const pair&amp; rhs) = default;
+  pair(pair&amp;&amp; rhs) = default;
+    
+// implicit constructiable for other type
+// Ty1可以通过Other1构造，因此将Other1转化为Ty1
+  template &lt;class Other1, class Other2,
+    typename std::enable_if&lt;
+    std::is_constructible&lt;Ty1, Other1&gt;::value &amp;&amp;
+    std::is_constructible&lt;Ty2, Other2&gt;::value &amp;&amp;
+    std::is_convertible&lt;Other1&amp;&amp;, Ty1&gt;::value &amp;&amp;
+    std::is_convertible&lt;Other2&amp;&amp;, Ty2&gt;::value, int&gt;::type = 0&gt;
+    constexpr pair(Other1&amp;&amp; a, Other2&amp;&amp; b)
+    : first(mystl::forward&lt;Other1&gt;(a)),
+    second(mystl::forward&lt;Other2&gt;(b))
+  &#123;
+  &#125;
+
+  // explicit constructiable for other type
+  template &lt;class Other1, class Other2,
+    typename std::enable_if&lt;
+    std::is_constructible&lt;Ty1, Other1&gt;::value &amp;&amp;
+    std::is_constructible&lt;Ty2, Other2&gt;::value &amp;&amp;
+    (!std::is_convertible&lt;Other1, Ty1&gt;::value ||
+     !std::is_convertible&lt;Other2, Ty2&gt;::value), int&gt;::type = 0&gt;
+    explicit constexpr pair(Other1&amp;&amp; a, Other2&amp;&amp; b)
+    : first(mystl::forward&lt;Other1&gt;(a)),
+    second(mystl::forward&lt;Other2&gt;(b))
+  &#123;
+  &#125;
+
+  // implicit constructiable for other pair
+  template &lt;class Other1, class Other2,
+    typename std::enable_if&lt;
+    std::is_constructible&lt;Ty1, const Other1&amp;&gt;::value &amp;&amp;
+    std::is_constructible&lt;Ty2, const Other2&amp;&gt;::value &amp;&amp;
+    std::is_convertible&lt;const Other1&amp;, Ty1&gt;::value &amp;&amp;
+    std::is_convertible&lt;const Other2&amp;, Ty2&gt;::value, int&gt;::type = 0&gt;
+    constexpr pair(const pair&lt;Other1, Other2&gt;&amp; other)
+    : first(other.first),
+    second(other.second)
+  &#123;
+  &#125;
+
+  // explicit constructiable for other pair
+  template &lt;class Other1, class Other2,
+    typename std::enable_if&lt;
+    std::is_constructible&lt;Ty1, const Other1&amp;&gt;::value &amp;&amp;
+    std::is_constructible&lt;Ty2, const Other2&amp;&gt;::value &amp;&amp;
+    (!std::is_convertible&lt;const Other1&amp;, Ty1&gt;::value ||
+     !std::is_convertible&lt;const Other2&amp;, Ty2&gt;::value), int&gt;::type = 0&gt;
+    explicit constexpr pair(const pair&lt;Other1, Other2&gt;&amp; other)
+    : first(other.first),
+    second(other.second)
+  &#123;
+  &#125;
+
+  // implicit constructiable for other pair
+  template &lt;class Other1, class Other2,
+    typename std::enable_if&lt;
+    std::is_constructible&lt;Ty1, Other1&gt;::value &amp;&amp;
+    std::is_constructible&lt;Ty2, Other2&gt;::value &amp;&amp;
+    std::is_convertible&lt;Other1, Ty1&gt;::value &amp;&amp;
+    std::is_convertible&lt;Other2, Ty2&gt;::value, int&gt;::type = 0&gt;
+    constexpr pair(pair&lt;Other1, Other2&gt;&amp;&amp; other)
+    : first(mystl::forward&lt;Other1&gt;(other.first)),
+    second(mystl::forward&lt;Other2&gt;(other.second))
+  &#123;
+  &#125;
+
+  // explicit constructiable for other pair
+  template &lt;class Other1, class Other2,
+    typename std::enable_if&lt;
+    std::is_constructible&lt;Ty1, Other1&gt;::value &amp;&amp;
+    std::is_constructible&lt;Ty2, Other2&gt;::value &amp;&amp;
+    (!std::is_convertible&lt;Other1, Ty1&gt;::value ||
+     !std::is_convertible&lt;Other2, Ty2&gt;::value), int&gt;::type = 0&gt;
+    explicit constexpr pair(pair&lt;Other1, Other2&gt;&amp;&amp; other)
+    : first(mystl::forward&lt;Other1&gt;(other.first)),
+    second(mystl::forward&lt;Other2&gt;(other.second))
+  &#123;
+  &#125;
+
+  // copy assign for this pair
+  pair&amp; operator=(const pair&amp; rhs)
+  &#123;
+    if (this != &amp;rhs)
+    &#123;
+      first = rhs.first;
+      second = rhs.second;
+    &#125;
+    return *this;
+  &#125;
+
+  // move assign for this pair
+  // &amp;&amp;是右值引用，需要用到move
+  pair&amp; operator=(pair&amp;&amp; rhs)
+  &#123;
+    if (this != &amp;rhs)
+    &#123;
+      first = mystl::move(rhs.first);
+      second = mystl::move(rhs.second);
+    &#125;
+    return *this;
+  &#125;
+
+  // copy assign for other pair
+  template &lt;class Other1, class Other2&gt;
+  pair&amp; operator=(const pair&lt;Other1, Other2&gt;&amp; other)
+  &#123;
+    first = other.first;
+    second = other.second;
+    return *this;
+  &#125;
+
+  // move assign for other pair
+  template &lt;class Other1, class Other2&gt;
+  pair&amp; operator=(pair&lt;Other1, Other2&gt;&amp;&amp; other)
+  &#123;
+    first = mystl::forward&lt;Other1&gt;(other.first);
+    second = mystl::forward&lt;Other2&gt;(other.second);
+    return *this;
+  &#125;
+
+  ~pair() = default;
+  
+  // 判断其是否相等时，都是判断地址是否相等，而不是判断值是否相等
+  void swap(pair&amp; other)
+  &#123;
+    if (this != &amp;other)
+    &#123;
+      mystl::swap(first, other.first);
+      mystl::swap(second, other.second);
+    &#125;
+  &#125;
+
+&#125;;
+</code></pre>
+<h2 id="重载运算符"><a href="#重载运算符" class="headerlink" title="重载运算符"></a>重载运算符</h2><pre><code class="c++">// 重载比较操作符 
+template &lt;class Ty1, class Ty2&gt;
+bool operator==(const pair&lt;Ty1, Ty2&gt;&amp; lhs, const pair&lt;Ty1, Ty2&gt;&amp; rhs)
+&#123;
+  return lhs.first == rhs.first &amp;&amp; lhs.second == rhs.second;
+&#125;
+
+// 在pair的&lt;运算中，表示的是first更小，或者在first相同的情况下，second更小
+template &lt;class Ty1, class Ty2&gt;
+bool operator&lt;(const pair&lt;Ty1, Ty2&gt;&amp; lhs, const pair&lt;Ty1, Ty2&gt;&amp; rhs)
+&#123;
+  return lhs.first &lt; rhs.first || (lhs.first == rhs.first &amp;&amp; lhs.second &lt; rhs.second);
+&#125;
+
+template &lt;class Ty1, class Ty2&gt;
+bool operator!=(const pair&lt;Ty1, Ty2&gt;&amp; lhs, const pair&lt;Ty1, Ty2&gt;&amp; rhs)
+&#123;
+  return !(lhs == rhs);
+&#125;
+
+template &lt;class Ty1, class Ty2&gt;
+bool operator&gt;(const pair&lt;Ty1, Ty2&gt;&amp; lhs, const pair&lt;Ty1, Ty2&gt;&amp; rhs)
+&#123;
+  return rhs &lt; lhs;
+&#125;
+
+template &lt;class Ty1, class Ty2&gt;
+bool operator&lt;=(const pair&lt;Ty1, Ty2&gt;&amp; lhs, const pair&lt;Ty1, Ty2&gt;&amp; rhs)
+&#123;
+  return !(rhs &lt; lhs);
+&#125;
+
+template &lt;class Ty1, class Ty2&gt;
+bool operator&gt;=(const pair&lt;Ty1, Ty2&gt;&amp; lhs, const pair&lt;Ty1, Ty2&gt;&amp; rhs)
+&#123;
+  return !(lhs &lt; rhs);
+&#125;
+
+// 重载 mystl 的 swap
+template &lt;class Ty1, class Ty2&gt;
+void swap(pair&lt;Ty1, Ty2&gt;&amp; lhs, pair&lt;Ty1, Ty2&gt;&amp; rhs)
+&#123;
+  lhs.swap(rhs);
+&#125;
+
+// 全局函数，让两个数据成为一个 pair
+template &lt;class Ty1, class Ty2&gt;
+pair&lt;Ty1, Ty2&gt; make_pair(Ty1&amp;&amp; first, Ty2&amp;&amp; second)
+&#123;
+  return pair&lt;Ty1, Ty2&gt;(mystl::forward&lt;Ty1&gt;(first), mystl::forward&lt;Ty2&gt;(second));
+&#125;
+
+&#125;
+
+#endif // !MYTINYSTL_UTIL_H_
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/07/11/MyTinySTL-3.1%E3%80%90algobase.h%E3%80%91%E5%92%8C%E3%80%90numeric.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-3.1【algobase.h】和【numeric.h】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/07/06/MyTinySTL-2.1%E3%80%90iterator.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-2.1【iterator.h】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+
