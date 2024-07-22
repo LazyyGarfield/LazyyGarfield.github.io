@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MyTinySTL-4.2【uninitialized.h】-lazyy</title>
+<title>MyTinySTL-5【memory.h】-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -291,7 +291,7 @@
             
         </ul>
         
-        <h1>MyTinySTL-4.2【uninitialized.h】</h1>
+        <h1>MyTinySTL-5【memory.h】</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -309,7 +309,7 @@
                          <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
                     
                 </div>
-                <p>2024-07-22 11:24:09</p>
+                <p>2024-07-22 23:44:24</p>
             </div>
         </div>
     </div>
@@ -319,261 +319,248 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="uninitialized-h"><a href="#uninitialized-h" class="headerlink" title="uninitialized.h"></a>uninitialized.h</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>用于对未初始化的空间内构造元素，作用与3.1节算法中的【copy、fill、move】相同，但需要利用到3.3节中的【construct.h】，其中包含的头文件如下</p>
-<pre><code class="c++">#include &quot;algobase.h&quot;
+    <h1 id="memory-h"><a href="#memory-h" class="headerlink" title="memory.h"></a>memory.h</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>负责更高级的动态内存管理，之前的内存管理定义于4.1【allocator.h】</p>
+<p>包含一些基本函数、空间配置器、未初始化的储存空间管理，以及一个<strong>模板类auto_ptr（智能指针）</strong></p>
+<p>包含的头文件有</p>
+<pre><code class="c++">#include &lt;cstddef&gt;
+#include &lt;cstdlib&gt;
+#include &lt;climits&gt;
+
+#include &quot;algobase.h&quot;
+#include &quot;allocator.h&quot;
 #include &quot;construct.h&quot;
-#include &quot;iterator.h&quot;
-#include &quot;type_traits.h&quot;
-#include &quot;util.h&quot;
+#include &quot;uninitialized.h&quot;
 </code></pre>
-<h2 id="copy（复制构造"><a href="#copy（复制构造" class="headerlink" title="copy（复制构造)"></a>copy（复制构造)</h2><p>unchecked_uninit_copy的第四个参数为bool类型，传进去的实参为【std::is_trivially_copy_assignable&lt;typename iterator_traits<ForwardIter>::value_type&gt;{}】，即判断ForwardIter能否被复制</ForwardIter></p>
-<p>1）当true时，则直接采用【copy】函数；</p>
-<p>2）当为false时，采用【construct】函数将每一个对应的元素copy过去</p>
-<p><strong>知识点：</strong>【try…catch】语句由一个 <code>try</code> 块和一个 <code>catch</code> 块或 <code>finally</code> 块（或两者皆有）组成。首先执行 <code>try</code> 块中的代码，如果它抛出异常，则将执行 <code>catch</code> 块中的代码。<code>finally</code> 块中的代码将在控制流退出整个结构之前始终被执行。</p>
-<pre><code class="c++">// uninitialized_copy
-// 把 [first, last) 上的内容复制到以 result 为起始处的空间，返回复制结束的位置
-/*****************************************************************************************/
-template &lt;class InputIter, class ForwardIter&gt;
-ForwardIter 
-unchecked_uninit_copy(InputIter first, InputIter last, ForwardIter result, std::true_type)
+<h2 id="获取对象地址"><a href="#获取对象地址" class="headerlink" title="获取对象地址"></a>获取对象地址</h2><p>使用取地址符返回value的地址</p>
+<p><strong>知识点：</strong></p>
+<ol>
+<li>constexpr：编译器会将constexpr函数视为内联函数！所以在编译时若能求出其值，则会把函数调用替换成结果值。</li>
+<li>noexcept：保证其不会异常</li>
+</ol>
+<pre><code class="c++">// 获取对象地址
+template &lt;class Tp&gt;
+constexpr Tp* address_of(Tp&amp; value) noexcept
 &#123;
-  return mystl::copy(first, last, result);
-&#125;
-
-template &lt;class InputIter, class ForwardIter&gt;
-ForwardIter
-unchecked_uninit_copy(InputIter first, InputIter last, ForwardIter result, std::false_type)
-&#123;
-  auto cur = result;
-  try
-  &#123;
-    for (; first != last; ++first, ++cur)
-    &#123;
-      mystl::construct(&amp;*cur, *first);
-    &#125;
-  &#125;
-  catch (...)
-  &#123;
-    for (; result != cur; --cur)
-      mystl::destroy(&amp;*cur);
-  &#125;
-  return cur;
-&#125;
-
-template &lt;class InputIter, class ForwardIter&gt;
-ForwardIter uninitialized_copy(InputIter first, InputIter last, ForwardIter result)
-&#123;
-  return mystl::unchecked_uninit_copy(first, last, result, 
-                                     std::is_trivially_copy_assignable&lt;
-                                     typename iterator_traits&lt;ForwardIter&gt;::
-                                     value_type&gt;&#123;&#125;);
+  return &amp;value;
 &#125;
 </code></pre>
-<h2 id="copy-n（复制构造n个）"><a href="#copy-n（复制构造n个）" class="headerlink" title="copy_n（复制构造n个）"></a>copy_n（复制构造n个）</h2><p>原理与【uninitialized_copy】相同，但需要注意的是，当第四个参数传进来true时，执行的是【copy_n】函数，而该函数返回结果是【pair&lt;InputIter first,OutputIter result&gt;】，因此我们需要返回该结果的second值</p>
-<pre><code class="c++">// uninitialized_copy_n
-// 把 [first, first + n) 上的内容复制到以 result 为起始处的空间，返回复制结束的位置
-/*****************************************************************************************/
-template &lt;class InputIter, class Size, class ForwardIter&gt;
-ForwardIter 
-unchecked_uninit_copy_n(InputIter first, Size n, ForwardIter result, std::true_type)
+<h2 id="获取、释放临时缓冲区"><a href="#获取、释放临时缓冲区" class="headerlink" title="获取、释放临时缓冲区"></a>获取、释放临时缓冲区</h2><p>获取临时缓冲区</p>
+<ol>
+<li>首先，判断临时缓冲区的大小是否越界，则【len*sizeof(T)&gt;INT_MAX】。如果越界，则缩短len</li>
+<li>创建一片空间，通过【static_cast&lt;T*&gt;(malloc(static_cast<size_t>(len) * sizeof(T)))】，如果创建成功，则返回</size_t></li>
+<li>如果创建失败，则【len缩减为一半】，继续尝试创建空间</li>
+</ol>
+<p>释放临时缓冲区：通过free函数即可</p>
+<pre><code class="c++">template &lt;class T&gt;
+pair&lt;T*, ptrdiff_t&gt; get_buffer_helper(ptrdiff_t len, T*)
 &#123;
-  return mystl::copy_n(first, n, result).second;
+  if (len &gt; static_cast&lt;ptrdiff_t&gt;(INT_MAX / sizeof(T)))
+    len = INT_MAX / sizeof(T);
+  while (len &gt; 0)
+  &#123;
+    T* tmp = static_cast&lt;T*&gt;(malloc(static_cast&lt;size_t&gt;(len) * sizeof(T)));
+    if (tmp)
+      return pair&lt;T*, ptrdiff_t&gt;(tmp, len);
+    len /= 2;  // 申请失败时减少 len 的大小
+  &#125;
+  return pair&lt;T*, ptrdiff_t&gt;(nullptr, 0);
 &#125;
 
-template &lt;class InputIter, class Size, class ForwardIter&gt;
-ForwardIter
-unchecked_uninit_copy_n(InputIter first, Size n, ForwardIter result, std::false_type)
+template &lt;class T&gt;
+pair&lt;T*, ptrdiff_t&gt; get_temporary_buffer(ptrdiff_t len)
 &#123;
-  auto cur = result;
-  try
-  &#123;
-    for (; n &gt; 0; --n, ++cur, ++first)
-    &#123;
-      mystl::construct(&amp;*cur, *first);
-    &#125;
-  &#125;
-  catch (...)
-  &#123;
-    for (; result != cur; --cur)
-      mystl::destroy(&amp;*cur);
-  &#125;
-  return cur;
+  return get_buffer_helper(len, static_cast&lt;T*&gt;(0));
 &#125;
 
-template &lt;class InputIter, class Size, class ForwardIter&gt;
-ForwardIter uninitialized_copy_n(InputIter first, Size n, ForwardIter result)
+template &lt;class T&gt;
+pair&lt;T*, ptrdiff_t&gt; get_temporary_buffer(ptrdiff_t len, T*)
 &#123;
-  return mystl::unchecked_uninit_copy_n(first, n, result,
-                                        std::is_trivially_copy_assignable&lt;
-                                        typename iterator_traits&lt;InputIter&gt;::
-                                        value_type&gt;&#123;&#125;);
+  return get_buffer_helper(len, static_cast&lt;T*&gt;(0));
+&#125;
+
+template &lt;class T&gt;
+void release_temporary_buffer(T* ptr)
+&#123;
+  free(ptr);
 &#125;
 </code></pre>
-<h2 id="fill（填充）和fill-n（n个填充）"><a href="#fill（填充）和fill-n（n个填充）" class="headerlink" title="fill（填充）和fill_n（n个填充）"></a>fill（填充）和fill_n（n个填充）</h2><p>同理，以第四个【bool类型形参】将【uninit_fill】分为两类</p>
-<p>1）第一类直接用【fill】函数</p>
-<p>2）第二类同样采用【construct】函数</p>
-<p>【uninit_fill_n】与【uninit_copy_n】类似</p>
-<pre><code class="c++">// uninitialized_fill
-// 在 [first, last) 区间内填充元素值
-/*****************************************************************************************/
-template &lt;class ForwardIter, class T&gt;
-void 
-unchecked_uninit_fill(ForwardIter first, ForwardIter last, const T&amp; value, std::true_type)
+<h2 id="类模板：tempory-buffer"><a href="#类模板：tempory-buffer" class="headerlink" title="类模板：tempory_buffer"></a>类模板：tempory_buffer</h2><p>进行临时缓冲区的申请与释放</p>
+<h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>属性包括缓冲区的申请大小、实际大小以及地址</p>
+<p>成员函数包括</p>
+<ol>
+<li>构造函数：形参为迭代器的首部和尾部</li>
+<li>析构函数：调用3.3节中【construct.h】中的【destroy】函数以及【free】函数</li>
+<li>获取大小、头部、尾部函数</li>
+<li>初始化时的函数：分配内存、初始化缓冲区函数</li>
+<li>拷贝构造函数以及重载运算符&#x3D;函数</li>
+</ol>
+<pre><code class="c++">template &lt;class ForwardIterator, class T&gt;
+class temporary_buffer
 &#123;
-  mystl::fill(first, last, value);
-&#125;
+private:
+  ptrdiff_t original_len;  // 缓冲区申请的大小
+  ptrdiff_t len;           // 缓冲区实际的大小
+  T*        buffer;        // 指向缓冲区的指针
 
-template &lt;class ForwardIter, class T&gt;
-void 
-unchecked_uninit_fill(ForwardIter first, ForwardIter last, const T&amp; value, std::false_type)
+public:
+  // 构造、析构函数
+  temporary_buffer(ForwardIterator first, ForwardIterator last);
+
+  ~temporary_buffer()
+  &#123;
+    mystl::destroy(buffer, buffer + len);
+    free(buffer);
+  &#125;
+
+public:
+
+  ptrdiff_t size()           const noexcept &#123; return len; &#125;
+  ptrdiff_t requested_size() const noexcept &#123; return original_len; &#125;
+  T*        begin()                noexcept &#123; return buffer; &#125;
+  T*        end()                  noexcept &#123; return buffer + len; &#125;
+
+private:
+  void allocate_buffer();
+  void initialize_buffer(const T&amp;, std::true_type) &#123;&#125;
+  void initialize_buffer(const T&amp; value, std::false_type)
+  &#123; mystl::uninitialized_fill_n(buffer, len, value); &#125;
+
+private:
+  temporary_buffer(const temporary_buffer&amp;);
+  void operator=(const temporary_buffer&amp;);
+&#125;;
+</code></pre>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><ol>
+<li>知道迭代器的首尾之后，可以计算出distance，因此可以分配内存和初始化内存</li>
+<li>如果尝试失败，则释放缓冲区</li>
+</ol>
+<pre><code class="c++">// 构造函数
+template &lt;class ForwardIterator, class T&gt;
+temporary_buffer&lt;ForwardIterator, T&gt;::
+temporary_buffer(ForwardIterator first, ForwardIterator last)
 &#123;
-  auto cur = first;
   try
   &#123;
-    for (; cur != last; ++cur)
+    len = mystl::distance(first, last);
+    allocate_buffer();
+    if (len &gt; 0)
     &#123;
-      mystl::construct(&amp;*cur, value);
+      initialize_buffer(*first, std::is_trivially_default_constructible&lt;T&gt;());
     &#125;
   &#125;
   catch (...)
   &#123;
-    for (;first != cur; ++first)
-      mystl::destroy(&amp;*first);
+    free(buffer);
+    buffer = nullptr;
+    len = 0;
   &#125;
-&#125;
-
-template &lt;class ForwardIter, class T&gt;
-void  uninitialized_fill(ForwardIter first, ForwardIter last, const T&amp; value)
-&#123;
-  mystl::unchecked_uninit_fill(first, last, value, 
-                               std::is_trivially_copy_assignable&lt;
-                               typename iterator_traits&lt;ForwardIter&gt;::
-                               value_type&gt;&#123;&#125;);
-&#125;
-
-/*****************************************************************************************/
-// uninitialized_fill_n
-// 从 first 位置开始，填充 n 个元素值，返回填充结束的位置
-/*****************************************************************************************/
-template &lt;class ForwardIter, class Size, class T&gt;
-ForwardIter 
-unchecked_uninit_fill_n(ForwardIter first, Size n, const T&amp; value, std::true_type)
-&#123;
-  return mystl::fill_n(first, n, value);
-&#125;
-
-template &lt;class ForwardIter, class Size, class T&gt;
-ForwardIter 
-unchecked_uninit_fill_n(ForwardIter first, Size n, const T&amp; value, std::false_type)
-&#123;
-  auto cur = first;
-  try
-  &#123;
-    for (; n &gt; 0; --n, ++cur)
-    &#123;
-      mystl::construct(&amp;*cur, value);
-    &#125;
-  &#125;
-  catch (...)
-  &#123;
-    for (; first != cur; ++first)
-      mystl::destroy(&amp;*first);
-  &#125;
-  return cur;
-&#125;
-
-template &lt;class ForwardIter, class Size, class T&gt;
-ForwardIter uninitialized_fill_n(ForwardIter first, Size n, const T&amp; value)
-&#123;
-  return mystl::unchecked_uninit_fill_n(first, n, value, 
-                                        std::is_trivially_copy_assignable&lt;
-                                        typename iterator_traits&lt;ForwardIter&gt;::
-                                        value_type&gt;&#123;&#125;);
 &#125;
 </code></pre>
-<h2 id="move和move-n（移动）"><a href="#move和move-n（移动）" class="headerlink" title="move和move_n（移动）"></a>move和move_n（移动）</h2><p>与上述同理</p>
-<pre><code class="c++">// uninitialized_move
-// 把[first, last)上的内容移动到以 result 为起始处的空间，返回移动结束的位置
-/*****************************************************************************************/
-template &lt;class InputIter, class ForwardIter&gt;
-ForwardIter 
-unchecked_uninit_move(InputIter first, InputIter last, ForwardIter result, std::true_type)
+<h3 id="分配内存"><a href="#分配内存" class="headerlink" title="分配内存"></a>分配内存</h3><p>与上述【获取临时缓冲区get_buffer_helper】同理，先判断空间是否越界，然后再使用【malloc】函数初始化内存</p>
+<pre><code class="c++">// allocate_buffer 函数
+template &lt;class ForwardIterator, class T&gt;
+void temporary_buffer&lt;ForwardIterator, T&gt;::allocate_buffer()
 &#123;
-  return mystl::move(first, last, result);
-&#125;
-
-template &lt;class InputIter, class ForwardIter&gt;
-ForwardIter 
-unchecked_uninit_move(InputIter first, InputIter last, ForwardIter result, std::false_type)
-&#123;
-  ForwardIter cur = result;
-  try
+  original_len = len;
+  if (len &gt; static_cast&lt;ptrdiff_t&gt;(INT_MAX / sizeof(T)))
+    len = INT_MAX / sizeof(T);
+  while (len &gt; 0)
   &#123;
-    for (; first != last; ++first, ++cur)
+    buffer = static_cast&lt;T*&gt;(malloc(len * sizeof(T)));
+    if (buffer)
+      break;
+    len /= 2;  // 申请失败时减少申请空间大小
+  &#125;
+&#125;
+</code></pre>
+<h2 id="模板类：auto-ptr（智能指针）"><a href="#模板类：auto-ptr（智能指针）" class="headerlink" title="模板类：auto_ptr（智能指针）"></a>模板类：auto_ptr（智能指针）</h2><p>成员属性：</p>
+<ol>
+<li><p>元素类型和指针，需要注意的是指针的属性是【private】</p>
+</li>
+<li><p>构造函数：默认指针为空</p>
+<p><strong>知识点：</strong>关键字explict用于修饰构造函数，防止编译器进行不期望的类型转换。这个关键字对于避免潜在的编程错误和提高代码的可读性非常有用，不允许发生隐式转换。</p>
+</li>
+<li><p>复制函数：将所需要复制的指针rhs复制后，并释放rhs</p>
+</li>
+<li><p>重载运算符&#x3D;：判断和所需要复制的指针【rhs】是否相等，如果不相等，则先释放【m_ptr】，然后再将【rhs】复制给【m_ptr】</p>
+</li>
+<li><p>析构函数：利用【delete】释放指针【m_ptr】</p>
+</li>
+<li><p>重载运算符*和运算符-&gt;函数</p>
+</li>
+<li><p>定义获取指针、释放指针和重置指针函数，重置指针函数中默认传入空指针进行重置</p>
+</li>
+</ol>
+<pre><code class="c++">// 模板类: auto_ptr
+// 一个具有严格对象所有权的小型智能指针
+template &lt;class T&gt;
+class auto_ptr
+&#123;
+public:
+  typedef T    elem_type;
+private:
+  T* m_ptr;  // 实际指针
+
+public:
+  // 构造、复制、析构函数
+  explicit auto_ptr(T* p = nullptr) :m_ptr(p) &#123;&#125;
+  auto_ptr(auto_ptr&amp; rhs) :m_ptr(rhs.release()) &#123;&#125;
+  template &lt;class U&gt;
+  auto_ptr(auto_ptr&lt;U&gt;&amp; rhs) : m_ptr(rhs.release()) &#123;&#125;
+
+  // 重载运算符=
+  auto_ptr&amp; operator=(auto_ptr&amp; rhs)
+  &#123;
+    if (this != &amp;rhs)
     &#123;
-      mystl::construct(&amp;*cur, mystl::move(*first));
+      delete m_ptr;
+      m_ptr = rhs.release();
+    &#125;
+    return *this;
+  &#125;
+  // 重载运算符=的模板
+  template &lt;class U&gt;
+  auto_ptr&amp; operator=(auto_ptr&lt;U&gt;&amp; rhs)
+  &#123;
+    if (this-&gt;get() != rhs.get())
+    &#123;
+      delete m_ptr;
+      m_ptr = rhs.release();
+    &#125;
+    return *this;
+  &#125;
+  // 析构函数
+  ~auto_ptr() &#123; delete m_ptr; &#125;
+
+public:
+  // 重载 operator* 和 operator-&gt;
+  T&amp; operator*()  const &#123; return *m_ptr; &#125;
+  T* operator-&gt;() const &#123; return m_ptr; &#125;
+    
+  // 获得指针
+  T* get() const &#123; return m_ptr; &#125;
+  // 释放指针
+  T* release()
+  &#123;
+    T* tmp = m_ptr;
+    m_ptr = nullptr;
+    return tmp;
+  &#125;
+  // 重置指针
+  void reset(T* p = nullptr)
+  &#123;
+    if (m_ptr != p)
+    &#123;
+      delete m_ptr;
+      m_ptr = p;
     &#125;
   &#125;
-  catch (...)
-  &#123;
-    mystl::destroy(result, cur);
-  &#125;
-  return cur;
-&#125;
-
-template &lt;class InputIter, class ForwardIter&gt;
-ForwardIter uninitialized_move(InputIter first, InputIter last, ForwardIter result)
-&#123;
-  return mystl::unchecked_uninit_move(first, last, result,
-                                      std::is_trivially_move_assignable&lt;
-                                      typename iterator_traits&lt;InputIter&gt;::
-                                      value_type&gt;&#123;&#125;);
-&#125;
-
-/*****************************************************************************************/
-// uninitialized_move_n
-// 把[first, first + n)上的内容移动到以 result 为起始处的空间，返回移动结束的位置
-/*****************************************************************************************/
-template &lt;class InputIter, class Size, class ForwardIter&gt;
-ForwardIter 
-unchecked_uninit_move_n(InputIter first, Size n, ForwardIter result, std::true_type)
-&#123;
-  return mystl::move(first, first + n, result);
-&#125;
-
-template &lt;class InputIter, class Size, class ForwardIter&gt;
-ForwardIter
-unchecked_uninit_move_n(InputIter first, Size n, ForwardIter result, std::false_type)
-&#123;
-  auto cur = result;
-  try
-  &#123;
-    for (; n &gt; 0; --n, ++first, ++cur)
-    &#123;
-      mystl::construct(&amp;*cur, mystl::move(*first));
-    &#125;
-  &#125;
-  catch (...)
-  &#123;
-    for (; result != cur; ++result)
-      mystl::destroy(&amp;*result);
-    throw;
-  &#125;
-  return cur;
-&#125;
-
-template &lt;class InputIter, class Size, class ForwardIter&gt;
-ForwardIter uninitialized_move_n(InputIter first, Size n, ForwardIter result)
-&#123;
-  return mystl::unchecked_uninit_move_n(first, n, result,
-                                        std::is_trivially_move_assignable&lt;
-                                        typename iterator_traits&lt;InputIter&gt;::
-                                        value_type&gt;&#123;&#125;);
-&#125;
+&#125;;
 </code></pre>
 <hr>
 <script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
 </script>
+
 <hr>
 
   </div>
@@ -635,19 +622,12 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2024/07/22/MyTinySTL-5%E3%80%90memory.h%E3%80%91/">
-        <div class="post-paging-last">
-            <span>上一篇</span>
-            <p>MyTinySTL-5【memory.h】</p>
-        </div>
-    </a>
-    
 
     
-    <a href="/2024/07/22/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/">
+    <a href="/2024/07/22/MyTinySTL-4.2%E3%80%90uninitialized.h%E3%80%91/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>5.最长回文子串</p>
+            <p>MyTinySTL-4.2【uninitialized.h】</p>
         </div>
     </a>
     
