@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MyTinySTL-3.3【construct.h】-lazyy</title>
+<title>HW练手题-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,7 +12,7 @@
 
 
 
-<meta name="keywords" content="Code,STL,">
+<meta name="keywords" content="Code,">
 <meta name="description" content="">
 
 
@@ -286,12 +286,10 @@
             
             <li><a href="/tags/Code">Code</a></li>
             
-            <li><a href="/tags/STL">STL</a></li>
-            
             
         </ul>
         
-        <h1>MyTinySTL-3.3【construct.h】</h1>
+        <h1>HW练手题</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -306,10 +304,10 @@
                 <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
                 <div class="post-header-info-author-categories">
                     
-                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                         <a href="../../../../categories/Code/" target="_blank" >Code</a>
                     
                 </div>
-                <p>2024-07-15 16:46:47</p>
+                <p>2024-07-23 17:30:36</p>
             </div>
         </div>
     </div>
@@ -319,74 +317,141 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="construct-h"><a href="#construct-h" class="headerlink" title="construct.h"></a>construct.h</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>介绍第三层的最后一个头文件【construct.h】</p>
-<p>这个头文件包含两个函数construct，destroy，分别负责对象的构造和析构</p>
-<h2 id="MSC-VER"><a href="#MSC-VER" class="headerlink" title="_MSC_VER"></a>_MSC_VER</h2><p>Microsoft的C编译器的版本</p>
-<pre><code class="c++">#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4100)  // unused parameter
-#endif // _MSC_VER
+    <h1 id="HW练手题"><a href="#HW练手题" class="headerlink" title="HW练手题"></a>HW练手题</h1><h2 id="第1题：公共片段"><a href="#第1题：公共片段" class="headerlink" title="第1题：公共片段"></a>第1题：公共片段</h2><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>获取两个数组的公共片段，值相等的连续片段即可，以数组的形式返回。如果没有公共片段，则返回-1</p>
+<p>每个数组的长度不超过20个元素，且不会为空</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>输入：【1 2 2 3 9 1 5】和【9 2 2 3 6 8】</p>
+<p>输出：【2 2 3】</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
+<li>因为数据非常小，因此直接采用暴力枚举</li>
+<li>将第一个数组的所有子数组添加到哈希表中，然后检索第二个数组的所有子数组是否在哈希表中，并且更新最长公共部分</li>
+<li>代码如下：</li>
+</ol>
+<pre><code class="c++">vector&lt;int&gt; fun(vector&lt;int&gt; v1,vector&lt;int&gt; v2)&#123;
+    // 两个数组的长度
+    int n1=v1.size(),n2=v2.size();
+    // 将第一个数组的所有子数组加入到哈希表中
+    unordered_set&lt;vector&lt;int&gt;&gt; s1;
+    for(int i=0;i&lt;n1;i++)&#123;
+        vector&lt;int&gt; tmp;
+        for(int j=i;j&lt;n1;j++)&#123;
+            tmp.push_back(v1[j]);
+            s1.insert(tmp);
+        &#125;
+    &#125;
+    // 定义公共部分数组
+    vector&lt;int&gt; res;
+    // 判断第二个数组的子数组是否存在在哈希表中
+    for(int i=0;i&lt;n2;i++)&#123;
+        vector&lt;int&gt; tmp;
+        for(int j=i;j&lt;n2;j++)&#123;
+            tmp.push_back(v2[j]);
+            if(s1.count(tmp)!=0&amp;&amp;tmp.size()&gt;res.size())&#123;
+                res=tmp;
+            &#125;
+        &#125;
+    &#125;
+    // 判断res是否为空
+    return res.empty()?-1:res;
+&#125;
 </code></pre>
-<h2 id="construct构造"><a href="#construct构造" class="headerlink" title="construct构造"></a>construct构造</h2><pre><code class="c++">// construct 构造对象
-
-template &lt;class Ty&gt;
-void construct(Ty* ptr)
-&#123;
-  ::new ((void*)ptr) Ty();
-&#125;
-
-template &lt;class Ty1, class Ty2&gt;
-void construct(Ty1* ptr, const Ty2&amp; value)
-&#123;
-  ::new ((void*)ptr) Ty1(value);
-&#125;
-
-template &lt;class Ty, class... Args&gt;
-void construct(Ty* ptr, Args&amp;&amp;... args)
-&#123;
-  ::new ((void*)ptr) Ty(mystl::forward&lt;Args&gt;(args)...);
+<h2 id="第2题：采矿"><a href="#第2题：采矿" class="headerlink" title="第2题：采矿"></a>第2题：采矿</h2><h3 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h3><p>露天矿采矿作业的特点是规模大，矿石和废料的移动量达到百万吨，运输成本开销较大，需要寻求一种最优的运输路径节省成本。</p>
+<p>已知矿场可以划分成N*M的网格图，每个网格存在地形的差异，因此通过不同网格时，成本开销存在差异。</p>
+<p>网格有以下5种类型：</p>
+<ol>
+<li>标志为’S’的网格为运输起点；</li>
+<li>标志为’E”的网格时运输终点；</li>
+<li>标志为’B’的网格为阻塞点，不允许通行；</li>
+<li>标志为’C’的网格为检查点，矿车在运输路径中，至少需要进入一次检查点。</li>
+<li>标志为‘数字”的网格，其数字表示经过该网格的成本开销。</li>
+</ol>
+<p>运输矿车只能上下左右4个方向运行，不允许斜对角进入其他网格。必要时可重复进入网格。<br>请根据输入的网格图，寻求一条从S网格到E网格，并且至少经过一次检查点的最低成本运输路径，并输出其成本开销。</p>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><p>输入：N*M的网格图【S 4 5;7 B 3;C 9 E】</p>
+<p>输出：16</p>
+<h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><ol>
+<li>基于逆向思维，从C点出发，找到C-&gt;S和C-&gt;E的最短路径</li>
+<li>遍历地图的所有C点，找到二者和的最小值即可</li>
+</ol>
+<h3 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h3><ol>
+<li>定义函数，找到从C点到地图上任意一个点的最短距离</li>
+</ol>
+<pre><code class="c++">vector&lt;vector&lt;int&gt;&gt; fun(vector&lt;vector&lt;string&gt;&gt; matrix,int c_i,int c_j)&#123;
+    int n=matrix.size(),m=matrix[0].size();
+    // 定义距离矩阵和记录矩阵
+    vector&lt;vector&lt;int&gt;&gt; distance(n,vector&lt;int&gt;(m,INT_MAX));
+    vector&lt;vector&lt;bool&gt;&gt; visited(n, vector&lt;bool&gt;(m, false));
+    // 当前点的距离为0
+    distance[c_i][c_j] = 0;
+    // 定义一个堆，每个元素存放【距离，横坐标，纵坐标】
+    priority_queue&lt;tuple&lt;int, int, int&gt;, vector&lt;tuple&lt;int, int, int&gt;&gt;, greater&lt;tuple&lt;int, int, int&gt;&gt;&gt; h;
+    h.push(make_tuple(0, c_i, c_j));
+    // 以一个堆存放即将扩展的网格，朝四个方向扩展，更新其四个方向的最短距离
+    while (!h.empty()) &#123;
+        int d, i, j;
+        tie(d, i, j) = h.top();
+        h.pop();
+        if (visited[i][j]) continue;
+        visited[i][j] = true;
+        
+        // 朝四个方向扩展，更新四个方向的最短距离
+        vector&lt;pair&lt;int, int&gt;&gt; directions = &#123;&#123;i+1, j&#125;, &#123;i, j+1&#125;, &#123;i-1, j&#125;, &#123;i, j-1&#125;&#125;;
+        for (auto [ni, nj] : directions) &#123;
+            if (ni &lt; 0 || nj &lt; 0 || ni &gt;= n || nj &gt;= m || visited[ni][nj] || matrix[ni][nj] == &quot;B&quot;) continue;
+            int w = 0;
+            if (matrix[ni][nj] == &quot;C&quot; || matrix[ni][nj] == &quot;E&quot; || matrix[ni][nj] == &quot;S&quot;) &#123;
+                w = 0;
+            &#125; else &#123;
+                w = stoi(matrix[ni][nj]);
+            &#125;
+            if (distance[ni][nj] &gt; distance[i][j] + w) &#123;
+                distance[ni][nj] = distance[i][j] + w;
+                h.push(make_tuple(distance[ni][nj], ni, nj));
+            &#125;
+        &#125;
+    &#125;
+    return distance;
 &#125;
 </code></pre>
-<h2 id="destroy析构"><a href="#destroy析构" class="headerlink" title="destroy析构"></a>destroy析构</h2><pre><code class="c++">// destroy 将对象析构
-
-template &lt;class Ty&gt;
-void destroy_one(Ty*, std::true_type) &#123;&#125;
-
-template &lt;class Ty&gt;
-void destroy_one(Ty* pointer, std::false_type)
-&#123;
-  if (pointer != nullptr)
-  &#123;
-    pointer-&gt;~Ty();
-  &#125;
+<ol start="2">
+<li>遍历所有的C点，找到C到S和C到E的二者和最小点</li>
+</ol>
+<pre><code class="c++">int n=matrix.size(),m=matrix[0].size();
+// 存放所有的C点
+vector&lt;vector&lt;int&gt;&gt; C;
+for(int i=0;i&lt;n;i++)&#123;
+    for(int j=0;j&lt;m;j++)&#123;
+        if(matrix[i][j]==&quot;C&quot;)&#123;
+            C.push_back(&#123;i,j&#125;);
+        &#125;
+    &#125;
 &#125;
 
-template &lt;class ForwardIter&gt;
-void destroy_cat(ForwardIter , ForwardIter , std::true_type) &#123;&#125;
-
-template &lt;class ForwardIter&gt;
-void destroy_cat(ForwardIter first, ForwardIter last, std::false_type)
-&#123;
-  for (; first != last; ++first)
-    destroy(&amp;*first);
+// 找到S点和E点
+int res = INT_MAX;
+int s_i, s_j, e_i, e_j;
+for(int i=0;i&lt;n;i++)&#123;
+    for(int j=0;j&lt;m;j++)&#123;
+        if(matrix[i][j]==&quot;S&quot;)&#123;
+            s_i=i;s_j=j;
+        &#125;
+        else if(matrix[i][j]==&quot;E&quot;)&#123;
+            e_i=i;e_j=j;
+        &#125;
+    &#125;
 &#125;
 
-template &lt;class Ty&gt;
-void destroy(Ty* pointer)
-&#123;
-  destroy_one(pointer, std::is_trivially_destructible&lt;Ty&gt;&#123;&#125;);
+// 遍历所有的C点，找到最小的二者和
+for(int i=0;i&lt;C.size();i++)&#123;
+    vector&lt;vector&lt;int&gt;&gt; dis = fun(matrix,C[i][0],C[i][1]);
+    res = min(res,dis[s_i][s_j]+dis[e_i][e_j]);
 &#125;
 
-template &lt;class ForwardIter&gt;
-void destroy(ForwardIter first, ForwardIter last)
-&#123;
-  destroy_cat(first, last, std::is_trivially_destructible&lt;
-              typename iterator_traits&lt;ForwardIter&gt;::value_type&gt;&#123;&#125;);
-&#125;
+// 返回res
+return res==INT_MAX?-1:res;
 </code></pre>
 <hr>
 <script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
 </script>
+
 <hr>
 
   </div>
@@ -448,19 +513,12 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2024/07/18/%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">
-        <div class="post-paging-last">
-            <span>上一篇</span>
-            <p>206.反转链表</p>
-        </div>
-    </a>
-    
 
     
-    <a href="/2024/07/12/MyTinySTL-3.2%E3%80%90heap_alog.h%E3%80%91%E5%92%8C%E3%80%90set_alog.h%E3%80%91/">
+    <a href="/2024/07/22/MyTinySTL-5%E3%80%90memory.h%E3%80%91/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>MyTinySTL-3.2【heap_alog.h】和【set_alog.h】</p>
+            <p>MyTinySTL-5【memory.h】</p>
         </div>
     </a>
     
