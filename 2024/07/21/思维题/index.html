@@ -317,18 +317,18 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="思维题"><a href="#思维题" class="headerlink" title="思维题"></a>思维题</h1><h2 id="第1题"><a href="#第1题" class="headerlink" title="第1题"></a>第1题</h2><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><div style="width: 70%; margin: 10px">
+    <h1 id="第1题"><a href="#第1题" class="headerlink" title="第1题"></a>第1题</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><div style="width: 70%; margin: 10px">
     <img src="/2024/07/21/%E6%80%9D%E7%BB%B4%E9%A2%98/image-20240721111119591.png">
 </div>
 
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>输入：1 8 9 5</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>输入：1 8 9 5</p>
 <p>输出：5 8 1 9</p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
 <li>为了便于查找序列的中位数，我们可以将序列处理为大根堆和小根堆</li>
 <li>控制大根堆和小根堆的数字数量相差为1，并且大根堆存放比中位数小的序列，小根堆存放比中位数大的序列，此时中位数必定在两个堆的堆顶产生</li>
 <li>当输出中位数时，我们只需要输出其中一个堆的堆顶即可，然后对两个堆进行调整</li>
 </ol>
-<h3 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h3><ol>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol>
 <li>首先，我们将序列处理为两个堆。遍历序列，每一个数先加入到大根堆</li>
 <li>我们需要保持大根堆和小根堆之间的数量关系，有两种关系。第一种，两个堆数量相同；第二种，大根堆比小根堆多1个数字。</li>
 <li>并且，我们需要保持大根堆和小根堆的堆顶元素关系，大根堆的堆顶元素必须小于小根堆的堆顶元素</li>
@@ -391,19 +391,20 @@ int main() &#123;
     return 0;
 &#125;
 </code></pre>
-<h2 id="第2题"><a href="#第2题" class="headerlink" title="第2题"></a>第2题</h2><h3 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h3><p>给定一个仅由小写字母组成、长度为n的字符串s，则字符串s有【2^n-1】个非空子序列。</p>
+<hr>
+<h1 id="第2题"><a href="#第2题" class="headerlink" title="第2题"></a>第2题</h1><h2 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h2><p>给定一个仅由小写字母组成、长度为n的字符串s，则字符串s有【2^n-1】个非空子序列。</p>
 <p>请你求出所有子序列中不同字符的个数总和，由于答案较大，你需要输出对【10^9+7】取模后的结果。</p>
-<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><p>1）输入：abcde</p>
+<h2 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h2><p>1）输入：abcde</p>
 <p>输出：80</p>
 <p>2）输入：aaaa</p>
 <p>输出：15</p>
-<h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><ol>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
 <li>对于每个字符，计算字符c出现的数量，记为【cnt[c]】</li>
 <li>从cnt[c]中至少取1个c出来有【2^cnt[c]-1】中可能，而从剩余【n-cnt[c]】个字符中取任意个字符有【2^(n-cnt[c])】中可能，两者相乘即为字符c的贡献</li>
 <li>示例，在【abcde】中，【a】的数量为1，则取【a】有1种可能；而剩余为【4】个字符，则有【2^4&#x3D;16】种方案，这16种方案与a组成子序列，则这些子序列中【a】的字符个数一共有【1×16&#x3D;16】，分别对【5】个字符进行求解，最终为【80】</li>
 <li>代码如下</li>
 </ol>
-<h3 id="解答-1"><a href="#解答-1" class="headerlink" title="解答"></a>解答</h3><pre><code class="c++">int fun(string s)&#123;
+<h2 id="解答-1"><a href="#解答-1" class="headerlink" title="解答"></a>解答</h2><pre><code class="c++">int fun(string s)&#123;
     int n=s.size();
     unordered_map&lt;char,int&gt; mp;
     for(int i=0;i&lt;n;i++)&#123;
@@ -417,13 +418,14 @@ int main() &#123;
     return res;
 &#125;
 </code></pre>
-<h2 id="第3题"><a href="#第3题" class="headerlink" title="第3题"></a>第3题</h2><h3 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h3><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/integer-break/description/">343.整数拆分</a></p>
+<hr>
+<h1 id="第3题"><a href="#第3题" class="headerlink" title="第3题"></a>第3题</h1><h2 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/integer-break/description/">343.整数拆分</a></p>
 <p>给定一个正整数 <code>n</code> ，将其拆分为 <code>k</code> 个 <strong>正整数</strong> 的和（ <code>k &gt;= 2</code> ），并使这些整数的乘积最大化。</p>
 <p>返回 你可以获得的最大乘积 。</p>
-<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h3><p>输入：n&#x3D;10</p>
+<h2 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h2><p>输入：n&#x3D;10</p>
 <p>输出：36</p>
 <p>解释：10&#x3D;3+3+4，3×3×4&#x3D;36。</p>
-<h3 id="解答：基于动态规划"><a href="#解答：基于动态规划" class="headerlink" title="解答：基于动态规划"></a>解答：基于动态规划</h3><ol>
+<h2 id="解答：基于动态规划"><a href="#解答：基于动态规划" class="headerlink" title="解答：基于动态规划"></a>解答：基于动态规划</h2><ol>
 <li><p>对于每个数n，定义一个数组【dp[n+1]】，其中【dp[i]】存放以i拆分的整数最大乘积</p>
 </li>
 <li><p>【dp[i]】的更新是基于以下两种可能</p>
@@ -447,7 +449,7 @@ int main() &#123;
 &#125;
 </code></pre>
 <p>时间复杂度为O(n^2)，空间复杂度为O(n)</p>
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><ol>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><ol>
 <li>实际上，【dp[i]】的更新可以由以下决定：【dp[i]&#x3D;max(2×(i-2),2×dp[i-2],3×(i-3),3×dp[i-3])】，具体由数学证明可得</li>
 <li>因此，代码如下：</li>
 </ol>

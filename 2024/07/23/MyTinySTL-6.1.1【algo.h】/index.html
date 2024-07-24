@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MyTinySTL-0-lazyy</title>
+<title>MyTinySTL-6.1.1【algo.h】-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -291,7 +291,7 @@
             
         </ul>
         
-        <h1>MyTinySTL-0</h1>
+        <h1>MyTinySTL-6.1.1【algo.h】</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -309,7 +309,7 @@
                          <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
                     
                 </div>
-                <p>2024-07-01 10:12:04</p>
+                <p>2024-07-23 22:25:48</p>
             </div>
         </div>
     </div>
@@ -319,38 +319,294 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="MyTinySTL底层"><a href="#MyTinySTL底层" class="headerlink" title="MyTinySTL底层"></a>MyTinySTL底层</h1><h2 id="阅读顺序"><a href="#阅读顺序" class="headerlink" title="阅读顺序"></a>阅读顺序</h2><div style="width: 80%; margin: 10px">
-    <img src="/2024/07/01/MyTinySTL-0/image-20240701230012153.png">
-</div>
-
-<p>从第一层到第八层依次为：</p>
-<p>仿函数-&gt;迭代器-&gt;算法-&gt;分配器（模板）-&gt;适配器-&gt;容器</p>
-<hr>
-<h2 id="底层（头文件）"><a href="#底层（头文件）" class="headerlink" title="底层（头文件）"></a>底层（头文件）</h2><p>底层中的元素不是项目里的文件，而是文件中用到的各个头文件。建议在阅读源码时遇到头文件再去查它的作用</p>
-<hr>
-<h2 id="cstddef"><a href="#cstddef" class="headerlink" title="cstddef"></a>cstddef</h2><p>定义了常用的常量、宏、类型和函数</p>
-<hr>
-<h2 id="stdexcept"><a href="#stdexcept" class="headerlink" title="stdexcept"></a>stdexcept</h2><p>包含stdexcept这个头文件，定义了一些标准异常类，这些异常类通常被用于表示 C++ 程序在运行时的错误</p>
-<hr>
-<h2 id="cassert"><a href="#cassert" class="headerlink" title="cassert"></a>cassert</h2><p>定义了一个 assert 函数，可以用于异常判断</p>
-<hr>
-<h2 id="const-noexcept"><a href="#const-noexcept" class="headerlink" title="const noexcept"></a>const noexcept</h2><p>表示函数是一个常量成员函数并且在运行时不会引发异常。这对于哈希函数是一种良好的属性，因为哈希函数应该是高效和可预测的。</p>
-<hr>
-<h2 id="new"><a href="#new" class="headerlink" title="new"></a>new</h2><p>new的头文件中只包含6个重载的new和delete，和一些new的声明</p>
-<hr>
-<h2 id="pragma-warning"><a href="#pragma-warning" class="headerlink" title="pragma warning"></a>pragma warning</h2><ol>
-<li>#pragma warning只对当前文件有效（对于.h，对包含它的cpp也是有效的），而不是对整个工程的所有文件有效。当该文件编译结束，设置也就失去作用。</li>
-<li>#pragma warning(push)是保存当前的编译器警告状态；#pragma warning(push, n) 存储当前报警设置，并设置报警级别为n。n为从1到4的自然数。</li>
-<li>#pragma warning(pop) 恢复之前压入堆栈的报警设置。该句之后的代码，就恢复了warning，即在一对push和pop之间作的任何报警相关设置都将失效。</li>
-<li>#pragma warning(disable: n) 将某个警报置为失效。</li>
-<li>#pragma warning(default: n) 将报警置为默认。</li>
-<li>#pragma warning (enable: n)将被禁用的warning n启用</li>
-<li>#pragma warning (error: n)将一个warning作为一个错误</li>
-<li>once:只显示一次(警告&#x2F;错误等)消息</li>
+    <h1 id="algo-h"><a href="#algo-h" class="headerlink" title="algo.h"></a>algo.h</h1><p>这个头文件包含了mystl的一系列算法，本节6.1.1介绍了一元函数算法和count、find、search算法，后续算法将在6.1.X中介绍</p>
+<h2 id="MSC-VER"><a href="#MSC-VER" class="headerlink" title="MSC_VER"></a>MSC_VER</h2><p>与3.3节中同理，是Microsoft的C编译器的版本</p>
+<pre><code class="c++">#ifdef _MSC_VER
+#pragma warning(push) // 保存当前的编译器警告状态
+#pragma warning(disable : 4244) // 将某个警报置为失效
+#endif
+</code></pre>
+<h2 id="检查满足条件的一元函数"><a href="#检查满足条件的一元函数" class="headerlink" title="检查满足条件的一元函数"></a>检查满足条件的一元函数</h2><h3 id="all-of"><a href="#all-of" class="headerlink" title="all_of"></a>all_of</h3><p>检查[first, last)内的全部元素是否都满足条件</p>
+<pre><code class="c++">// all_of
+// 检查[first, last)内是否全部元素都满足一元操作 unary_pred 为 true 的情况，满足则返回 true
+/*****************************************************************************************/
+template&lt;class InputIter,class UnaryPredicate&gt;
+bool all_of(InputIter first, InputIter last,UnaryPredicate unary_pred)&#123;
+    for(;first!=last;first++)&#123;
+        if(!unary_pred(*first))&#123;
+            return false;
+        &#125;
+    &#125;
+    return true;
+&#125;
+</code></pre>
+<h3 id="any-of"><a href="#any-of" class="headerlink" title="any_of"></a>any_of</h3><p>检查[first, last)内存在元素满足条件</p>
+<pre><code class="c++">// any_of
+// 检查[first, last)内是否存在某个元素满足一元操作 unary_pred 为 true 的情况，满足则返回 true
+/*****************************************************************************************/
+template &lt;class InputIter, class UnaryPredicate&gt;
+bool any_of(InputIter first, InputIter last, UnaryPredicate unary_pred)
+&#123;
+  for (; first != last; ++first)
+  &#123;
+    if (unary_pred(*first))
+      return true;
+  &#125;
+  return false;
+&#125;
+</code></pre>
+<h3 id="none-of"><a href="#none-of" class="headerlink" title="none_of"></a>none_of</h3><p>检查[first, last)内的全部元素都不满足条件</p>
+<pre><code class="c++">// none_of
+// 检查[first, last)内是否全部元素都不满足一元操作 unary_pred 为 true 的情况，满足则返回 true
+/*****************************************************************************************/
+template &lt;class InputIter, class UnaryPredicate&gt;
+bool none_of(InputIter first, InputIter last, UnaryPredicate unary_pred)
+&#123;
+  for (; first != last; ++first)
+  &#123;
+    if (unary_pred(*first))
+      return false;
+  &#125;
+  return true;
+&#125;
+</code></pre>
+<h2 id="count"><a href="#count" class="headerlink" title="count"></a>count</h2><p>对与给定值相等的元素进行计数</p>
+<pre><code class="c++">// count
+// 对[first, last)区间内的元素与给定值进行比较，缺省使用 operator==，返回元素相等的个数
+/*****************************************************************************************/
+template &lt;class InputIter, class T&gt;
+size_t count(InputIter first, InputIter last, const T&amp; value)
+&#123;
+  size_t n = 0;
+  for (; first != last; ++first)
+  &#123;
+    if (*first == value)
+      ++n;
+  &#125;
+  return n;
+&#125;
+</code></pre>
+<p>对满足条件的元素进行计数</p>
+<pre><code class="c++">// count_if
+// 对[first, last)区间内的每个元素都进行一元 unary_pred 操作，返回结果为 true 的个数
+/*****************************************************************************************/
+template &lt;class InputIter, class UnaryPredicate&gt;
+size_t count_if(InputIter first, InputIter last, UnaryPredicate unary_pred)
+&#123;
+  size_t n = 0;
+  for (; first != last; ++first)
+  &#123;
+    if (unary_pred(*first))
+      ++n;
+  &#125;
+  return n;
+&#125;
+</code></pre>
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p>在区间内找到给定值并返回其位置（迭代器）</p>
+<p>规则：如果first不等于last并且*first不等于value，则first++</p>
+<pre><code class="c++">// find
+// 在[first, last)区间内找到等于 value 的元素，返回指向该元素的迭代器
+/*****************************************************************************************/
+template &lt;class InputIter, class T&gt;
+InputIter
+find(InputIter first, InputIter last, const T&amp; value)
+&#123;
+  while (first != last &amp;&amp; *first != value)
+    ++first;
+  return first;
+&#125;
+</code></pre>
+<p>在区间内找到满足条件的元素并返回其位置（迭代器）</p>
+<pre><code class="c++">// find_if
+// 在[first, last)区间内找到第一个令一元操作 unary_pred 为 true 的元素并返回指向该元素的迭代器
+/*****************************************************************************************/
+template &lt;class InputIter, class UnaryPredicate&gt;
+InputIter
+find_if(InputIter first, InputIter last, UnaryPredicate unary_pred)
+&#123;
+  while (first != last &amp;&amp; !unary_pred(*first))
+    ++first;
+  return first;
+&#125;
+</code></pre>
+<p>find_if的相反函数</p>
+<pre><code class="c++">// find_if_not
+// 在[first, last)区间内找到第一个令一元操作 unary_pred 为 false 的元素并返回指向该元素的迭代器
+/*****************************************************************************************/
+template &lt;class InputIter, class UnaryPredicate&gt;
+InputIter
+find_if_not(InputIter first, InputIter last, UnaryPredicate unary_pred)
+&#123;
+  while (first != last &amp;&amp; unary_pred(*first))
+    ++first;
+  return first;
+&#125;
+</code></pre>
+<h2 id="search"><a href="#search" class="headerlink" title="search"></a>search</h2><p>在区间1内中查找区间2的首次出现点</p>
+<ol>
+<li>首先，需要判断两个区间的大小，如果区间2比较大，则查找不到，直接返回last1</li>
+<li>如果区间1较小，则有可能在区间1查找到首次出现点</li>
 </ol>
+<pre><code class="c++">// search
+// 在[first1, last1)中查找[first2, last2)的首次出现点
+/*****************************************************************************************/
+template &lt;class ForwardIter1, class ForwardIter2&gt;
+ForwardIter1
+search(ForwardIter1 first1, ForwardIter1 last1,
+       ForwardIter2 first2, ForwardIter2 last2)
+&#123;
+    auto d1 = mystl::distance(first1, last1);
+    auto d2 = mystl::distance(first2, last2);
+    // 如果区间2比较大，则不可能找到首次出现点，直接返回last1
+    if (d1 &lt; d2)
+    return last1;
+    auto current1 = first1;
+    auto current2 = first2;
+    while (current2 != last2)
+    &#123;
+        // 相同则下一位
+        if (*current1 == *current2)
+        &#123;
+          ++current1;
+          ++current2;
+        &#125;
+        else
+        &#123;
+            // 判断当前长度还能否支持找到首次出现点
+            if (d1 == d2)
+            &#123;
+            return last1;
+            &#125;
+            // 区间1移位，区间2重来
+            else
+            &#123;
+                current1 = ++first1;
+                current2 = first2;
+                --d1;
+            &#125;
+        &#125;
+    &#125;
+    return first1;
+&#125;
+</code></pre>
+<p>另一个版本，使用函数对象comp代替比较操作</p>
+<pre><code class="c++">template&lt;class ForwardIter1,class ForwardIter2,class Compared&gt;
+ForwardIter1
+search(ForwardIter1 first1, ForwardIter1 last1,ForwardIter first2,ForwardIter last2,Compared comp)&#123;
+    auto d1=mystl::distance(first1,last1);
+    auto d2=mystl::distance(first2,last2);
+    if(d1&lt;d2)&#123;
+        return last1;
+    &#125;
+    ForwardIter1 current1=first1;
+    ForwardIter2 current2=first2;
+    while(current2!=last2)&#123;
+        if(comp(*current1,*current2))&#123;
+            current1++;
+            current2++;
+        &#125;
+        else&#123;
+            if(d1==d2)&#123;
+                return last1;
+            &#125;
+            else&#123;
+                current1=++first1;
+                current2=first2;
+                d1--;
+            &#125;
+        &#125;
+    &#125;
+    return first1;
+&#125;
+</code></pre>
+<p> 在区间内查找【连续 n 个 value】 所形成的子序列，返回一个迭代器指向该子序列的起始处</p>
+<pre><code class="c++">// search_n
+// 在[first, last)中查找连续 n 个 value 所形成的子序列，返回一个迭代器指向该子序列的起始处
+/*****************************************************************************************/
+template &lt;class ForwardIter, class Size, class T&gt;
+ForwardIter
+search_n(ForwardIter first, ForwardIter last, Size n, const T&amp; value)&#123;
+    // 首先判断n是否&lt;=0
+    if(n&lt;=0)&#123;
+        return first;
+    &#125;
+    else&#123;
+        // 找到当前区间内的value值
+        first=mystl::find(first,last,value);
+        while(first!=last)&#123;
+            // 以当前first作为起始处，判断后续是否为n-1个value
+            auto m=n-1;
+            auto i=first;
+            ++i;
+            while(i!=last &amp;&amp; m!=0 &amp;&amp; *i==value)&#123;
+                ++i;
+                --m;
+            &#125;
+            if(m==0)&#123;
+                return first;
+            &#125;
+            else&#123;
+                first=mystl::find(i,last,value);
+            &#125;
+        &#125;
+        return last;
+    &#125;
+&#125;
+</code></pre>
+<p>另一个版本，使用函数对象comp代替比较操作</p>
+<pre><code class="c++">// 重载版本使用函数对象 comp 代替比较操作
+template &lt;class ForwardIter, class Size, class T, class Compared&gt;
+ForwardIter
+search_n(ForwardIter first, ForwardIter last,
+         Size n, const T&amp; value, Compared comp)
+&#123;
+  if (n &lt;= 0)
+  &#123;
+    return first;
+  &#125;
+  else
+  &#123;
+    // 相当于find函数
+    while (first != last)
+    &#123;
+      if (comp(*first, value))
+        break;
+      ++first;
+    &#125;
+    while (first != last)
+    &#123;
+      auto m = n - 1;
+      auto i = first;
+      ++i;
+      while (i != last &amp;&amp; m != 0 &amp;&amp; comp(*i, value))
+      &#123;
+        ++i;
+        --m;
+      &#125;
+      if (m == 0)
+      &#123;
+        return first;
+      &#125;
+      else
+      &#123;
+        while (i != last)
+        &#123;
+          if (comp(*i, value))
+            break;
+          ++i;
+        &#125;
+        first = i;
+      &#125;
+    &#125;
+    return last;
+  &#125;
+&#125;
+</code></pre>
 <hr>
 <script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
 </script>
+
+<hr>
 
   </div>
   <div id=""></div>
@@ -411,19 +667,19 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2024/07/04/MyTinySTL-1.1%E3%80%90exceptdef.h%E3%80%91%E5%92%8C%E3%80%90type_traits.h%E3%80%91/">
+    <a href="/2024/07/24/MyTinySTL-6.1.2%E3%80%90algo.h%E3%80%91/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>MyTinySTL-1.1【exceptdef.h】和【type_traits.h】</p>
+            <p>MyTinySTL-6.1.2【algo.h】</p>
         </div>
     </a>
     
 
     
-    <a href="/2024/06/22/Hexo+Github=Blog/">
+    <a href="/2024/07/23/HW%E7%BB%83%E6%89%8B%E9%A2%98/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>Hexo+Github=Blog</p>
+            <p>HW练手题</p>
         </div>
     </a>
     

@@ -317,11 +317,11 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="HW练手题"><a href="#HW练手题" class="headerlink" title="HW练手题"></a>HW练手题</h1><h2 id="第1题：公共片段"><a href="#第1题：公共片段" class="headerlink" title="第1题：公共片段"></a>第1题：公共片段</h2><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>获取两个数组的公共片段，值相等的连续片段即可，以数组的形式返回。如果没有公共片段，则返回-1</p>
+    <h1 id="第1题：公共片段"><a href="#第1题：公共片段" class="headerlink" title="第1题：公共片段"></a>第1题：公共片段</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>获取两个数组的公共片段，值相等的连续片段即可，以数组的形式返回。如果没有公共片段，则返回-1</p>
 <p>每个数组的长度不超过20个元素，且不会为空</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>输入：【1 2 2 3 9 1 5】和【9 2 2 3 6 8】</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>输入：【1 2 2 3 9 1 5】和【9 2 2 3 6 8】</p>
 <p>输出：【2 2 3】</p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
 <li>因为数据非常小，因此直接采用暴力枚举</li>
 <li>将第一个数组的所有子数组添加到哈希表中，然后检索第二个数组的所有子数组是否在哈希表中，并且更新最长公共部分</li>
 <li>代码如下：</li>
@@ -354,7 +354,8 @@
     return res.empty()?-1:res;
 &#125;
 </code></pre>
-<h2 id="第2题：采矿"><a href="#第2题：采矿" class="headerlink" title="第2题：采矿"></a>第2题：采矿</h2><h3 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h3><p>露天矿采矿作业的特点是规模大，矿石和废料的移动量达到百万吨，运输成本开销较大，需要寻求一种最优的运输路径节省成本。</p>
+<hr>
+<h1 id="第2题：采矿"><a href="#第2题：采矿" class="headerlink" title="第2题：采矿"></a>第2题：采矿</h1><h2 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h2><p>露天矿采矿作业的特点是规模大，矿石和废料的移动量达到百万吨，运输成本开销较大，需要寻求一种最优的运输路径节省成本。</p>
 <p>已知矿场可以划分成N*M的网格图，每个网格存在地形的差异，因此通过不同网格时，成本开销存在差异。</p>
 <p>网格有以下5种类型：</p>
 <ol>
@@ -365,13 +366,13 @@
 <li>标志为‘数字”的网格，其数字表示经过该网格的成本开销。</li>
 </ol>
 <p>运输矿车只能上下左右4个方向运行，不允许斜对角进入其他网格。必要时可重复进入网格。<br>请根据输入的网格图，寻求一条从S网格到E网格，并且至少经过一次检查点的最低成本运输路径，并输出其成本开销。</p>
-<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><p>输入：N*M的网格图【S 4 5;7 B 3;C 9 E】</p>
+<h2 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h2><p>输入：N*M的网格图【S 4 5;7 B 3;C 9 E】</p>
 <p>输出：16</p>
-<h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><ol>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
 <li>基于逆向思维，从C点出发，找到C-&gt;S和C-&gt;E的最短路径</li>
 <li>遍历地图的所有C点，找到二者和的最小值即可</li>
 </ol>
-<h3 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h3><ol>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol>
 <li>定义函数，找到从C点到地图上任意一个点的最短距离</li>
 </ol>
 <pre><code class="c++">vector&lt;vector&lt;int&gt;&gt; fun(vector&lt;vector&lt;string&gt;&gt; matrix,int c_i,int c_j)&#123;
@@ -512,6 +513,13 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 </style>
 
     <div class="post-paging">
+    
+    <a href="/2024/07/23/MyTinySTL-6.1.1%E3%80%90algo.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-6.1.1【algo.h】</p>
+        </div>
+    </a>
     
 
     

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MyTinySTL-0-lazyy</title>
+<title>MyTinySTL-6.1.2【algo.h】-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -291,7 +291,7 @@
             
         </ul>
         
-        <h1>MyTinySTL-0</h1>
+        <h1>MyTinySTL-6.1.2【algo.h】</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -309,7 +309,7 @@
                          <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
                     
                 </div>
-                <p>2024-07-01 10:12:04</p>
+                <p>2024-07-24 22:54:44</p>
             </div>
         </div>
     </div>
@@ -319,38 +319,256 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="MyTinySTL底层"><a href="#MyTinySTL底层" class="headerlink" title="MyTinySTL底层"></a>MyTinySTL底层</h1><h2 id="阅读顺序"><a href="#阅读顺序" class="headerlink" title="阅读顺序"></a>阅读顺序</h2><div style="width: 80%; margin: 10px">
-    <img src="/2024/07/01/MyTinySTL-0/image-20240701230012153.png">
-</div>
-
-<p>从第一层到第八层依次为：</p>
-<p>仿函数-&gt;迭代器-&gt;算法-&gt;分配器（模板）-&gt;适配器-&gt;容器</p>
-<hr>
-<h2 id="底层（头文件）"><a href="#底层（头文件）" class="headerlink" title="底层（头文件）"></a>底层（头文件）</h2><p>底层中的元素不是项目里的文件，而是文件中用到的各个头文件。建议在阅读源码时遇到头文件再去查它的作用</p>
-<hr>
-<h2 id="cstddef"><a href="#cstddef" class="headerlink" title="cstddef"></a>cstddef</h2><p>定义了常用的常量、宏、类型和函数</p>
-<hr>
-<h2 id="stdexcept"><a href="#stdexcept" class="headerlink" title="stdexcept"></a>stdexcept</h2><p>包含stdexcept这个头文件，定义了一些标准异常类，这些异常类通常被用于表示 C++ 程序在运行时的错误</p>
-<hr>
-<h2 id="cassert"><a href="#cassert" class="headerlink" title="cassert"></a>cassert</h2><p>定义了一个 assert 函数，可以用于异常判断</p>
-<hr>
-<h2 id="const-noexcept"><a href="#const-noexcept" class="headerlink" title="const noexcept"></a>const noexcept</h2><p>表示函数是一个常量成员函数并且在运行时不会引发异常。这对于哈希函数是一种良好的属性，因为哈希函数应该是高效和可预测的。</p>
-<hr>
-<h2 id="new"><a href="#new" class="headerlink" title="new"></a>new</h2><p>new的头文件中只包含6个重载的new和delete，和一些new的声明</p>
-<hr>
-<h2 id="pragma-warning"><a href="#pragma-warning" class="headerlink" title="pragma warning"></a>pragma warning</h2><ol>
-<li>#pragma warning只对当前文件有效（对于.h，对包含它的cpp也是有效的），而不是对整个工程的所有文件有效。当该文件编译结束，设置也就失去作用。</li>
-<li>#pragma warning(push)是保存当前的编译器警告状态；#pragma warning(push, n) 存储当前报警设置，并设置报警级别为n。n为从1到4的自然数。</li>
-<li>#pragma warning(pop) 恢复之前压入堆栈的报警设置。该句之后的代码，就恢复了warning，即在一对push和pop之间作的任何报警相关设置都将失效。</li>
-<li>#pragma warning(disable: n) 将某个警报置为失效。</li>
-<li>#pragma warning(default: n) 将报警置为默认。</li>
-<li>#pragma warning (enable: n)将被禁用的warning n启用</li>
-<li>#pragma warning (error: n)将一个warning作为一个错误</li>
-<li>once:只显示一次(警告&#x2F;错误等)消息</li>
+    <h1 id="algo-h"><a href="#algo-h" class="headerlink" title="algo.h"></a>algo.h</h1><p>这个头文件包含了mystl的一系列算法，本节6.1.2介绍了有关于find的一些函数，包括有</p>
+<ol>
+<li>在区间1查找区间2最后出现的地方【find_end】函数</li>
+<li>在区间1查找符合区间2的元素的第一次出现的地方【find_first_of】函数</li>
+<li>遍历区间函数【for_each】函数</li>
+<li>找到第一对匹配条件的元素的位置【adjacent_find】函数</li>
 </ol>
+<p>后续算法将在6.1.X中介绍</p>
+<h2 id="find-end"><a href="#find-end" class="headerlink" title="find_end"></a>find_end</h2><p>在区间1中查找区间2最后一次出现的地方，若不存在返回 last1</p>
+<p>利用【search】一直在区间1中查找区间2的首次出现点，直到区间2不再出现，初始化【res】为【last1】</p>
+<pre><code class="c++">// find_end
+// 在[first1, last1)区间中查找[first2, last2)最后一次出现的地方，若不存在返回 last1
+/*****************************************************************************************/
+// find_end_dispatch 的 forward_iterator_tag 版本
+template &lt;class ForwardIter1, class ForwardIter2&gt;
+ForwardIter1
+find_end_dispatch(ForwardIter1 first1, ForwardIter1 last1,
+                  ForwardIter2 first2, ForwardIter2 last2,
+                  forward_iterator_tag, forward_iterator_tag)
+&#123;
+  // 如果区间2为空，则直接返回last1
+  if (first2 == last2)
+  &#123;
+    return last1;
+  &#125;
+  else
+  &#123;
+    auto result = last1;
+    while (true)
+    &#123;
+      // 利用 search 查找某个子序列的首次出现点，找不到则返回 last1
+      auto new_result = mystl::search(first1, last1, first2, last2);
+      if (new_result == last1)
+      &#123;
+        return result;
+      &#125;
+      else
+      &#123;
+        result = new_result;
+        first1 = new_result;
+        ++first1;
+      &#125;
+    &#125;
+  &#125;
+&#125;
+
+</code></pre>
+<p>双向迭代器版本中，可以采用反向迭代器进行反向寻找</p>
+<ol>
+<li>将区间1和区间2都反过来，然后在反区间1中依次寻找</li>
+<li>当查找到反区间2之后，需要将【res】移动【dis】位，【dis】为区间2的长度</li>
+</ol>
+<pre><code class="c++">// find_end_dispatch 的 bidirectional_iterator_tag 版本
+// 采用反向迭代器
+template &lt;class BidirectionalIter1, class BidirectionalIter2&gt;
+BidirectionalIter1
+find_end_dispatch(BidirectionalIter1 first1, BidirectionalIter1 last1,
+                  BidirectionalIter2 first2, BidirectionalIter2 last2,
+                  bidirectional_iterator_tag, bidirectional_iterator_tag)
+&#123;
+  // 定义反向迭代器
+  typedef reverse_iterator&lt;BidirectionalIter1&gt; reviter1;
+  typedef reverse_iterator&lt;BidirectionalIter2&gt; reviter2;
+  reviter1 rlast1(first1);
+  reviter2 rlast2(first2);
+  reviter1 rresult = mystl::search(reviter1(last1), rlast1, reviter2(last2), rlast2);
+  // 如果反向迭代器查找不到，即返回结果是rlast1，则返回last1
+  if (rresult == rlast1)
+  &#123;
+    return last1;
+  &#125;
+  // 如果查找得到，则需要将result后退dis位，dis为区间2的长度
+  else
+  &#123;
+    auto result = rresult.base();
+    mystl::advance(result, -mystl::distance(first2, last2));
+    return result;
+  &#125;
+&#125;
+
+template &lt;class ForwardIter1, class ForwardIter2&gt;
+ForwardIter1
+find_end(ForwardIter1 first1, ForwardIter1 last1,
+         ForwardIter2 first2, ForwardIter2 last2)
+&#123;
+  typedef typename iterator_traits&lt;ForwardIter1&gt;::iterator_category Category1;
+  typedef typename iterator_traits&lt;ForwardIter2&gt;::iterator_category Category2;
+  return mystl::find_end_dispatch(first1, last1, first2, last2, Category1(), Category2());
+&#125;
+</code></pre>
+<p>使用comp代替比较</p>
+<ol>
+<li>前向迭代器</li>
+<li>双向迭代器</li>
+</ol>
+<pre><code class="c++">// 重载版本使用函数对象 comp 代替比较操作
+// find_end_dispatch 的 forward_iterator_tag 版本
+template &lt;class ForwardIter1, class ForwardIter2, class Compared&gt;
+ForwardIter1
+find_end_dispatch(ForwardIter1 first1, ForwardIter1 last1,
+                  ForwardIter2 first2, ForwardIter2 last2,
+                  forward_iterator_tag, forward_iterator_tag, Compared comp)
+&#123;
+  if (first2 == last2)
+  &#123;
+    return last1;
+  &#125;
+  else
+  &#123;
+    auto result = last1;
+    while (true)
+    &#123;
+      // 利用 search 查找某个子序列的首次出现点，找不到则返回 last1
+      auto new_result = mystl::search(first1, last1, first2, last2, comp);
+      if (new_result == last1)
+      &#123;
+        return result;
+      &#125;
+      else
+      &#123;
+        result = new_result;
+        first1 = new_result;
+        ++first1;
+      &#125;
+    &#125;
+  &#125;
+&#125;
+
+// find_end_dispatch 的 bidirectional_iterator_tag 版本
+template &lt;class BidirectionalIter1, class BidirectionalIter2, class Compared&gt;
+BidirectionalIter1
+find_end_dispatch(BidirectionalIter1 first1, BidirectionalIter1 last1,
+                  BidirectionalIter2 first2, BidirectionalIter2 last2,
+                  bidirectional_iterator_tag, bidirectional_iterator_tag, Compared comp)
+&#123;
+  typedef reverse_iterator&lt;BidirectionalIter1&gt; reviter1;
+  typedef reverse_iterator&lt;BidirectionalIter2&gt; reviter2;
+  reviter1 rlast1(first1);
+  reviter2 rlast2(first2);
+  reviter1 rresult = mystl::search(reviter1(last1), rlast1, reviter2(last2), rlast2, comp);
+  if (rresult == rlast1)
+  &#123;
+    return last1;
+  &#125;
+  else
+  &#123;
+    auto result = rresult.base();
+    mystl::advance(result, -mystl::distance(first2, last2));
+    return result;
+  &#125;
+&#125;
+
+template &lt;class ForwardIter1, class ForwardIter2, class Compared&gt;
+ForwardIter1
+find_end(ForwardIter1 first1, ForwardIter1 last1,
+         ForwardIter2 first2, ForwardIter2 last2, Compared comp)
+&#123;
+  typedef typename iterator_traits&lt;ForwardIter1&gt;::iterator_category Category1;
+  typedef typename iterator_traits&lt;ForwardIter2&gt;::iterator_category Category2;
+  return mystl::find_end_dispatch(first1, last1, first2, last2, Category1(), Category2(), comp);
+&#125;
+</code></pre>
+<h2 id="find-first-of"><a href="#find-first-of" class="headerlink" title="find_first_of"></a>find_first_of</h2><p>在区间1中查找区间2中的某些元素，返回指向第一次出现的元素的迭代器，其中包括普通版本和comp版本</p>
+<pre><code class="c++">// find_first_of
+// 在[first1, last1)中查找[first2, last2)中的某些元素，返回指向第一次出现的元素的迭代器
+/*****************************************************************************************/
+template &lt;class InputIter, class ForwardIter&gt;
+InputIter
+find_first_of(InputIter first1, InputIter last1,
+              ForwardIter first2, ForwardIter last2)
+&#123;
+  for (; first1 != last1; ++first1)
+  &#123;
+    for (auto iter = first2; iter != last2; ++iter)
+    &#123;
+      if (*first1 == *iter)
+        return first1;
+    &#125;
+  &#125;
+  return last1;
+&#125;
+
+// 重载版本使用函数对象 comp 代替比较操作
+template &lt;class InputIter, class ForwardIter, class Compared&gt;
+InputIter
+find_first_of(InputIter first1, InputIter last1,
+              ForwardIter first2, ForwardIter last2, Compared comp)
+&#123;
+  for (; first1 != last1; ++first1)
+  &#123;
+    for (auto iter = first2; iter != last2; ++iter)
+    &#123;
+      if (comp(*first1, *iter))
+        return first1;
+    &#125;
+  &#125;
+  return last1;
+&#125;
+</code></pre>
+<h2 id="for-each"><a href="#for-each" class="headerlink" title="for_each"></a>for_each</h2><p>使用一个【函数f】遍历区间内的所有元素</p>
+<pre><code class="c++">// for_each
+// 使用一个函数对象 f 对[first, last)区间内的每个元素执行一个 operator() 操作，但不能改变元素内容
+// f() 可返回一个值，但该值会被忽略
+/*****************************************************************************************/
+template &lt;class InputIter, class Function&gt;
+Function for_each(InputIter first, InputIter last, Function f)
+&#123;
+  for (; first != last; ++first)
+  &#123;
+    f(*first);
+  &#125;
+  return f;
+&#125;
+</code></pre>
+<h2 id="adjacent-find"><a href="#adjacent-find" class="headerlink" title="adjacent_find"></a>adjacent_find</h2><p>找出第一对匹配的相邻元素，如果找到则返回一个迭代器，指向这对元素的第一个元素</p>
+<pre><code class="c++">// adjacent_find
+// 找出第一对匹配的相邻元素，缺省使用 operator== 比较，如果找到返回一个迭代器，指向这对元素的第一个元素
+/*****************************************************************************************/
+template &lt;class ForwardIter&gt;
+ForwardIter adjacent_find(ForwardIter first, ForwardIter last)
+&#123;
+  if (first == last)  return last;
+  auto next = first;
+  while (++next != last)
+  &#123;
+    if (*first == *next)  return first;
+    first = next;
+  &#125;
+  return last;
+&#125;
+
+// 重载版本使用函数对象 comp 代替比较操作
+template &lt;class ForwardIter, class Compared&gt;
+ForwardIter adjacent_find(ForwardIter first, ForwardIter last, Compared comp)
+&#123;
+  if (first == last)  return last;
+  auto next = first;
+  while (++next != last)
+  &#123;
+    if (comp(*first, *next))  return first;
+    first = next;
+  &#125;
+  return last;
+&#125;
+</code></pre>
 <hr>
 <script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
 </script>
+
+<hr>
 
   </div>
   <div id=""></div>
@@ -411,19 +629,12 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2024/07/04/MyTinySTL-1.1%E3%80%90exceptdef.h%E3%80%91%E5%92%8C%E3%80%90type_traits.h%E3%80%91/">
-        <div class="post-paging-last">
-            <span>上一篇</span>
-            <p>MyTinySTL-1.1【exceptdef.h】和【type_traits.h】</p>
-        </div>
-    </a>
-    
 
     
-    <a href="/2024/06/22/Hexo+Github=Blog/">
+    <a href="/2024/07/23/MyTinySTL-6.1.1%E3%80%90algo.h%E3%80%91/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>Hexo+Github=Blog</p>
+            <p>MyTinySTL-6.1.1【algo.h】</p>
         </div>
     </a>
     
