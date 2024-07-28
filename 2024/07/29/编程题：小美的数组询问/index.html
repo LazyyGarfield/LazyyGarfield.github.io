@@ -348,6 +348,7 @@
 <h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol>
 <li>只需要在输入序列时，计算序列数字的总和【sum】以及其中未知数即0的数量【num0】即可</li>
 <li>然后，在得到【min,max】之后，就可以计算出最小值【<code>sum+num0*min</code>】和最大值【<code>sum+num0*max</code>】</li>
+<li><strong>需要注意的是，</strong>结果保存为【long long】而不是【int】，否则可能会越界</li>
 <li>代码如下</li>
 </ol>
 <pre><code class="c++">#include &lt;iostream&gt;
