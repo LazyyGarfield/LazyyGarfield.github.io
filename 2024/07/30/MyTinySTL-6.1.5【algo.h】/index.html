@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MyTinySTL-6.1.4【algo.h】-lazyy</title>
+<title>MyTinySTL-6.1.5【algo.h】-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -291,7 +291,7 @@
             
         </ul>
         
-        <h1>MyTinySTL-6.1.4【algo.h】</h1>
+        <h1>MyTinySTL-6.1.5【algo.h】</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -309,7 +309,7 @@
                          <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
                     
                 </div>
-                <p>2024-07-28 16:42:26</p>
+                <p>2024-07-30 12:52:12</p>
             </div>
         </div>
     </div>
@@ -319,282 +319,191 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="algo-h"><a href="#algo-h" class="headerlink" title="algo.h"></a>algo.h</h1><p>这个头文件包含了mystl的一系列算法，本节6.1.4介绍了有关于极值的一些函数，包括有</p>
-<ol>
-<li>函数【generate】，对区间内每个元素赋值函数【gen】的结果</li>
-<li>函数【includes】，判断区间1是否包含有区间2的函数，需要注意两个区间都是有序的</li>
-<li>两个函数【is_heap】和【is_sorted】判断区间是不是一个堆以及判断区间是不是有序的</li>
-<li>函数【median】，找到三个值的中间值</li>
-<li>函数【max_element】和【min_element】找到区间中的最大值和最小值</li>
-</ol>
+    <h1 id="algo-h"><a href="#algo-h" class="headerlink" title="algo.h"></a>algo.h</h1><p>这个头文件包含了mystl的一系列算法，本节6.1.5介绍了有关于极值的一些函数，包括有</p>
 <p>后续算法将在6.1.X中介绍</p>
-<h2 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h2><p>将函数对象gen的运算结果对区间内的每个元素赋值，包括generate_n版本</p>
-<pre><code class="c++">// generate
-// 将函数对象 gen 的运算结果对[first, last)内的每个元素赋值
+<h2 id="swap-ranges"><a href="#swap-ranges" class="headerlink" title="swap_ranges"></a>swap_ranges</h2><p>将[first1, last1)从 first2 开始，交换相同个数元素</p>
+<pre><code class="c++">// swap_ranges
+// 将[first1, last1)从 first2 开始，交换相同个数元素
+// 交换的区间长度必须相同，两个序列不能互相重叠，返回一个迭代器指向序列二最后一个被交换元素的下一位置
 /*****************************************************************************************/
-template &lt;class ForwardIter, class Generator&gt;
-void generate(ForwardIter first, ForwardIter last, Generator gen)
+template &lt;class ForwardIter1, class ForwardIter2&gt;
+ForwardIter2
+swap_ranges(ForwardIter1 first1, ForwardIter1 last1,
+            ForwardIter2 first2)
+&#123;
+  for (; first1 != last1; ++first1, ++first2)
+  &#123;
+    mystl::iter_swap(first1, first2);
+  &#125;
+  return first2;
+&#125;
+</code></pre>
+<h2 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h2><p>第一个版本以函数对象 unary_op 作用于[first, last)中的每个元素并将结果保存至 result 中</p>
+<pre><code class="c++">// transform
+// 第一个版本以函数对象 unary_op 作用于[first, last)中的每个元素并将结果保存至 result 中
+template &lt;class InputIter, class OutputIter, class UnaryOperation&gt;
+OutputIter
+transform(InputIter first, InputIter last,
+          OutputIter result, UnaryOperation unary_op)
+&#123;
+  for (; first != last; ++first, ++result)
+  &#123;
+    *result = unary_op(*first);
+  &#125;
+  return result;
+&#125;
+</code></pre>
+<p>第二个版本以函数对象 binary_op 作用于两个序列[first1, last1)、[first2, last2)的相同位置</p>
+<pre><code class="c++">// 第二个版本以函数对象 binary_op 作用于两个序列[first1, last1)、[first2, last2)的相同位置
+template &lt;class InputIter1, class InputIter2, class OutputIter, class BinaryOperation&gt;
+OutputIter
+transform(InputIter1 first1, InputIter1 last1,
+          InputIter2 first2, OutputIter result, BinaryOperation binary_op)
+&#123;
+  for (; first1 != last1; ++first1, ++first2, ++result)
+  &#123;
+    *result = binary_op(*first1, *first2);
+  &#125;
+  return result;
+&#125;
+</code></pre>
+<h2 id="remove"><a href="#remove" class="headerlink" title="remove"></a>remove</h2><h3 id="remove-copy"><a href="#remove-copy" class="headerlink" title="remove_copy"></a>remove_copy</h3><p>移除区间内与指定 value 相等的元素，并将结果复制到以 result 标示起始位置的容器上</p>
+<pre><code class="c++">// remove_copy
+// 移除区间内与指定 value 相等的元素，并将结果复制到以 result 标示起始位置的容器上
+/*****************************************************************************************/
+template &lt;class InputIter, class OutputIter, class T&gt;
+OutputIter
+remove_copy(InputIter first, InputIter last, OutputIter result, const T&amp; value)
 &#123;
   for (; first != last; ++first)
   &#123;
-    *first = gen();
+    if (*first != value)
+    &#123;
+      *result++ = *first;
+    &#125;
   &#125;
-&#125;
-
-/*****************************************************************************************/
-// generate_n
-// 用函数对象 gen 连续对 n 个元素赋值
-/*****************************************************************************************/
-template &lt;class ForwardIter, class Size, class Generator&gt;
-void generate_n(ForwardIter first, Size n, Generator gen)
-&#123;
-  for (; n &gt; 0; --n, ++first)
-  &#123;
-    *first = gen();
-  &#125;
+  return result;
 &#125;
 </code></pre>
-<h2 id="includes"><a href="#includes" class="headerlink" title="includes"></a>includes</h2><p>判断区间1中是否包含区间2，注意两个区间都是严格递增的</p>
+<h3 id="remove-1"><a href="#remove-1" class="headerlink" title="remove"></a>remove</h3><p>移除所有与指定 value 相等的元素</p>
 <ol>
-<li>先判断区间1的最小值是否小于区间2的最小值，否则返回false</li>
-<li>如果区间1的最小值小于区间2的最小值，则区间1移动，直到两个区间的当前值相等</li>
-<li>若两个区间的当前值相等，则两个区间一起移动</li>
+<li>先找到区间内与value相等的元素的位置，如果此时该位置为last，则直接返回first</li>
+<li>如果该位置不为last，则对该位置后的区间进行【remove_copy】函数，并且将返回值赋值给当前区间</li>
 </ol>
-<p>包含了comp代替比较【&lt;】的版本</p>
-<pre><code class="c++">// includes
-// 判断序列一S1 是否包含序列二S2
+<pre><code class="c++">// remove
+// 移除所有与指定 value 相等的元素
+// 并不从容器中删除这些元素，所以 remove 和 remove_if 不适用于 array
 /*****************************************************************************************/
-template &lt;class InputIter1, class InputIter2&gt;
-bool includes(InputIter1 first1, InputIter1 last1,
-              InputIter2 first2, InputIter2 last2)
+template &lt;class ForwardIter, class T&gt;
+ForwardIter remove(ForwardIter first, ForwardIter last, const T&amp; value)
 &#123;
-  while (first1 != last1 &amp;&amp; first2 != last2)
-  &#123;
-    if (*first2 &lt; *first1)
-    &#123;
-      return false;
-    &#125;
-    else if (*first1 &lt; *first2)
-    &#123;
-      ++first1;
-    &#125;
-    else
-    &#123;
-      ++first1, ++first2;
-    &#125;
-  &#125;
-  return first2 == last2;
-&#125;
-
-// 重载版本使用函数对象 comp 代替比较操作
-template &lt;class InputIter1, class InputIter2, class Compared&gt;
-bool includes(InputIter1 first1, InputIter1 last1,
-              InputIter2 first2, InputIter2 last2, Compared comp)
-&#123;
-  while (first1 != last1 &amp;&amp; first2 != last2)
-  &#123;
-    if (comp(*first2, *first1))
-    &#123;
-      return false;
-    &#125;
-    else if (comp(*first1, *first2))
-    &#123;
-      ++first1;
-    &#125;
-    else
-    &#123;
-      ++first1, ++first2;
-    &#125;
-  &#125;
-  return first2 == last2;
-&#125;
-</code></pre>
-<h2 id="is-heap"><a href="#is-heap" class="headerlink" title="is_heap"></a>is_heap</h2><p>判断区间内的元素是否为一个堆（大根堆），如果ent是则返回true，包含了comp代替比较【&lt;】的版本</p>
-<p><strong>知识点：</strong>【i&amp;1】为二进制位运算，则判断i为奇数or偶数</p>
-<pre><code class="c++">// is_heap
-// 检查[first, last)内的元素是否为一个堆，如果是，则返回 true
-/*****************************************************************************************/
-template &lt;class RandomIter&gt;
-bool is_heap(RandomIter first, RandomIter last)
-&#123;
-  auto n = mystl::distance(first, last);
-  auto parent = 0;
-  for (auto child = 1; child &lt; n; ++child)
-  &#123;
-    if (first[parent] &lt; first[child])
-      return false;
-    if ((child &amp; 1) == 0)
-      ++parent;
-  &#125;
-  return true;
-&#125;
-
-// 重载版本使用函数对象 comp 代替比较操作
-template &lt;class RandomIter, class Compared&gt;
-bool is_heap(RandomIter first, RandomIter last, Compared comp)
-&#123;
-  auto n = mystl::distance(first, last);
-  auto parent = 0;
-  for (auto child = 1; child &lt; n; ++child)
-  &#123;
-    if (comp(first[parent], first[child]))
-      return false;
-    if ((child &amp; 1) == 0)
-      ++parent;
-  &#125;
-  return true;
-&#125;
-</code></pre>
-<h2 id="is-sorted"><a href="#is-sorted" class="headerlink" title="is_sorted"></a>is_sorted</h2><p>判断区间内的元素是否升序（递增，不需要严格递增），如果是升序，则返回true</p>
-<p>包含comp函数代替比较【&lt;】的版本</p>
-<pre><code class="c++">// is_sorted
-// 检查[first, last)内的元素是否升序，如果是升序，则返回 true
-/*****************************************************************************************/
-template &lt;class ForwardIter&gt;
-bool is_sorted(ForwardIter first, ForwardIter last)
-&#123;
-  if (first == last)
-    return true;
+  first = mystl::find(first, last, value);  // 利用 find 找出第一个匹配的地方
   auto next = first;
-  ++next;
-  for (; next != last; first = next, ++next)
-  &#123;
-    if (*next &lt; *first)
-      return false;
-  &#125;
-  return true;
+  return first == last ? first : mystl::remove_copy(++next, last, first, value);
 &#125;
-
-// 重载版本使用函数对象 comp 代替比较操作
-template &lt;class ForwardIter, class Compared&gt;
-bool is_sorted(ForwardIter first, ForwardIter last, Compared comp)
+</code></pre>
+<h3 id="remove-copy-if"><a href="#remove-copy-if" class="headerlink" title="remove_copy_if"></a>remove_copy_if</h3><p>移除区间内所有令一元操作 unary_pred 为 true 的元素，并将结果复制到以 result 为起始位置的容器上</p>
+<pre><code class="c++">// remove_copy_if
+// 移除区间内所有令一元操作 unary_pred 为 true 的元素，并将结果复制到以 result 为起始位置的容器上
+/*****************************************************************************************/
+template &lt;class InputIter, class OutputIter, class UnaryPredicate&gt;
+OutputIter
+remove_copy_if(InputIter first, InputIter last,
+               OutputIter result, UnaryPredicate unary_pred)
 &#123;
-  if (first == last)
-    return true;
+  for (; first != last; ++first)
+  &#123;
+    if (!unary_pred(*first))
+    &#123;
+      *result = *first;
+      ++result;
+    &#125;
+  &#125;
+  return result;
+&#125;
+</code></pre>
+<h3 id="remove-if"><a href="#remove-if" class="headerlink" title="remove_if"></a>remove_if</h3><p>移除区间内所有令一元操作 unary_pred 为 true 的元素</p>
+<p>与【remove】函数同理，先找到第一个使一元操作为true的位置，然后对该位置后面的区间进行【remove_copy_if】操作</p>
+<pre><code class="c++">// remove_if
+// 移除区间内所有令一元操作 unary_pred 为 true 的元素
+/*****************************************************************************************/
+template &lt;class ForwardIter, class UnaryPredicate&gt;
+ForwardIter
+remove_if(ForwardIter first, ForwardIter last, UnaryPredicate unary_pred)
+&#123;
+  first = mystl::find_if(first, last, unary_pred);  // 利用 find_if 找出第一个匹配的地方
   auto next = first;
-  ++next;
-  for (; next != last; first = next, ++next)
-  &#123;
-    if (comp(*next, *first))
-      return false;
-  &#125;
-  return true;
+  return first == last ? first : mystl::remove_copy_if(++next, last, first, unary_pred);
 &#125;
 </code></pre>
-<h2 id="median"><a href="#median" class="headerlink" title="median"></a>median</h2><p>找出三个值的中间值，包含comp函数的版本</p>
-<pre><code class="c++">// median
-// 找出三个值的中间值
+<h2 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h2><h3 id="replace-1"><a href="#replace-1" class="headerlink" title="replace"></a>replace</h3><p>将区间内所有的 old_value 都以 new_value 替代</p>
+<pre><code class="c++">// replace
+// 将区间内所有的 old_value 都以 new_value 替代
 /*****************************************************************************************/
-template &lt;class T&gt;
-const T&amp; median(const T&amp; left, const T&amp; mid, const T&amp; right)
+template &lt;class ForwardIter, class T&gt;
+void replace(ForwardIter first, ForwardIter last,
+             const T&amp; old_value, const T&amp; new_value)
 &#123;
-  if (left &lt; mid)
-    if (mid &lt; right)        // left &lt; mid &lt; right
-      return mid;
-    else if (left &lt; right)  // left &lt; right &lt;= mid
-      return right;
-    else                    // right &lt;= left &lt; mid
-      return left;
-  else if (left &lt; right)      // mid &lt;= left &lt; right
-    return left;
-  else if (mid &lt; right)       // mid &lt; right &lt;= left
-    return right;
-  else                        // right &lt;= mid &lt;= left
-    return mid;
-&#125;
-
-// 重载版本使用函数对象 comp 代替比较操作
-template &lt;class T, class Compared&gt;
-const T&amp; median(const T&amp; left, const T&amp; mid, const T&amp; right, Compared comp)
-&#123;
-  if (comp(left, mid))
-    if (comp(mid, right))
-      return mid;
-    else if (comp(left, right))
-      return right;
-    else
-      return left;
-  else if (comp(left, right))
-    return left;
-  else if (comp(mid, right))
-    return right;
-  else
-    return mid;
+  for (; first != last; ++first)
+  &#123;
+    if (*first == old_value)
+      *first = new_value;
+  &#125;
 &#125;
 </code></pre>
-<h2 id="max-element"><a href="#max-element" class="headerlink" title="max_element"></a>max_element</h2><p>返回一个迭代器，指向序列中的最大元素，序列为无序</p>
-<pre><code class="c++">// max_element
-// 返回一个迭代器，指向序列中最大的元素
+<h3 id="replace-copy"><a href="#replace-copy" class="headerlink" title="replace_copy"></a>replace_copy</h3><p>行为与 replace 类似，不同的是将结果复制到 result 所指的容器中，</p>
+<ol>
+<li>如果原序列的值是old_value，则将new_value复制到result中</li>
+<li>如果不是，则将原来的值复制到result中</li>
+</ol>
+<p>注意的是，原序列没有改变</p>
+<pre><code class="c++">// replace_copy
+// 行为与 replace 类似，不同的是将结果复制到 result 所指的容器中，原序列没有改变
 /*****************************************************************************************/
-template &lt;class ForwardIter&gt;
-ForwardIter max_element(ForwardIter first, ForwardIter last)
+template &lt;class InputIter, class OutputIter, class T&gt;
+OutputIter
+replace_copy(InputIter first, InputIter last,
+             OutputIter result, const T&amp; old_value, const T&amp; new_value)
 &#123;
-  if (first == last)
-    return first;
-  auto result = first;
-  while (++first != last)
+  for (; first != last; ++first, ++result)
   &#123;
-    if (*result &lt; *first)
-      result = first;
-  &#125;
-  return result;
-&#125;
-
-// 重载版本使用函数对象 comp 代替比较操作
-template &lt;class ForwardIter, class Compared&gt;
-ForwardIter max_element(ForwardIter first, ForwardIter last, Compared comp)
-&#123;
-  if (first == last)
-    return first;
-  auto result = first;
-  while (++first != last)
-  &#123;
-    if (comp(*result, *first))
-      result = first;
+    *result = *first == old_value ? new_value : *first;
   &#125;
   return result;
 &#125;
 </code></pre>
-<h2 id="min-element"><a href="#min-element" class="headerlink" title="min_element"></a>min_element</h2><p>与【max_element】同理，如下</p>
-<pre><code class="c++">// min_element
-// 返回一个迭代器，指向序列中最小的元素
+<h3 id="replace-if"><a href="#replace-if" class="headerlink" title="replace_if"></a>replace_if</h3><p>将区间内所有令一元操作 unary_pred 为 true 的元素都用 new_value 替代</p>
+<pre><code class="c++">// replace_if
+// 将区间内所有令一元操作 unary_pred 为 true 的元素都用 new_value 替代
 /*****************************************************************************************/
-template &lt;class ForwardIter&gt;
-ForwardIter min_elememt(ForwardIter first, ForwardIter last)
+template &lt;class ForwardIter, class UnaryPredicate, class T&gt;
+void replace_if(ForwardIter first, ForwardIter last,
+                UnaryPredicate unary_pred, const T&amp; new_value)
 &#123;
-  if (first == last)
-    return first;
-  auto result = first;
-  while (++first != last)
+  for (; first != last; ++first)
   &#123;
-    if (*first &lt; *result)
-      result = first;
+    if (unary_pred(*first))
+      *first = new_value;
   &#125;
-  return result;
 &#125;
-
-// 重载版本使用函数对象 comp 代替比较操作
-template &lt;class ForwardIter, class Compared&gt;
-ForwardIter min_elememt(ForwardIter first, ForwardIter last, Compared comp)
+</code></pre>
+<h3 id="replace-copy-if"><a href="#replace-copy-if" class="headerlink" title="replace_copy_if"></a>replace_copy_if</h3><p>行为与 replace_if 类似，不同的是将结果复制到 result 所指的容器中，原序列没有改变，同【replace_copy】函数</p>
+<pre><code class="c++">// replace_copy_if
+// 行为与 replace_if 类似，不同的是将结果复制到 result 所指的容器中，原序列没有改变
+/*****************************************************************************************/
+template &lt;class InputIter, class OutputIter, class UnaryPredicate, class T&gt;
+OutputIter
+replace_copy_if(InputIter first, InputIter last,
+                OutputIter result, UnaryPredicate unary_pred, const T&amp; new_value)
 &#123;
-  if (first == last)
-    return first;
-  auto result = first;
-  while (++first != last)
+  for (; first != last; ++first, ++result)
   &#123;
-    if (comp(*first, *result))
-      result = first;
+    *result = unary_pred(*first) ? new_value : *first;
   &#125;
   return result;
 &#125;
 </code></pre>
-<hr>
-<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
-</script>
-
-
-<hr>
-
+<h2 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h2>
   </div>
   <div id=""></div>
 </div>
@@ -654,19 +563,12 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2024/07/29/%E7%BC%96%E7%A8%8B%E9%A2%98%EF%BC%9A%E5%B0%8F%E7%BE%8E%E7%9A%84%E5%B9%B3%E8%A1%A1%E7%9F%A9%E9%98%B5/">
-        <div class="post-paging-last">
-            <span>上一篇</span>
-            <p>编程题：小美的平衡矩阵</p>
-        </div>
-    </a>
-    
 
     
-    <a href="/2024/07/25/MyTinySTL-6.1.3%E3%80%90algo.h%E3%80%91/">
+    <a href="/2024/07/29/%E7%BC%96%E7%A8%8B%E9%A2%98%EF%BC%9A%E4%B9%B0%E5%B8%BD%E5%AD%90/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>MyTinySTL-6.1.3【algo.h】</p>
+            <p>编程题：买帽子</p>
         </div>
     </a>
     
