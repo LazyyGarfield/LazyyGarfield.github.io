@@ -12,7 +12,7 @@
 
 
 
-<meta name="keywords" content="Code,STL,">
+<meta name="keywords" content="STL,Code,">
 <meta name="description" content="">
 
 
@@ -284,9 +284,9 @@
         <ul class="post-header-tag">
             
             
-            <li><a href="/tags/Code">Code</a></li>
-            
             <li><a href="/tags/STL">STL</a></li>
+            
+            <li><a href="/tags/Code">Code</a></li>
             
             
         </ul>
@@ -319,7 +319,14 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="algo-h"><a href="#algo-h" class="headerlink" title="algo.h"></a>algo.h</h1><p>这个头文件包含了mystl的一系列算法，本节6.1.5介绍了有关于极值的一些函数，包括有</p>
+    <h1 id="algo-h"><a href="#algo-h" class="headerlink" title="algo.h"></a>algo.h</h1><p>这个头文件包含了mystl的一系列算法，本节6.1.5介绍了有关于区间内元素改动的一些函数，包括有</p>
+<ol>
+<li>【swap_ranges】函数，交换两个区间的元素</li>
+<li>【transform】函数，对区间内的元素执行某一函数之后，将结果存放于result</li>
+<li>【remove】函数，移除区间内满足条件的元素</li>
+<li>【replace】函数，替换区间内满足条件的元素</li>
+<li>【reverse】函数，将区间内的元素翻转</li>
+</ol>
 <p>后续算法将在6.1.X中介绍</p>
 <h2 id="swap-ranges"><a href="#swap-ranges" class="headerlink" title="swap_ranges"></a>swap_ranges</h2><p>将[first1, last1)从 first2 开始，交换相同个数元素</p>
 <pre><code class="c++">// swap_ranges
@@ -503,7 +510,65 @@ replace_copy_if(InputIter first, InputIter last,
   return result;
 &#125;
 </code></pre>
-<h2 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h2>
+<h2 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h2><p>将区间内的元素反转</p>
+<p>第一个版本是bidirectional_iterator_tag</p>
+<pre><code class="c++">// reverse_dispatch
+// 将[first, last)区间内的元素反转
+/*****************************************************************************************/
+// reverse_dispatch 的 bidirectional_iterator_tag 版本
+template &lt;class BidirectionalIter&gt;
+void reverse_dispatch(BidirectionalIter first, BidirectionalIter last,
+                      bidirectional_iterator_tag)
+&#123;
+  while (true)
+  &#123;
+    if (first == last)
+      return;
+    mystl::iter_swap(first++, --last);
+  &#125;
+&#125;
+</code></pre>
+<p>第二个版本是random_iterator_tag</p>
+<pre><code class="c++">// reverse_dispatch 的 random_access_iterator_tag 版本
+template &lt;class RandomIter&gt;
+void reverse_dispatch(RandomIter first, RandomIter last,
+                      random_access_iterator_tag)
+&#123;
+  while (first &lt; last)
+    mystl::iter_swap(first++, --last);
+&#125;
+</code></pre>
+<p>整合</p>
+<pre><code class="c++">template &lt;class BidirectionalIter&gt;
+void reverse(BidirectionalIter first, BidirectionalIter last)
+&#123;
+  mystl::reverse_dispatch(first, last, iterator_category(first));
+&#125;
+</code></pre>
+<p>【reverse_copy】函数，与【reverse】类似，不同的是将结果复制到result所指的容器中</p>
+<pre><code class="c++">// reverse_copy
+// 行为与 reverse 类似，不同的是将结果复制到 result 所指容器中
+/*****************************************************************************************/
+template &lt;class BidirectionalIter, class OutputIter&gt;
+OutputIter
+reverse_copy(BidirectionalIter first, BidirectionalIter last,
+             OutputIter result)
+&#123;
+  while (first != last)
+  &#123;
+    --last;
+    *result = *last;
+    ++result;
+  &#125;
+  return result;
+&#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
   </div>
   <div id=""></div>
 </div>
@@ -562,6 +627,13 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 </style>
 
     <div class="post-paging">
+    
+    <a href="/2024/07/30/MyTinySTL-6.1.6%E3%80%90algo.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-6.1.6【algo.h】</p>
+        </div>
+    </a>
     
 
     

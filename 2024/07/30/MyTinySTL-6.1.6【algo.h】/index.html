@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.1.6【algo.h】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="STL,Code,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.1.6【algo.h】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-07-30 23:41:02</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="MyTinySTL-6-1-6【algo-h】"><a href="#MyTinySTL-6-1-6【algo-h】" class="headerlink" title="MyTinySTL-6.1.6【algo.h】"></a>MyTinySTL-6.1.6【algo.h】</h1><p>主要介绍了对区间整体操作的函数</p>
+<ol>
+<li>【random_shuffle】函数，对区间进行随机重排</li>
+<li>【rotate】函数，对区间内的两个长度不同的部分进行互换</li>
+<li>【is_permutation】函数，判断区间2是否为区间1的排列组合</li>
+<li>【next_permutation】函数和【prev_permutation】函数，判断区间是否有下一个排列组合和是否有上一个排列组合，返回bool</li>
+</ol>
+<h2 id="random-shuffle"><a href="#random-shuffle" class="headerlink" title="random_shuffle"></a>random_shuffle</h2><p>将区间内的元素次序随机重排，具体操作为产生一个随机数，使得不同位置的值进行交换</p>
+<pre><code class="c++">// random_shuffle
+// 将[first, last)内的元素次序随机重排
+// 重载版本使用一个产生随机数的函数对象 rand
+/*****************************************************************************************/
+template &lt;class RandomIter&gt;
+void random_shuffle(RandomIter first, RandomIter last)
+&#123;
+  if (first == last)
+    return;
+  srand((unsigned)time(0));
+  for (auto i = first + 1; i != last; ++i)
+  &#123;
+    mystl::iter_swap(i, first + (rand() % (i - first + 1)));
+  &#125;
+&#125;
+
+// 重载版本使用一个产生随机数的函数对象 rand
+template &lt;class RandomIter, class RandomNumberGenerator&gt;
+void random_shuffle(RandomIter first, RandomIter last,
+                    RandomNumberGenerator&amp; rand)
+&#123;
+  if (first == last)
+    return;
+  auto len = mystl::distance(first, last);
+  for (auto i = first + 1; i != last; ++i)
+  &#123;
+    mystl::iter_swap(i, first + (rand(i - first + 1) % len));
+  &#125;
+&#125;
+</code></pre>
+<h2 id="rotate"><a href="#rotate" class="headerlink" title="rotate"></a>rotate</h2><p>将[first, middle)内的元素和 [middle, last)内的元素互换，可以交换两个长度不同的区间，返回交换后middle的位置</p>
+<p>第一个版本，forward_iterator_tag版本</p>
+<pre><code class="c++">template&lt;class ForwardIter&gt;
+ForwardIter rotate_dispatch(ForwardIter first,ForwardIter middle,ForwardIter last,forward_iterator_tag)&#123;
+    auto first2=middle;
+    do&#123;
+        mystl::swap(*first,*first2);
+        first++;first2++;
+        if(first==middle)&#123;middle=first2;&#125;
+    &#125;while(first2!=last); // 后半段移到前面
+    
+    auto new_middle=first;
+    // 如果第一个区间比较短，此时new_middle则为返回的middle
+    // 如果第一个区间比较长，则还需要继续调整
+    first2=middle;
+    while(first2!=last)&#123;
+        mystl::swap(*first,*first2);
+        *first++;*first2++;
+        if(first==middle)&#123;middle=first2;&#125; // 剩余调整区间比区间2短，则更新区间1
+        else if(first2==last)&#123;first2=middle;&#125; // 剩余调整区间比区间2长，则更新区间2
+    &#125;
+    return new_middle;
+&#125;
+</code></pre>
+<p>第二个版本，bidirectional_iterator_tag版本</p>
+<ol>
+<li>先将区间1和区间2都反转过来</li>
+<li>区间1往后，区间2往前，不断交换其中的数值</li>
+<li>当区间1到达末尾或者区间2到达头部时，此时将另一个区间的剩余部分进行反转即可</li>
+</ol>
+<pre><code class="c++">template&lt;class BidirectionalIter&gt;
+BidirectionalIter rotate_dispatch(BidirectionalIter first,BidirectionalIter middle,BidirectionalIter last,bidirectional_iterator_tag)&#123;
+    mystl::reverse_dispatch(first,middle,bidirectional_iterator_tag());
+    mystl::reverse_dispatch(middle,last,bidirectional_iterator_tag());
+    while(first!=middle &amp;&amp; middle!=last)&#123;
+        mystl::swap(*first++,*--last);
+        if(first==middle)&#123;
+            mystl::reverse_dispatch(middle,last,bidirectional_iterator_tag());
+            return last;
+        &#125;
+        else if(middle==last)&#123;
+            mystl::reverse_dispatch(first,middle,bidirectional_iterator_tag());
+            return first;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>第三个版本，random_iterator_tag版本</p>
+<pre><code class="c++">// rotate_dispatch 的 random_access_iterator_tag 版本
+template &lt;class RandomIter&gt;
+RandomIter
+rotate_dispatch(RandomIter first, RandomIter middle,
+                RandomIter last, random_access_iterator_tag)
+&#123;
+  // 因为是 random access iterator，我们可以确定每个元素的位置
+  auto n = last - first;
+  auto l = middle - first;
+  auto r = n - l;
+  // 先计算得到返回的迭代器
+  auto result = first + (last - middle);
+  if (l == r)
+  &#123;
+    mystl::swap_ranges(first, middle, middle);
+    return result;
+  &#125;
+  // 求公因数
+  auto cycle_times = rgcd(n, l);
+  for (auto i = 0; i &lt; cycle_times; ++i)
+  &#123;
+    auto tmp = *first;
+    auto p = first;
+    // 区间1较短，不断来回交替swap
+    if (l &lt; r)
+    &#123;
+      for (auto j = 0; j &lt; r / cycle_times; ++j)
+      &#123;
+        if (p &gt; first + r)
+        &#123;
+          *p = *(p - r);
+          p -= r;
+        &#125;
+        *p = *(p + l);
+        p += l;
+      &#125;
+    &#125;
+    // 区间2较短，不断来回交替swap
+    else
+    &#123;
+      for (auto j = 0; j &lt; l / cycle_times - 1; ++j)
+      &#123;
+        if (p &lt; last - l)
+        &#123;
+          *p = *(p + l);
+          p += l;
+        &#125;
+        *p = *(p - r);
+        p -= r;
+      &#125;
+    &#125;
+    *p = tmp;
+    ++first;
+  &#125;
+  return result;
+&#125;
+</code></pre>
+<p>其中，求公因数的函数为</p>
+<pre><code class="c++">template&lt;class EuclideanRingElement&gt;
+EuclideanRingElement rgcd(EuclideanRingElement m,EuclideanRingElement n)&#123;
+    while(n!=0)&#123;
+        auto t=m%n;
+        m=n;
+        n=t;
+    &#125;
+    return m;
+&#125;
+</code></pre>
+<p>将rotate整合起来</p>
+<pre><code class="c++">template &lt;class ForwardIter&gt;
+ForwardIter
+rotate(ForwardIter first, ForwardIter middle, ForwardIter last)
+&#123;
+  if (first == middle)
+    return last;
+  if (middle == last)
+    return first;
+  return mystl::rotate_dispatch(first, middle, last, iterator_category(first));
+&#125;
+</code></pre>
+<p>【rotate_copy】函数，与【copy】行为类似，不同的是将结果复制到result所指的容器中，但是实现更加简单</p>
+<ol>
+<li>先将区间2复制到result中</li>
+<li>再将区间1复制到result中即可</li>
+</ol>
+<pre><code class="c++">template&lt;class ForwardIter,class OutputIter&gt;
+OutputIter rotate_copy(ForwardIter first,ForwardIter middle,ForwardIter last,OutputIter result)&#123;
+    return mystl::copy(first,middle,mystl::copy(middle,last,result));
+&#125;
+</code></pre>
+<h2 id="is-permutation"><a href="#is-permutation" class="headerlink" title="is_permutation"></a>is_permutation</h2><p>判断[first1,last1)是否为[first2, last2)的排列组合</p>
+<ol>
+<li><p>首先，如果迭代器是RandomIter，则可以计算两个区间的长度是否相等，如果不相等，则直接返回false</p>
+</li>
+<li><p>先找出相同的前缀段，无需考虑这部分</p>
+</li>
+<li><p>此时对剩余部分先进行判断：</p>
+<p>1）若迭代器类型是RandomIter，判断此时的区间是否达到终点，如果是，则直接返回true</p>
+<p>2）如果不是RandomIter，则判断此时两个区间的长度是否都为0，如果都为0，则返回true；如果长度不相等，则返回false</p>
+</li>
+<li><p>接下来，处理两个区间的剩余部分：</p>
+</li>
+<li><p>在区间1中遍历字段，记录从0到当前位置是否有数值和当前数值重复</p>
+<p>1）如果没有重复，则计算当前数值在整个区间2的数量和在整个区间1的数量，判断二者是否相同</p>
+<p>2）如果有重复，则说明第一次遇到该数值时，已经计算过，无需再次计算</p>
+</li>
+</ol>
+<pre><code class="c++">// is_permutation
+// 判断[first1,last1)是否为[first2, last2)的排列组合
+/*****************************************************************************************/
+template &lt;class ForwardIter1, class ForwardIter2, class BinaryPred&gt;
+bool is_permutation_aux(ForwardIter1 first1, ForwardIter1 last1,
+                        ForwardIter2 first2, ForwardIter2 last2,
+                        BinaryPred pred)
+&#123;
+  constexpr bool is_ra_it = mystl::is_random_access_iterator&lt;ForwardIter1&gt;::value
+    &amp;&amp; mystl::is_random_access_iterator&lt;ForwardIter2&gt;::value;
+  if (is_ra_it)
+  &#123;
+    auto len1 = last1 - first1;
+    auto len2 = last2 - first2;
+    if (len1 != len2)
+      return false;
+  &#125;
+
+  // 先找出相同的前缀段
+  for (; first1 != last1 &amp;&amp; first2 != last2; ++first1, (void) ++first2)
+  &#123;
+    if (!pred(*first1, *first2))
+      break;
+  &#125;
+  if (is_ra_it)
+  &#123;
+    if (first1 == last1)
+      return true;
+  &#125;
+  else
+  &#123;
+    auto len1 = mystl::distance(first1, last1);
+    auto len2 = mystl::distance(first2, last2);
+    if (len1 == 0 &amp;&amp; len2 == 0)
+      return true;
+    if (len1 != len2)
+      return false;
+  &#125;
+
+  // 判断剩余部分
+  for (auto i = first1; i != last1; ++i)
+  &#123;
+    bool is_repeated = false;
+    for (auto j = first1; j != i; ++j)
+    &#123;
+      if (pred(*j, *i))
+      &#123;
+        is_repeated = true;
+        break;
+      &#125;
+    &#125;
+
+    if (!is_repeated)
+    &#123;
+      // 计算 *i 在 [first2, last2) 的数目
+      auto c2 = 0;
+      for (auto j = first2; j != last2; ++j)
+      &#123;
+        if (pred(*i, *j))
+          ++c2;
+      &#125;
+      if (c2 == 0)
+        return false;
+
+      // 计算 *i 在 [first1, last1) 的数目
+      auto c1 = 1;
+      auto j = i;
+      for (++j; j != last1; ++j)
+      &#123;
+        if (pred(*i, *j))
+          ++c1;
+      &#125;
+      if (c1 != c2)
+        return false;
+    &#125;
+  &#125;
+  return true;
+&#125;
+</code></pre>
+<p>整合起来</p>
+<pre><code class="c++">template &lt;class ForwardIter1, class ForwardIter2, class BinaryPred&gt;
+bool is_permutation(ForwardIter1 first1, ForwardIter1 last1,
+                    ForwardIter2 first2, ForwardIter2 last2,
+                    BinaryPred pred)
+&#123;
+  return is_permutation_aux(first1, last1, first2, last2, pred);
+&#125;
+
+
+template &lt;class ForwardIter1, class ForwardIter2&gt;
+bool is_permutation(ForwardIter1 first1, ForwardIter1 last1,
+                    ForwardIter2 first2, ForwardIter2 last2)
+&#123;
+  typedef typename iterator_traits&lt;ForwardIter1&gt;::value_type v1;
+  typedef typename iterator_traits&lt;ForwardIter2&gt;::value_type v2;
+  static_assert(std::is_same&lt;v1, v2&gt;::value,
+                &quot;the type should be same in mystl::is_permutation&quot;);
+  return is_permutation_aux(first1, last1, first2, last2,
+                            mystl::equal_to&lt;v1&gt;());
+&#125;
+</code></pre>
+<h2 id="next-permuation"><a href="#next-permuation" class="headerlink" title="next_permuation"></a>next_permuation</h2><p>取得[first, last)所标示序列的下一个排列组合，如果没有下一个排序组合，返回 false，否则返回 true</p>
+<p>下一个排列组合的意思是，【1354】的下一个排列组合是【1435】</p>
+<ol>
+<li>首先判断是否为空或者是否只有1个元素，如果是则返回false</li>
+<li>如果多于1个元素，则找到第一对小于关系的元素，如【1354】的【35】</li>
+<li>然后在最后往前找到第一个大于【3】的元素【4】与【3】交换，交换之后后续元素全部翻转，最终为【1435】</li>
+<li>如果最终不存在第一对小于关系的元素，比如【54321】，则将该区间翻转，并返回false</li>
+</ol>
+<pre><code class="c++">// next_permutation
+// 取得[first, last)所标示序列的下一个排列组合，如果没有下一个排序组合，返回 false，否则返回 true
+/*****************************************************************************************/
+template &lt;class BidirectionalIter&gt;
+bool next_permutation(BidirectionalIter first, BidirectionalIter last)
+&#123;
+  auto i = last;
+  if (first == last || first == --i)
+    return false;
+  for (;;)
+  &#123;
+    auto ii = i;
+    if (*--i &lt; *ii)
+    &#123;                 // 找到第一对小于关系的元素
+      auto j = last;
+      while (!(*i &lt; *--j)) &#123;&#125;
+      mystl::iter_swap(i, j);       // 交换 i，j 所指元素
+      mystl::reverse(ii, last);     // 将 ii 之后的所有元素反转
+      return true;
+    &#125;
+    if (i == first)
+    &#123;
+      mystl::reverse(first, last);
+      return false;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<p>使用comp函数代替【&lt;】的版本</p>
+<pre><code class="c++">// 重载版本使用函数对象 comp 代替比较操作
+template &lt;class BidirectionalIter, class Compared&gt;
+bool next_permutation(BidirectionalIter first, BidirectionalIter last, Compared comp)
+&#123;
+  auto i = last;
+  if (first == last || first == --i)
+    return false;
+  for (;;)
+  &#123;
+    auto ii = i;
+    if (comp(*--i, *ii))
+    &#123;
+      auto j = last;
+      while (!comp(*i, *--j)) &#123;&#125;
+      mystl::iter_swap(i, j);       // 交换 i，j 所指元素
+      mystl::reverse(ii, last);     // 将 ii 之后的所有元素反转
+      return true;
+    &#125;
+    if (i == first)
+    &#123;
+      mystl::reverse(first, last);
+      return false;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="prev-permuation"><a href="#prev-permuation" class="headerlink" title="prev_permuation"></a>prev_permuation</h2><p>取得[first, last)所标示序列的上一个排列组合，如果没有上一个排序组合，返回 false，否则返回 true</p>
+<p>同理，上一个排列组合意思为，【1435】的上一个排列组合为【1354】</p>
+<p>本质相同，先找到第一对大于关系的元素，然后从后往前找到一个小于当前值的元素进行交换，然后翻转后续部分</p>
+<pre><code class="c++">// prev_permutation
+// 取得[first, last)所标示序列的上一个排列组合，如果没有上一个排序组合，返回 false，否则返回 true
+/*****************************************************************************************/
+template &lt;class BidirectionalIter&gt;
+bool prev_permutation(BidirectionalIter first, BidirectionalIter last)
+&#123;
+  auto i = last;
+  if (first == last || first == --i)
+    return false;
+  for (;;)
+  &#123;
+    auto ii = i;
+    if (*ii &lt; *--i)
+    &#123;                 // 找到第一对大于关系的元素
+      auto j = last;
+      while (!(*--j &lt; *i)) &#123;&#125;
+      mystl::iter_swap(i, j);       // 交换i，j
+      mystl::reverse(ii, last);     // 将 ii 之后的所有元素反转
+      return true;
+    &#125;
+    if (i == first)
+    &#123;
+      mystl::reverse(first, last);
+      return false;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<p>使用comp函数代替【&lt;】的版本</p>
+<pre><code class="c++">// 重载版本使用函数对象 comp 代替比较操作
+template &lt;class BidirectionalIter, class Compared&gt;
+bool prev_permutation(BidirectionalIter first, BidirectionalIter last, Compared comp)
+&#123;
+  auto i = last;
+  if (first == last || first == --i)
+    return false;
+  for (;;)
+  &#123;
+    auto ii = i;
+    if (comp(*ii, *--i))
+    &#123;
+      auto j = last;
+      while (!comp(*--j, *i)) &#123;&#125;
+      mystl::iter_swap(i, j);       // 交换i，j
+      mystl::reverse(ii, last);     // 将 ii 之后的所有元素反转
+      return true;
+    &#125;
+    if (i == first)
+    &#123;
+      mystl::reverse(first, last);
+      return false;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/07/30/%E7%BC%96%E7%A8%8B%E9%A2%98%EF%BC%9A%E6%AF%95%E4%B8%9A%E6%97%85%E8%A1%8C%E9%97%AE%E9%A2%98/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>编程题：毕业旅行问题</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/07/30/MyTinySTL-6.1.5%E3%80%90algo.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-6.1.5【algo.h】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+
