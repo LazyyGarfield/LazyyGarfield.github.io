@@ -544,6 +544,36 @@ rotate_adaptive(BidirectionalIter1 first, BidirectionalIter1 middle,
   &#125;
 &#125;
 </code></pre>
+<p>整合起来</p>
+<pre><code class="c++">template &lt;class BidirectionalIter, class T&gt;
+void
+inplace_merge_aux(BidirectionalIter first, BidirectionalIter middle,
+                  BidirectionalIter last, T*)
+&#123;
+  auto len1 = mystl::distance(first, middle);
+  auto len2 = mystl::distance(middle, last);
+  temporary_buffer&lt;BidirectionalIter, T&gt; buf(first, last);
+  if (!buf.begin())
+  &#123;
+    mystl::merge_without_buffer(first, middle, last, len1, len2);
+  &#125;
+  else
+  &#123;
+    mystl::merge_adaptive(first, middle, last, len1, len2, buf.begin(), buf.size());
+  &#125;
+&#125;
+
+template &lt;class BidirectionalIter&gt;
+void
+inplace_merge(BidirectionalIter first, BidirectionalIter middle,
+              BidirectionalIter last)
+&#123;
+  if (first == middle || middle == last)
+    return;
+  mystl::inplace_merge_aux(first, middle, last, value_type(first));
+&#125;
+</code></pre>
+<p>使用comp函数代替【&lt;】的版本忽略</p>
 <hr>
 <script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
 </script>
