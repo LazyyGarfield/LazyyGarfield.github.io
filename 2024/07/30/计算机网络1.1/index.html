@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>编程题：买帽子-lazyy</title>
+<title>计算机网络1.1【OSI和TCP】-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -289,7 +289,7 @@
             
         </ul>
         
-        <h1>编程题：买帽子</h1>
+        <h1>计算机网络1.1【OSI和TCP】</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -307,7 +307,7 @@
                          <a href="../../../../categories/Code/" target="_blank" >Code</a>
                     
                 </div>
-                <p>2024-07-29 22:34:32</p>
+                <p>2024-07-30 23:53:31</p>
             </div>
         </div>
     </div>
@@ -317,95 +317,47 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="编程题：买帽子"><a href="#编程题：买帽子" class="headerlink" title="编程题：买帽子"></a>编程题：买帽子</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/exam/test/81730811/detail?pid=4998655&examPageSource=Company&testCallback=https://www.nowcoder.com/exam/company?currentTab=recommand&jobId=100&keyword=%E7%BC%96%E7%A8%8B&selectStatus=0&tagIds=139&testclass=%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91">买帽子</a></p>
-<p>度度熊想去商场买一顶帽子，商场里有N顶帽子，有些帽子的价格可能相同。</p>
-<p>度度熊想买一顶价格第三便宜的帽子，问第三便宜的帽子价格是多少？</p>
-<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>输入描述</p>
+    <h1 id="计算机网络1-1【OSI和TCP】"><a href="#计算机网络1-1【OSI和TCP】" class="headerlink" title="计算机网络1.1【OSI和TCP】"></a>计算机网络1.1【OSI和TCP】</h1><p>第1节主要介绍【OSI七层协议】和【TCP协议】</p>
+<h2 id="七层协议"><a href="#七层协议" class="headerlink" title="七层协议"></a>七层协议</h2><p>【OSI七层模型】从上往下依次为</p>
 <ol>
-<li>首先输入一个正整数N（N &lt;&#x3D; 50）</li>
-<li>第二行输入N个数表示每顶帽子的价格（价格均是正整数，且小于等于1000）</li>
+<li>应用层：为应用程序提供服务，确定进程之间的通信性质，具体协议有DNS域名系统协议、HTTP和HTTPs超文本传输协议和超文本传输安全协议、FTP文件传输协议、SMTP邮件传输协议等</li>
+<li>表示层：提供各种用于应用层数据的编码和转换功能，比如说数据压缩、加密解密等</li>
+<li>会话层：负责建立、管理和终止表示层实体之间的通信会话</li>
+<li>运输层：实现网络中不同主机的应用进程之间的通信。其中具有两层协议，分别为TCP传输和UDP传输。TCP为可靠连接的传输，UDP为不可靠无连接的传输。其中还包括有超时重传、拥塞控制等机制</li>
+<li>网络层：通过IP寻址实现不同网络之间的两个节点的连接，选择合适的路由和交换节点，该层包括IP协议</li>
+<li>链路层：对网络层传来的数据报进行封装成帧，用MAC地址访问媒介，进行检错纠正</li>
+<li>物理层：将帧形成比特流进行传输，其中负责传输媒介的物理接口、电气特性等</li>
 </ol>
-<p>输出描述</p>
+<p>【TCP&#x2F;IP的四层协议】为：应用层、运输层、网络层、数据链路层</p>
+<p>【因特网五层协议】为：应用层、运输层、网络层、链路层、物理层</p>
+<h2 id="TCP如何保证可靠传输"><a href="#TCP如何保证可靠传输" class="headerlink" title="TCP如何保证可靠传输"></a>TCP如何保证可靠传输</h2><p>TCP可靠传输分为以下几个方面</p>
 <ol>
-<li>如果存在第三便宜的帽子，请输出这个价格是多少，否则输出-1</li>
+<li>校验和：其中TCP头部中具有16位校验和，由发送方计算后存储在TCP头部中，然后接收方进行验证。一旦发现校验和有误，则丢弃该数据报并重新发送</li>
+<li>序列号&#x2F;确认应答（ACK）：发送方或接收方在给对方发送数据时，会携带数据的序列号seq以及确认应答ack。当发送方没有收到ack时，则认为接收方没有收到数据，需要重新发送</li>
+<li>滑动窗口：发送方发送数据时从滑动窗口中选择数据发送，则滑动窗口的大小由接收方的缓冲区大小决定，并且接收方将缓冲区大小存储在应答ACK中。当接收方的缓冲区较大时，发送方可以发送较多数据；而当接收方的缓冲区为0时，发送方便不再发送数据，发送方会定时探测接收方的缓冲区大小，以此更新滑动窗口</li>
+<li>连接管理：TCP三次握手和四次挥手</li>
+<li>重传机制：分为超时重传和快重传。超时重传就是当发送方在一段时间内没有收到接收方的ACK时，需要重新发送数据；快重传就是，当接收方收到数据的序列号seq超过希望接收到的数据序列号时，就会回应冗余ACK，而发送方收到三次重复的冗余ACK时，立即重传数据，而不用等待一段时间。</li>
 </ol>
-<h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><p>输入</p>
-<pre><code>10
-10 10 10 10 20 20 30 30 40 40
-</code></pre>
-<p>输出</p>
-<pre><code>30
-</code></pre>
-<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><p>输入</p>
-<pre><code>1
-10
-</code></pre>
-<p>输出</p>
-<pre><code>-1
-</code></pre>
-<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol>
-<li>基于堆排序即可解决</li>
-<li>但是，该数组可能出现重复数字，因此需要另外定义一个哈希表去重</li>
-<li>并且，当数字长度小于3时，返回-1</li>
-<li>代码如下</li>
+<h2 id="TCP的三次握手"><a href="#TCP的三次握手" class="headerlink" title="TCP的三次握手"></a>TCP的三次握手</h2><div style="width: 70%; margin: 10px">
+    <img src="/2024/07/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C1.1/1.png">
+</div>
+
+<ol>
+<li>首先，客户端和服务器均处于关闭CLOSED状态，此时客户端主动打开连接，而服务器被动打开连接，客户端发送SYN&#x3D;1的请求连接，客户端转化为SYN-SENT（SYN已发送状态），而服务器为LISTEN收听状态</li>
+<li>当服务器收到请求连接时，接收端发送SYN&#x3D;1、ACK&#x3D;1的同意请求连接响应，此时接收端状态转换为SYN-RECEIVED（SYN已收到状态）</li>
+<li>当客户端收到ACK时，则客户端状态转换为ESTABLISHED（建立连接）状态，并且给服务器发送ACK</li>
+<li>最后，当服务器收到ACK时，服务器也变为建立连接状态，此时完成TCP连接建立</li>
 </ol>
-<pre><code class="c++">#include &lt;iostream&gt;
-#include &lt;unordered_set&gt;
-#include &lt;vector&gt;
-using namespace std;
-
-void heapsort(vector&lt;int&gt; &amp;nums,int i,int len)&#123;
-    int idxmin=i,left=2*i+1,right=2*i+2;
-    if(left&lt;len&amp;&amp;nums[left]&lt;nums[idxmin])&#123;idxmin=left;&#125;
-    if(right&lt;len&amp;&amp;nums[right]&lt;nums[idxmin])&#123;idxmin=right;&#125;
-    if(i!=idxmin)&#123;
-        swap(nums[i],nums[idxmin]);
-        heapsort(nums,idxmin,len);
-    &#125;
-&#125;
-
-void heapbuild(vector&lt;int&gt; &amp;nums)&#123;
-    int n=nums.size();
-    for(int i=n/2-1;i&gt;=0;i--)&#123;
-        heapsort(nums,i,n);
-    &#125;
-&#125;
-
-int main() &#123;
-    // 初始化
-    int n;
-    cin&gt;&gt;n;
-    // 使用哈希表去重
-    unordered_set&lt;int&gt; s;
-    vector&lt;int&gt; nums;
-    for(int i=0;i&lt;n;i++)&#123;
-        int num;
-        cin&gt;&gt;num;
-        if(s.find(num)==s.end())&#123;
-            s.insert(num);
-            nums.push_back(num);
-        &#125;
-    &#125;
-    // 建立一个堆
-    heapbuild(nums);
-    int len=nums.size();
-    // 如果长度不超过3，则返回-1
-    if(len&lt;3)&#123;
-        cout&lt;&lt;-1&lt;&lt;endl;
-        return 0;
-    &#125;
-    // 进行两次弹出堆顶操作，可以找到第三小的数
-    int k=3;
-    for(int i=1;i&lt;k;i++)&#123;
-        swap(nums[0],nums[len-1]);
-        len--;
-        heapsort(nums,0,len);
-    &#125;
-    cout&lt;&lt;nums[0]&lt;&lt;endl;
-    return 0;
-&#125;
-// 64 位输出请用 printf(&quot;%lld&quot;)
-</code></pre>
+<h2 id="TCP为什么要三次握手"><a href="#TCP为什么要三次握手" class="headerlink" title="TCP为什么要三次握手"></a>TCP为什么要三次握手</h2><p>需要三次握手才能使客户端和服务器知道双方的收发能力都是正常的。</p>
+<p>第一次握手：客户端发数据，服务器接收。那么服务器可以知道客户端发消息正常，自己收消息正常。</p>
+<p>第二次握手：服务器发数据，客户端接收。客户端可以知道自己和服务器都收发正常。</p>
+<p>第三次握手：客户端发数据，服务器接收，那么服务器就可以知道自己和客户端都收发正常。</p>
+<p>最终，双方都知道彼此的收发能力正常。</p>
+<h2 id="TCP为什么不是两次握手"><a href="#TCP为什么不是两次握手" class="headerlink" title="TCP为什么不是两次握手"></a>TCP为什么不是两次握手</h2><p>主要分为两个方面，避免重复连接和确认序列号</p>
+<ol>
+<li>避免重复连接：如果采用两次握手，当客户端第一次发送连接请求时，假定连接请求在网络中堵塞而不是丢失时，客户端因超时重传而再一次发送连接请求，那么当两次连接请求在不同时刻到达服务器时，服务器将会再次建立连接，造成不必要的错误和资源浪费。但如果使用三次握手，那么堵塞的那一次连接请求将不会有第三次握手的过程，不会使得服务器再次建立连接</li>
+<li>确认序列号：如果采用两次握手，那么只有客户端的发送序列号能够被确定，而服务器无法确定发送序列号。如果使用三次握手，则双方的序列号均能够确定</li>
+</ol>
 <hr>
 <script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
 </script>
@@ -471,19 +423,19 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2024/07/30/MyTinySTL-6.1.5%E3%80%90algo.h%E3%80%91/">
+    <a href="/2024/08/03/MyTinySTL-6.1.7%E3%80%90algo.h%E3%80%91/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>MyTinySTL-6.1.5【algo.h】【remove、replace】</p>
+            <p>MyTinySTL-6.1.7【algo.h】【merge】</p>
         </div>
     </a>
     
 
     
-    <a href="/2024/07/29/%E7%BC%96%E7%A8%8B%E9%A2%98%EF%BC%9A%E5%B0%8F%E7%BA%A2%E7%9A%84%E4%BA%8C%E5%8F%89%E6%A0%91%E8%AE%A1%E6%95%B0/">
+    <a href="/2024/07/30/%E7%BC%96%E7%A8%8B%E9%A2%98%EF%BC%9A%E6%AF%95%E4%B8%9A%E6%97%85%E8%A1%8C%E9%97%AE%E9%A2%98/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>编程题：小红的二叉树计数</p>
+            <p>编程题：毕业旅行问题</p>
         </div>
     </a>
     

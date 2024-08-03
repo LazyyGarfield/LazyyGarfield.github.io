@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>MyTinySTL-6.1.6【algo.h】-lazyy</title>
+<title>MyTinySTL-6.1.6【algo.h】【permutation】-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -291,7 +291,7 @@
             
         </ul>
         
-        <h1>MyTinySTL-6.1.6【algo.h】</h1>
+        <h1>MyTinySTL-6.1.6【algo.h】【permutation】</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -319,7 +319,7 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="MyTinySTL-6-1-6【algo-h】"><a href="#MyTinySTL-6-1-6【algo-h】" class="headerlink" title="MyTinySTL-6.1.6【algo.h】"></a>MyTinySTL-6.1.6【algo.h】</h1><p>主要介绍了对区间整体操作的函数</p>
+    <h1 id="algo-h【permutation】"><a href="#algo-h【permutation】" class="headerlink" title="algo.h【permutation】"></a>algo.h【permutation】</h1><p>主要介绍了对区间整体操作的函数</p>
 <ol>
 <li>【random_shuffle】函数，对区间进行随机重排</li>
 <li>【rotate】函数，对区间内的两个长度不同的部分进行互换</li>
@@ -613,7 +613,7 @@ bool is_permutation(ForwardIter1 first1, ForwardIter1 last1,
                             mystl::equal_to&lt;v1&gt;());
 &#125;
 </code></pre>
-<h2 id="next-permuation"><a href="#next-permuation" class="headerlink" title="next_permuation"></a>next_permuation</h2><p>取得[first, last)所标示序列的下一个排列组合，如果没有下一个排序组合，返回 false，否则返回 true</p>
+<h2 id="next-permutation"><a href="#next-permutation" class="headerlink" title="next_permutation"></a>next_permutation</h2><p>取得[first, last)所标示序列的下一个排列组合，如果没有下一个排序组合，返回 false，否则返回 true</p>
 <p>下一个排列组合的意思是，【1354】的下一个排列组合是【1435】</p>
 <ol>
 <li>首先判断是否为空或者是否只有1个元素，如果是则返回false</li>
@@ -676,7 +676,7 @@ bool next_permutation(BidirectionalIter first, BidirectionalIter last, Compared 
   &#125;
 &#125;
 </code></pre>
-<h2 id="prev-permuation"><a href="#prev-permuation" class="headerlink" title="prev_permuation"></a>prev_permuation</h2><p>取得[first, last)所标示序列的上一个排列组合，如果没有上一个排序组合，返回 false，否则返回 true</p>
+<h2 id="prev-permutation"><a href="#prev-permutation" class="headerlink" title="prev_permutation"></a>prev_permutation</h2><p>取得[first, last)所标示序列的上一个排列组合，如果没有上一个排序组合，返回 false，否则返回 true</p>
 <p>同理，上一个排列组合意思为，【1435】的上一个排列组合为【1354】</p>
 <p>本质相同，先找到第一对大于关系的元素，然后从后往前找到一个小于当前值的元素进行交换，然后翻转后续部分</p>
 <pre><code class="c++">// prev_permutation
@@ -811,7 +811,7 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
     <a href="/2024/07/30/MyTinySTL-6.1.5%E3%80%90algo.h%E3%80%91/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>MyTinySTL-6.1.5【algo.h】</p>
+            <p>MyTinySTL-6.1.5【algo.h】【remove、replace】</p>
         </div>
     </a>
     

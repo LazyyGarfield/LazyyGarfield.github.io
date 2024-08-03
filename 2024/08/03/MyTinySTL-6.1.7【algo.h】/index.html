@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>编程题：买帽子-lazyy</title>
+<title>MyTinySTL-6.1.7【algo.h】【merge】-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,7 +12,7 @@
 
 
 
-<meta name="keywords" content="Code,">
+<meta name="keywords" content="Code,STL,">
 <meta name="description" content="">
 
 
@@ -286,10 +286,12 @@
             
             <li><a href="/tags/Code">Code</a></li>
             
+            <li><a href="/tags/STL">STL</a></li>
+            
             
         </ul>
         
-        <h1>编程题：买帽子</h1>
+        <h1>MyTinySTL-6.1.7【algo.h】【merge】</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -304,10 +306,10 @@
                 <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
                 <div class="post-header-info-author-categories">
                     
-                         <a href="../../../../categories/Code/" target="_blank" >Code</a>
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
                     
                 </div>
-                <p>2024-07-29 22:34:32</p>
+                <p>2024-08-03 23:03:39</p>
             </div>
         </div>
     </div>
@@ -317,98 +319,235 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="编程题：买帽子"><a href="#编程题：买帽子" class="headerlink" title="编程题：买帽子"></a>编程题：买帽子</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/exam/test/81730811/detail?pid=4998655&examPageSource=Company&testCallback=https://www.nowcoder.com/exam/company?currentTab=recommand&jobId=100&keyword=%E7%BC%96%E7%A8%8B&selectStatus=0&tagIds=139&testclass=%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91">买帽子</a></p>
-<p>度度熊想去商场买一顶帽子，商场里有N顶帽子，有些帽子的价格可能相同。</p>
-<p>度度熊想买一顶价格第三便宜的帽子，问第三便宜的帽子价格是多少？</p>
-<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>输入描述</p>
+    <h1 id="algo-h【merge】"><a href="#algo-h【merge】" class="headerlink" title="algo.h【merge】"></a>algo.h【merge】</h1><p>本节介绍了有关于【merge】的一些算法</p>
+<h2 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h2><p>将两个经过排序的集合S1和S2合并起来置于另一段空间，返回一个迭代器指向最后一个元素的下一位置</p>
+<pre><code class="c++">// merge
+// 将两个经过排序的集合 S1 和 S2 合并起来置于另一段空间，返回一个迭代器指向最后一个元素的下一位置
+/*****************************************************************************************/
+template &lt;class InputIter1, class InputIter2, class OutputIter&gt;
+OutputIter
+merge(InputIter1 first1, InputIter1 last1,
+      InputIter2 first2, InputIter2 last2,
+      OutputIter result)
+&#123;
+  while (first1 != last1 &amp;&amp; first2 != last2)
+  &#123;
+    if (*first2 &lt; *first1)
+    &#123;
+      *result = *first2;
+      ++first2;
+    &#125;
+    else
+    &#123;
+      *result = *first1;
+      ++first1;
+    &#125;
+    ++result;
+  &#125;
+  return mystl::copy(first2, last2, mystl::copy(first1, last1, result));
+&#125;
+</code></pre>
+<p>使用comp函数代替【&lt;】的版本</p>
+<pre><code class="c++">// 重载版本使用函数对象 comp 代替比较操作
+template &lt;class InputIter1, class InputIter2, class OutputIter, class Compared&gt;
+OutputIter
+merge(InputIter1 first1, InputIter1 last1,
+      InputIter2 first2, InputIter2 last2,
+      OutputIter result, Compared comp)
+&#123;
+  while (first1 != last1 &amp;&amp; first2 != last2)
+  &#123;
+    if (comp(*first2, *first1))
+    &#123;
+      *result = *first2;
+      ++first2;
+    &#125;
+    else
+    &#123;
+      *result = *first1;
+      ++first1;
+    &#125;
+    ++result;
+  &#125;
+  return mystl::copy(first2, last2, mystl::copy(first1, last1, result));
+&#125;
+</code></pre>
+<h2 id="inplace-merge"><a href="#inplace-merge" class="headerlink" title="inplace_merge"></a>inplace_merge</h2><p>把连接在一起的两个有序序列结合成单一序列并保持有序，该函数基于递归</p>
 <ol>
-<li>首先输入一个正整数N（N &lt;&#x3D; 50）</li>
-<li>第二行输入N个数表示每顶帽子的价格（价格均是正整数，且小于等于1000）</li>
+<li><p>如果两个序列任意一个长度为0，则不操作</p>
+</li>
+<li><p>如果两个序列的长度和为2，则判断两个数的大小，保持其有序，然后返回</p>
+</li>
+<li><p>其余情况下，执行如下操作</p>
+<p>1）如果区间1更长，则找到区间1的中点，并且以区间1中点值作为下界，使用【lower_bound】函数寻找区间2内比下界大的部分，将整个序列划分为区间1-1，区间1-2，区间2-1，区间2-2</p>
+<p>2）其中区间1-2的值均比区间2-1的值要大，因此使用【rotate】函数将区间1-2和区间2-1进行交换，然后基于递归的思想，合并区间1-1和区间2-1，合并区间1-2和区间2-2</p>
+<p>3）区间2更长的情况也同理</p>
+</li>
 </ol>
-<p>输出描述</p>
+<pre><code class="c++">// inplace_merge
+// 把连接在一起的两个有序序列结合成单一序列并保持有序
+/*****************************************************************************************/
+// 没有缓冲区的情况下合并
+template &lt;class BidirectionalIter, class Distance&gt;
+void merge_without_buffer(BidirectionalIter first, BidirectionalIter middle,
+                          BidirectionalIter last, Distance len1, Distance len2)
+&#123;
+  if (len1 == 0 || len2 == 0)
+    return;
+  if (len1 + len2 == 2)
+  &#123;
+    if (*middle &lt; *first)
+      mystl::iter_swap(first, middle);
+    return;
+  &#125;
+  auto first_cut = first;
+  auto second_cut = middle;
+  Distance len11 = 0;
+  Distance len22 = 0;
+  if (len1 &gt; len2)
+  &#123;  // 序列一较长，找到序列一的中点
+    len11 = len1 &gt;&gt; 1;
+    mystl::advance(first_cut, len11);
+    second_cut = mystl::lower_bound(middle, last, *first_cut);
+    len22 = mystl::distance(middle, second_cut);
+  &#125;
+  else
+  &#123;              // 序列二较长，找到序列二的中点
+    len22 = len2 &gt;&gt; 1;
+    mystl::advance(second_cut, len22);
+    first_cut = mystl::upper_bound(first, middle, *second_cut);
+    len11 = mystl::distance(first, first_cut);
+  &#125;
+  auto new_middle = mystl::rotate(first_cut, middle, second_cut);
+  mystl::merge_without_buffer(first, first_cut, new_middle, len11, len22);
+  mystl::merge_without_buffer(new_middle, second_cut, last, len1 - len11, len2 - len22);
+&#125;
+</code></pre>
+<p>merge_backward</p>
+<p>将两个有序序列从后往前合并到result中</p>
+<pre><code class="c++">template &lt;class BidirectionalIter1, class BidirectionalIter2&gt;
+BidirectionalIter1
+merge_backward(BidirectionalIter1 first1, BidirectionalIter1 last1,
+               BidirectionalIter2 first2, BidirectionalIter2 last2,
+               BidirectionalIter1 result)
+&#123;
+  if (first1 == last1)
+    return mystl::copy_backward(first2, last2, result);
+  if (first2 == last2)
+    return mystl::copy_backward(first1, last1, result);
+  --last1;
+  --last2;
+  while (true)
+  &#123;
+    if (*last2 &lt; *last1)
+    &#123;
+      *--result = *last1;
+      if (first1 == last1)
+        return mystl::copy_backward(first2, ++last2, result);
+      --last1;
+    &#125;
+    else
+    &#123;
+      *--result = *last2;
+      if (first2 == last2)
+        return mystl::copy_backward(first1, ++last1, result);
+      --last2;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="merge-adaptive"><a href="#merge-adaptive" class="headerlink" title="merge_adaptive"></a>merge_adaptive</h2><p>在有缓冲区的情况下合并两个有序序列</p>
 <ol>
-<li>如果存在第三便宜的帽子，请输出这个价格是多少，否则输出-1</li>
+<li><p>如果缓冲区的长度大于区间1的长度，则将区间1置于缓冲区，然后利用【merge】函数合并缓冲区和区间2</p>
+</li>
+<li><p>否则如果缓冲区的长度大于区间2的长度，同理</p>
+</li>
+<li><p>缓冲区的长度不足，则基于递归处理</p>
+<p>1）与【inplace_merge】相同，划分大区间为相同的两部分，在小区间以该值作为下界划分为两部分，然后两两进行合并</p>
+<p>2）不同的是，其中需要旋转的两部分用到【rotate_adaptive】函数</p>
+</li>
 </ol>
-<h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><p>输入</p>
-<pre><code>10
-10 10 10 10 20 20 30 30 40 40
+<pre><code class="c++">// 有缓冲区的情况下合并
+template &lt;class BidirectionalIter, class Distance, class Pointer&gt;
+void merge_adaptive(BidirectionalIter first, BidirectionalIter middle,
+                    BidirectionalIter last, Distance len1, Distance len2,
+                    Pointer buffer, Distance buffer_size)
+&#123;
+  // 区间长度足够放进缓冲区
+  if (len1 &lt;= len2 &amp;&amp; len1 &lt;= buffer_size)
+  &#123;
+    Pointer buffer_end = mystl::copy(first, middle, buffer);
+    mystl::merge(buffer, buffer_end, middle, last, first);
+  &#125;
+  else if (len2 &lt;= buffer_size)
+  &#123;
+    Pointer buffer_end = mystl::copy(middle, last, buffer);
+    mystl::merge_backward(first, middle, buffer, buffer_end, last);
+  &#125;
+  else
+  &#123;  // 区间长度太长，分割递归处理
+    auto first_cut = first;
+    auto second_cut = middle;
+    Distance len11 = 0;
+    Distance len22 = 0;
+    if (len1 &gt; len2)
+    &#123;
+      len11 = len1 &gt;&gt; 1;
+      mystl::advance(first_cut, len11);
+      second_cut = mystl::lower_bound(middle, last, *first_cut);
+      len22 = mystl::distance(middle, second_cut);
+    &#125;
+    else
+    &#123;
+      len22 = len2 &gt;&gt; 1;
+      mystl::advance(second_cut, len22);
+      first_cut = mystl::upper_bound(first, middle, *second_cut);
+      len11 = mystl::distance(first, first_cut);
+    &#125;
+    auto new_middle = mystl::rotate_adaptive(first_cut, middle, second_cut,
+                                             len1 - len11, len22, buffer, buffer_size);
+    mystl::merge_adaptive(first, first_cut, new_middle, len11, len22, buffer, buffer_size);
+    mystl::merge_adaptive(new_middle, second_cut, last, len1 - len11,
+                          len2 - len22, buffer, buffer_size);
+  &#125;
+&#125;
 </code></pre>
-<p>输出</p>
-<pre><code>30
-</code></pre>
-<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><p>输入</p>
-<pre><code>1
-10
-</code></pre>
-<p>输出</p>
-<pre><code>-1
-</code></pre>
-<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><ol>
-<li>基于堆排序即可解决</li>
-<li>但是，该数组可能出现重复数字，因此需要另外定义一个哈希表去重</li>
-<li>并且，当数字长度小于3时，返回-1</li>
-<li>代码如下</li>
+<p>rotate_adaptive函数</p>
+<p>在有缓冲区的情况下进行旋转</p>
+<ol>
+<li>如果区间1较长，且区间2可以放进缓冲区，则缓冲区存放区间2</li>
+<li>将区间1用【copy_backward】函数存放到区间2的位置</li>
+<li>再将缓冲区的区间2放置在区间1的位置</li>
 </ol>
-<pre><code class="c++">#include &lt;iostream&gt;
-#include &lt;unordered_set&gt;
-#include &lt;vector&gt;
-using namespace std;
-
-void heapsort(vector&lt;int&gt; &amp;nums,int i,int len)&#123;
-    int idxmin=i,left=2*i+1,right=2*i+2;
-    if(left&lt;len&amp;&amp;nums[left]&lt;nums[idxmin])&#123;idxmin=left;&#125;
-    if(right&lt;len&amp;&amp;nums[right]&lt;nums[idxmin])&#123;idxmin=right;&#125;
-    if(i!=idxmin)&#123;
-        swap(nums[i],nums[idxmin]);
-        heapsort(nums,idxmin,len);
-    &#125;
+<pre><code class="c++">template &lt;class BidirectionalIter1, class BidirectionalIter2, class Distance&gt;
+BidirectionalIter1
+rotate_adaptive(BidirectionalIter1 first, BidirectionalIter1 middle,
+                BidirectionalIter1 last, Distance len1, Distance len2,
+                BidirectionalIter2 buffer, Distance buffer_size)
+&#123;
+  BidirectionalIter2 buffer_end;
+  if (len1 &gt; len2 &amp;&amp; len2 &lt;= buffer_size)
+  &#123;
+    buffer_end = mystl::copy(middle, last, buffer);
+    mystl::copy_backward(first, middle, last);
+    return mystl::copy(buffer, buffer_end, first);
+  &#125;
+  else if (len1 &lt;= buffer_size)
+  &#123;
+    buffer_end = mystl::copy(first, middle, buffer);
+    mystl::copy(middle, last, first);
+    return mystl::copy_backward(buffer, buffer_end, last);
+  &#125;
+  else
+  &#123;
+    return mystl::rotate(first, middle, last);
+  &#125;
 &#125;
-
-void heapbuild(vector&lt;int&gt; &amp;nums)&#123;
-    int n=nums.size();
-    for(int i=n/2-1;i&gt;=0;i--)&#123;
-        heapsort(nums,i,n);
-    &#125;
-&#125;
-
-int main() &#123;
-    // 初始化
-    int n;
-    cin&gt;&gt;n;
-    // 使用哈希表去重
-    unordered_set&lt;int&gt; s;
-    vector&lt;int&gt; nums;
-    for(int i=0;i&lt;n;i++)&#123;
-        int num;
-        cin&gt;&gt;num;
-        if(s.find(num)==s.end())&#123;
-            s.insert(num);
-            nums.push_back(num);
-        &#125;
-    &#125;
-    // 建立一个堆
-    heapbuild(nums);
-    int len=nums.size();
-    // 如果长度不超过3，则返回-1
-    if(len&lt;3)&#123;
-        cout&lt;&lt;-1&lt;&lt;endl;
-        return 0;
-    &#125;
-    // 进行两次弹出堆顶操作，可以找到第三小的数
-    int k=3;
-    for(int i=1;i&lt;k;i++)&#123;
-        swap(nums[0],nums[len-1]);
-        len--;
-        heapsort(nums,0,len);
-    &#125;
-    cout&lt;&lt;nums[0]&lt;&lt;endl;
-    return 0;
-&#125;
-// 64 位输出请用 printf(&quot;%lld&quot;)
 </code></pre>
 <hr>
 <script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
 </script>
+
 
 <hr>
 
@@ -471,19 +610,19 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2024/07/30/MyTinySTL-6.1.5%E3%80%90algo.h%E3%80%91/">
+    <a href="/2024/08/03/MyTinySTL-6.1.8%E3%80%90algo.h%E3%80%91/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>MyTinySTL-6.1.5【algo.h】【remove、replace】</p>
+            <p>MyTinySTL-6.1.8【algo.h】【sort】</p>
         </div>
     </a>
     
 
     
-    <a href="/2024/07/29/%E7%BC%96%E7%A8%8B%E9%A2%98%EF%BC%9A%E5%B0%8F%E7%BA%A2%E7%9A%84%E4%BA%8C%E5%8F%89%E6%A0%91%E8%AE%A1%E6%95%B0/">
+    <a href="/2024/07/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C1.1/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>编程题：小红的二叉树计数</p>
+            <p>计算机网络1.1【OSI和TCP】</p>
         </div>
     </a>
     

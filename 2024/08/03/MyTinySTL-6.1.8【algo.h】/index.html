@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.1.8【algo.h】【sort】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.1.8【algo.h】【sort】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-03 23:03:47</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="algo-h【sort】"><a href="#algo-h【sort】" class="headerlink" title="algo.h【sort】"></a>algo.h【sort】</h1><p>本节6.1.8节介绍了有关排序【sort】的函数，其中包括快排和插入排序</p>
+<h2 id="partial-sort（heap）"><a href="#partial-sort（heap）" class="headerlink" title="partial_sort（heap）"></a>partial_sort（heap）</h2><p>对整个序列做部分排序，保证较小的N个元素以递增顺序置于[first,first+N)中，利用堆排序解决</p>
+<ol>
+<li>使用堆结构维持一个具有N个元素的大根堆</li>
+<li>当后续的元素小于堆顶时，则说明该元素需要入堆，使用【pop_heap_aux】函数入堆</li>
+<li>最后，得到一个大根堆，再依次pop出堆即可完成要求</li>
+</ol>
+<pre><code class="c++">// partial_sort
+// 对整个序列做部分排序，保证较小的 N 个元素以递增顺序置于[first, first + N)中
+/*****************************************************************************************/
+template &lt;class RandomIter&gt;
+void partial_sort(RandomIter first, RandomIter middle,
+                  RandomIter last)
+&#123;
+  mystl::make_heap(first, middle);
+  for (auto i = middle; i &lt; last; ++i)
+  &#123;
+    if (*i &lt; *first)
+    &#123;
+      mystl::pop_heap_aux(first, middle, i, *i, distance_type(first));
+    &#125;
+  &#125;
+  mystl::sort_heap(first, middle);
+&#125;
+</code></pre>
+<p>使用comp函数代替【&lt;】的版本</p>
+<pre><code class="c++">// 重载版本使用函数对象 comp 代替比较操作
+template &lt;class RandomIter, class Compared&gt;
+void partial_sort(RandomIter first, RandomIter middle,
+                  RandomIter last, Compared comp)
+&#123;
+  mystl::make_heap(first, middle, comp);
+  for (auto i = middle; i &lt; last; ++i)
+  &#123;
+    if (comp(*i, *first))
+    &#123;
+      mystl::pop_heap_aux(first, middle, i, *i, distance_type(first), comp);
+    &#125;
+  &#125;
+  mystl::sort_heap(first, middle, comp);
+&#125;
+</code></pre>
+<p>partial_sort_copy</p>
+<p>与【partial_sort】函数相同，只是将结果复制到result中</p>
+<ol>
+<li>输入的参数为四个迭代器，分别为原迭代器的首尾和result迭代器的首尾，result迭代器的长度代表了N个元素</li>
+<li>首先，我们将原迭代器的前N个元素复制到result中，并且将其构造成一个堆</li>
+<li>此时，将原迭代器的后续元素不断尝试入堆，最终形成一个大根堆</li>
+<li>利用【sort_heap】函数将大根堆转换为N个元素的升序排列</li>
+</ol>
+<pre><code class="c++">template&lt;class InputIter,class RandomIter,class Distance&gt;
+RandomIter psort_copy(InputIter first,InputIter last,
+                            RandomIter result_first,RandomIter result_last,
+                            Distance*)&#123;
+    if(result_first==result_last)&#123;
+        return result_last;
+    &#125;
+    auto result_iter=result_first;
+    while(first!=last&amp;&amp;result_iter!=result_last)&#123;
+        *result_iter=*first;
+        first++;
+        result_iter++;
+    &#125;
+    mystl::make_heap(result_first,result_iter);
+    while(first!=last)&#123;
+        if(*first&lt;*result_first)&#123;
+            mystl::adjust_heap(result_first,static_cast&lt;Distance&gt;(0),
+                              result_iter-result_first,*first);
+        &#125;
+        ++first;
+    &#125;
+    mystl::sort_heap(result_first,result_iter);
+    return result_iter;
+&#125;
+
+template &lt;class InputIter, class RandomIter&gt;
+RandomIter
+partial_sort_copy(InputIter first, InputIter last,
+                  RandomIter result_first, RandomIter result_last)
+&#123;
+  return mystl::psort_copy_aux(first, last, result_first, result_last,
+                               distance_type(result_first));
+&#125;
+</code></pre>
+<p>使用comp函数代替【&lt;】的版本</p>
+<pre><code class="c++">// 重载版本使用函数对象 comp 代替比较操作
+template &lt;class InputIter, class RandomIter, class Distance, class Compared&gt;
+RandomIter
+psort_copy_aux(InputIter first, InputIter last,
+               RandomIter result_first, RandomIter result_last,
+               Distance*, Compared comp)
+&#123;
+  if (result_first == result_last)
+    return result_last;
+  auto result_iter = result_first;
+  while (first != last &amp;&amp; result_iter != result_last)
+  &#123;
+    *result_iter = *first;
+    ++result_iter;
+    ++first;
+  &#125;
+  mystl::make_heap(result_first, result_iter, comp);
+  while (first != last)
+  &#123;
+    if (comp(*first, *result_first))
+    &#123;
+      mystl::adjust_heap(result_first, static_cast&lt;Distance&gt;(0),
+                           result_iter - result_first, *first, comp);
+    &#125;
+    ++first;
+  &#125;
+  mystl::sort_heap(result_first, result_iter, comp);
+  return result_iter;
+&#125;
+
+template &lt;class InputIter, class RandomIter, class Compared&gt;
+RandomIter
+partial_sort_copy(InputIter first, InputIter last,
+                  RandomIter result_first, RandomIter result_last,
+                  Compared comp)
+&#123;
+  return mystl::psort_copy_aux(first, last, result_first, result_last,
+                               distance_type(result_first), comp);
+&#125;
+</code></pre>
+<h2 id="partition"><a href="#partition" class="headerlink" title="partition"></a>partition</h2><p>对区间内的元素重排，被一元条件运算判定为 true 的元素会放到区间的前段</p>
+<p>该函数不保证元素的原始相对位置，即不稳定</p>
+<ol>
+<li>利用双指针进行遍历和交换</li>
+<li>从前往后不断遍历元素，直到找到不满足条件的位置first</li>
+<li>从后往前不断遍历元素，直到找到满足条件的位置last</li>
+<li>交换两个位置的元素，继续循环，直到first&#x3D;&#x3D;last</li>
+</ol>
+<pre><code class="c++">// partition
+// 对区间内的元素重排，被一元条件运算判定为 true 的元素会放到区间的前段
+// 该函数不保证元素的原始相对位置
+/*****************************************************************************************/
+template &lt;class BidirectionalIter, class UnaryPredicate&gt;
+BidirectionalIter
+partition(BidirectionalIter first, BidirectionalIter last,
+          UnaryPredicate unary_pred)
+&#123;
+  while (true)
+  &#123;
+    while (first != last &amp;&amp; unary_pred(*first))
+    &#123;
+      ++first;
+    &#125;
+    if (first == last)
+      break;
+    --last;
+    while (first != last &amp;&amp; !unary_pred(*last))
+    &#123;
+      --last;
+    &#125;
+    if (first == last)
+      break;
+    mystl::iter_swap(first, last);
+    ++first;
+  &#125;
+  return first;
+&#125;
+</code></pre>
+<p>partition_copy</p>
+<p>行为与 【partition】函数 类似，不同的是</p>
+<ol>
+<li>将被一元操作符判定为 true 的放到 result_true 的输出区间</li>
+<li>其余放到 result_false 的输出区间，并返回一个 mystl::pair 指向这两个区间的尾部</li>
+</ol>
+<pre><code class="c++">// partition_copy
+// 行为与 partition 类似，不同的是，将被一元操作符判定为 true 的放到 result_true 的输出区间
+// 其余放到 result_false 的输出区间，并返回一个 mystl::pair 指向这两个区间的尾部
+/*****************************************************************************************/
+template &lt;class InputIter, class OutputIter1, class OutputIter2, class UnaryPredicate&gt;
+mystl::pair&lt;OutputIter1, OutputIter2&gt;
+partition_copy(InputIter first, InputIter last,
+               OutputIter1 result_true, OutputIter2 result_false,
+               UnaryPredicate unary_pred)
+&#123;
+  for (; first != last; ++first)
+  &#123;
+    if (unary_pred(*first))
+    &#123;
+      *result_true++ = *first;
+    &#125;
+    else
+    &#123;
+      *result_false++ = *first;
+    &#125;
+  &#125;
+  return mystl::pair&lt;OutputIter1, OutputIter2&gt;(result_true, result_false);
+&#125;
+</code></pre>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h2><p>将[first, last)内的元素以递增的方式排序，接下来介绍有关于sort的一些函数</p>
+<p>先定义一个小型区间的大小，在这个大小内采用插入排序，用于控制分割恶化的情况</p>
+<pre><code class="c++">constexpr static size_t kSmallSectionSize = 128;
+</code></pre>
+<h2 id="slg2"><a href="#slg2" class="headerlink" title="slg2"></a>slg2</h2><p>输入参数为n，找到【k&lt;&#x3D;lgn】的k的最大值，这里的【lg】以2为底</p>
+<pre><code class="c++">template &lt;class Size&gt;
+Size slg2(Size n)
+&#123; // 找出 k &lt;= lgn 的 k 的最大值
+  Size k = 0;
+  for (; n &gt; 1; n &gt;&gt;= 1)
+    ++k;
+  return k;
+&#125;
+</code></pre>
+<h2 id="quick-sort"><a href="#quick-sort" class="headerlink" title="quick_sort"></a>quick_sort</h2><h3 id="unchecked-partition"><a href="#unchecked-partition" class="headerlink" title="unchecked_partition"></a>unchecked_partition</h3><p>分割函数，用一个值【pivot】将一个区间分割成两个部分，第一部分比该值小，第二部分比该值大</p>
+<p>用于辅助快排</p>
+<pre><code class="c++">// 分割函数 unchecked_partition
+template &lt;class RandomIter, class T&gt;
+RandomIter
+unchecked_partition(RandomIter first, RandomIter last, const T&amp; pivot)
+&#123;
+  while (true)
+  &#123;
+    while (*first &lt; pivot)
+      ++first;
+    --last;
+    while (pivot &lt; *last)
+      --last;
+    if (!(first &lt; last))
+      return first;
+    mystl::iter_swap(first, last);
+    ++first;
+  &#125;
+&#125;
+</code></pre>
+<h3 id="intro-sort"><a href="#intro-sort" class="headerlink" title="intro_sort"></a>intro_sort</h3><p>内省式排序，先进行 quick sort，当分割行为有恶化倾向时，改用 heap sort</p>
+<ol>
+<li>首先进行快排，选取【first、中点、last-1】三者中的中值作为快排的基点</li>
+<li>当分割深度不足时，进行堆排序，即【partial_sort】函数</li>
+</ol>
+<pre><code class="c++">// 内省式排序，先进行 quick sort，当分割行为有恶化倾向时，改用 heap sort
+template &lt;class RandomIter, class Size&gt;
+void intro_sort(RandomIter first, RandomIter last, Size depth_limit)
+&#123;
+  while (static_cast&lt;size_t&gt;(last - first) &gt; kSmallSectionSize)
+  &#123;
+    if (depth_limit == 0)
+    &#123;                      // 到达最大分割深度限制
+      mystl::partial_sort(first, last, last);  // 改用 heap_sort
+      return;
+    &#125;
+    --depth_limit;
+    auto mid = mystl::median(*(first), *(first + (last - first) / 2), *(last - 1));
+    auto cut = mystl::unchecked_partition(first, last, mid);
+    mystl::intro_sort(cut, last, depth_limit);
+    last = cut;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="insertion-sort"><a href="#insertion-sort" class="headerlink" title="insertion_sort"></a>insertion_sort</h2><h3 id="unchecked-linear-insert"><a href="#unchecked-linear-insert" class="headerlink" title="unchecked_linear_insert"></a>unchecked_linear_insert</h3><p>插入排序辅助函数</p>
+<ol>
+<li>以【last】标志为【value】插入的位置，【next】则为原区间内从后往前遍历的指针</li>
+</ol>
+<pre><code class="c++">template &lt;class RandomIter, class T&gt;
+void unchecked_linear_insert(RandomIter last, const T&amp; value)
+&#123;
+  auto next = last;
+  --next;
+  while (value &lt; *next)
+  &#123;
+    *last = *next;
+    last = next;
+    --next;
+  &#125;
+  *last = value;
+&#125;
+</code></pre>
+<h3 id="unchecked-insertion-sort"><a href="#unchecked-insertion-sort" class="headerlink" title="unchecked_insertion_sort"></a>unchecked_insertion_sort</h3><p>插入排序函数</p>
+<pre><code class="c++">// 插入排序函数 unchecked_insertion_sort
+template &lt;class RandomIter&gt;
+void unchecked_insertion_sort(RandomIter first, RandomIter last)
+&#123;
+  for (auto i = first; i != last; ++i)
+  &#123;
+    mystl::unchecked_linear_insert(i, *i);
+  &#125;
+&#125;
+</code></pre>
+<h3 id="insertion-sort-1"><a href="#insertion-sort-1" class="headerlink" title="insertion_sort"></a>insertion_sort</h3><p>插入排序函数</p>
+<ol>
+<li>多加了一个步骤，先比较当前【value】与【first】的大小，如果当前【value】比【first】还小的话，那么利用【copy_backward】函数将前面的区间均往后退一格，然后将【value】赋值给【first】</li>
+<li>否则，则利用【unchecked_linear_sort】函数</li>
+</ol>
+<pre><code class="c++">// 插入排序函数 insertion_sort
+template &lt;class RandomIter&gt;
+void insertion_sort(RandomIter first, RandomIter last)
+&#123;
+  if (first == last)
+    return;
+  for (auto i = first + 1; i != last; ++i)
+  &#123;
+    auto value = *i;
+    if (value &lt; *first)
+    &#123;
+      mystl::copy_backward(first, i, i + 1);
+      *first = value;
+    &#125;
+    else
+    &#123;
+      mystl::unchecked_linear_insert(i, value);
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h3 id="final-insertion-sort"><a href="#final-insertion-sort" class="headerlink" title="final_insertion_sort"></a>final_insertion_sort</h3><p>最终插入排序函数</p>
+<ol>
+<li><p>当区间长度还超出规定长度时，进行快排，分为两部分，第一部分进行【insertion_sort】函数，第二部分进行【unchecked_insertion_sort】函数</p>
+<p>其中【insertion_sort】函数和【unchecked_insertion_sort】函数的差距就是，【insertion_sort】函数多了一个步骤，就是检查当前元素和第一个元素的大小关系</p>
+</li>
+<li><p>否则，只进行【insertion_sort】函数</p>
+</li>
+</ol>
+<pre><code class="c++">// 最终插入排序函数 final_insertion_sort
+template &lt;class RandomIter&gt;
+void final_insertion_sort(RandomIter first, RandomIter last)
+&#123;
+  if (static_cast&lt;size_t&gt;(last - first) &gt; kSmallSectionSize)
+  &#123;
+    mystl::insertion_sort(first, first + kSmallSectionSize);
+    mystl::unchecked_insertion_sort(first + kSmallSectionSize, last);
+  &#125;
+  else
+  &#123;
+    mystl::insertion_sort(first, last);
+  &#125;
+&#125;
+</code></pre>
+<h2 id="sort-1"><a href="#sort-1" class="headerlink" title="sort"></a>sort</h2><p>整合起来</p>
+<pre><code class="c++">template &lt;class RandomIter&gt;
+void sort(RandomIter first, RandomIter last)
+&#123;
+  if (first != last)
+  &#123;
+    // 内省式排序，将区间分为一个个小区间，然后对整体进行插入排序
+    mystl::intro_sort(first, last, slg2(last - first) * 2);
+    mystl::final_insertion_sort(first, last);
+  &#125;
+&#125;
+</code></pre>
+<p>使用comp函数代替【&lt;】的版本在此处忽略</p>
+<h2 id="nth-element"><a href="#nth-element" class="headerlink" title="nth_element"></a>nth_element</h2><p>输入的参数是三个迭代器，包含首尾迭代器和作为分割点的位置【nth】，需要使得所有小于该位置的元素出现在它的前面，大于它的出现在它的后面</p>
+<ol>
+<li>使用【unchecked_partition】函数对序列进行分割重排，并且返回一个位置【cut】</li>
+<li>如果【nth】在【cut】的左边，则说明【cut】右边的数全部都大于【nth】位置上的元素，则只需要对【cut】左边的部分继续进行分割重排即可</li>
+<li>反之，对右边重排即可</li>
+</ol>
+<pre><code class="c++">// nth_element
+// 对序列重排，使得所有小于第 n 个元素的元素出现在它的前面，大于它的出现在它的后面
+/*****************************************************************************************/
+template &lt;class RandomIter&gt;
+void nth_element(RandomIter first, RandomIter nth,
+                 RandomIter last)
+&#123;
+  if (nth == last)
+    return;
+  while (last - first &gt; 3)
+  &#123;
+    auto cut = mystl::unchecked_partition(first, last, mystl::median(*first,
+                                          *(first + (last - first) / 2),
+                                          *(last - 1)));
+    if (cut &lt;= nth)  // 如果 nth 位于右段
+      first = cut;   // 对右段进行分割
+    else
+      last = cut;    // 对左段进行分割
+  &#125;
+  mystl::insertion_sort(first, last);
+&#125;
+</code></pre>
+<p>使用comp函数代替【&lt;】的版本</p>
+<pre><code class="c++">// 重载版本使用函数对象 comp 代替比较操作
+template &lt;class RandomIter, class Compared&gt;
+void nth_element(RandomIter first, RandomIter nth,
+                 RandomIter last, Compared comp)
+&#123;
+  if (nth == last)
+    return;
+  while (last - first &gt; 3)
+  &#123;
+    auto cut = mystl::unchecked_partition(first, last, mystl::median(*first, 
+                                          *(first + (last - first) / 2),
+                                          *(last - 1)), comp);
+    if (cut &lt;= nth)  // 如果 nth 位于右段
+      first = cut;   // 对右段进行分割
+    else
+      last = cut;    // 对左段进行分割
+  &#125;
+  mystl::insertion_sort(first, last, comp);
+&#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/08/03/MyTinySTL-6.1.9%E3%80%90algo.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-6.1.9【algo.h】【unique】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/08/03/MyTinySTL-6.1.7%E3%80%90algo.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-6.1.7【algo.h】【merge】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

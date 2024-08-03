@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.2.1【basic_string.h】【init】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.2.1【basic_string.h】【init】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-03 23:04:02</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="basic-string-h【init】"><a href="#basic-string-h【init】" class="headerlink" title="basic_string.h【init】"></a>basic_string.h【init】</h1><p>【basic_string.h】定义一个模板类，用于表示字符串类型</p>
+<h2 id="char-traits"><a href="#char-traits" class="headerlink" title="char_traits"></a>char_traits</h2><p>首先定义一些与字符相关的类型信息</p>
+<h3 id="length函数"><a href="#length函数" class="headerlink" title="length函数"></a>length函数</h3><p>返回字符指针的长度</p>
+<pre><code class="c++">static size_t length(const char_type* str)
+  &#123;
+    size_t len = 0;
+    for (; *str != char_type(0); ++str)
+      ++len;
+    return len;
+  &#125;
+</code></pre>
+<h3 id="compare函数"><a href="#compare函数" class="headerlink" title="compare函数"></a>compare函数</h3><p>输入三个形参，分别为两个字符串和字符串的长度n，比较两个字符串前n个长度的大小</p>
+<p><strong>需要注意的是，</strong>字符串用字符指针表示</p>
+<pre><code class="c++">static int compare(const char_type* s1, const char_type* s2, size_t n)
+  &#123;
+    for (; n != 0; --n, ++s1, ++s2)
+    &#123;
+      if (*s1 &lt; *s2)
+        return -1;
+      if (*s2 &lt; *s1)
+        return 1;
+    &#125;
+    return 0;
+  &#125;
+</code></pre>
+<h3 id="copy函数"><a href="#copy函数" class="headerlink" title="copy函数"></a>copy函数</h3><p>将源字符串【src】的前n个元素复制到目标字符串【dst】</p>
+<pre><code class="c++">static char_type* copy(char_type* dst, const char_type* src, size_t n)
+  &#123;
+    MYSTL_DEBUG(src + n &lt;= dst || dst + n &lt;= src);
+    char_type* r = dst;
+    for (; n != 0; --n, ++dst, ++src)
+      *dst = *src;
+    return r;
+  &#125;
+</code></pre>
+<h3 id="move函数"><a href="#move函数" class="headerlink" title="move函数"></a>move函数</h3><p>将源字符串【src】的前n个元素移动到目标字符串【dst】，由于是移动，所以多加了一个判断</p>
+<ol>
+<li>如果【src】的地址在【dst】地址的后面，则可以从头往后遍历复制</li>
+<li>而如果【src】的地址在前面，则有可能从头往后复制之后，覆盖了【src】的一些字符。因此，从后往前遍历复制</li>
+</ol>
+<pre><code class="c++">static char_type* move(char_type* dst, const char_type* src, size_t n)
+  &#123;
+    char_type* r = dst;
+    if (dst &lt; src)
+    &#123;
+      for (; n != 0; --n, ++dst, ++src)
+        *dst = *src;
+    &#125;
+    else if (src &lt; dst)
+    &#123;
+      dst += n;
+      src += n;
+      for (; n != 0; --n)
+        *--dst = *--src;
+    &#125;
+    return r;
+  &#125;
+</code></pre>
+<h3 id="fill函数"><a href="#fill函数" class="headerlink" title="fill函数"></a>fill函数</h3><p>函数输入三个形参，包括目标字符串，填充字符【ch】，以及填充个数【count】</p>
+<pre><code class="c++">static char_type* fill(char_type* dst,char_type ch,size_t count)&#123;
+    char_type* r=dst;
+    for(;count&gt;0;count--,dst++)&#123;
+        *dst=ch;
+    &#125;
+    return r;
+&#125;
+</code></pre>
+<h2 id="不同的版本"><a href="#不同的版本" class="headerlink" title="不同的版本"></a>不同的版本</h2><h3 id="char"><a href="#char" class="headerlink" title="char"></a>char</h3><pre><code class="c++">// Partialized. char_traits&lt;char&gt;
+template &lt;&gt; 
+struct char_traits&lt;char&gt;
+&#123;
+  typedef char char_type;
+
+  static size_t length(const char_type* str) noexcept
+  &#123; return std::strlen(str); &#125;
+
+  static int compare(const char_type* s1, const char_type* s2, size_t n) noexcept
+  &#123; return std::memcmp(s1, s2, n); &#125;
+
+  static char_type* copy(char_type* dst, const char_type* src, size_t n) noexcept
+  &#123;
+    MYSTL_DEBUG(src + n &lt;= dst || dst + n &lt;= src);
+    return static_cast&lt;char_type*&gt;(std::memcpy(dst, src, n));
+  &#125;
+
+  static char_type* move(char_type* dst, const char_type* src, size_t n) noexcept
+  &#123;
+    return static_cast&lt;char_type*&gt;(std::memmove(dst, src, n));
+  &#125;
+
+  static char_type* fill(char_type* dst, char_type ch, size_t count) noexcept
+  &#123; 
+    return static_cast&lt;char_type*&gt;(std::memset(dst, ch, count));
+  &#125;
+&#125;;
+</code></pre>
+<p>后续的【wchar_t】，【char16_t】，【char32_t】版本忽略</p>
+<h2 id="basic-string"><a href="#basic-string" class="headerlink" title="basic_string"></a>basic_string</h2><p>初始化最小buffer的大小</p>
+<pre><code class="c++">// 初始化 basic_string 尝试分配的最小 buffer 大小，可能被忽略
+#define STRING_INIT_SIZE 32
+</code></pre>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ol>
+<li>首先定义数据类型、指针、常量指针、引用、常量引用、大小类型、距离</li>
+<li>然后定义迭代器、常量迭代器、反转迭代器、常量反转迭代器</li>
+<li>定义末尾位置的值</li>
+<li>定义私有属性，包括字符串的起始地址、大小和容量</li>
+</ol>
+<pre><code class="c++">// 模板类 basic_string
+// 参数一代表字符类型，参数二代表萃取字符类型的方式，缺省使用 mystl::char_traits
+template &lt;class CharType, class CharTraits = mystl::char_traits&lt;CharType&gt;&gt;
+class basic_string
+&#123;
+public:
+  typedef CharTraits                               traits_type;
+  typedef CharTraits                               char_traits;
+
+  typedef mystl::allocator&lt;CharType&gt;               allocator_type;
+  typedef mystl::allocator&lt;CharType&gt;               data_allocator;
+
+  typedef typename allocator_type::value_type      value_type;
+  typedef typename allocator_type::pointer         pointer;
+  typedef typename allocator_type::const_pointer   const_pointer;
+  typedef typename allocator_type::reference       reference;
+  typedef typename allocator_type::const_reference const_reference;
+  typedef typename allocator_type::size_type       size_type;
+  typedef typename allocator_type::difference_type difference_type;
+
+  typedef value_type*                              iterator;
+  typedef const value_type*                        const_iterator;
+  typedef mystl::reverse_iterator&lt;iterator&gt;        reverse_iterator;
+  typedef mystl::reverse_iterator&lt;const_iterator&gt;  const_reverse_iterator;
+
+  allocator_type get_allocator() &#123; return allocator_type(); &#125;
+
+  static_assert(std::is_pod&lt;CharType&gt;::value, &quot;Character type of basic_string must be a POD&quot;);
+  static_assert(std::is_same&lt;CharType, typename traits_type::char_type&gt;::value,
+                &quot;CharType must be same as traits_type::char_type&quot;);
+public:
+  // 末尾位置的值，例:
+  // if (str.find(&#39;a&#39;) != string::npos) &#123; /* do something */ &#125;
+  static constexpr size_type npos = static_cast&lt;size_type&gt;(-1);
+
+private:
+  iterator  buffer_;  // 储存字符串的起始位置
+  size_type size_;    // 大小
+  size_type cap_;     // 容量
+</code></pre>
+<h2 id="构造、析构、复制、移动函数"><a href="#构造、析构、复制、移动函数" class="headerlink" title="构造、析构、复制、移动函数"></a>构造、析构、复制、移动函数</h2><p>其中所用到的一些函数如【try_init】，【fill_init】，【init_from】等均在后续的【help函数】中定义</p>
+<p>构造的方式分为</p>
+<ol>
+<li>利用常量字符【ch】构造</li>
+<li>利用同一个模板类构造</li>
+<li>利用常量字符串【str】构造</li>
+<li>利用迭代器构造</li>
+</ol>
+<pre><code class="c++">public:
+  // 构造、复制、移动、析构函数
+
+  // 尝试初始化一个最小的字符串
+  basic_string() noexcept
+  &#123; try_init(); &#125;
+
+  // 利用【fill_init】函数填充n个字符ch，该函数中对地址、大小、容量均进行了初始化
+  basic_string(size_type n, value_type ch)
+    :buffer_(nullptr), size_(0), cap_(0)
+  &#123;
+    fill_init(n, ch);
+  &#125;
+
+  // 利用【init_from】函数将同一个模板类【other】从位置【pos】之后进行赋值，该函数中对地址、大小、容量均进行了初始化
+  // 如果没有指定【count】，则将位置【pos】之后的字符串都赋值
+  // 如果指定了【count】，则将位置【pos】之后的【count】个字符进行赋值
+  basic_string(const basic_string&amp; other, size_type pos)
+    :buffer_(nullptr), size_(0), cap_(0)
+  &#123;
+    init_from(other.buffer_, pos, other.size_ - pos);
+  &#125;
+  basic_string(const basic_string&amp; other, size_type pos, size_type count)
+    :buffer_(nullptr), size_(0), cap_(0)
+  &#123;
+    init_from(other.buffer_, pos, count);
+  &#125;
+
+  // 利用整个字符串【str】进行构造
+  // 或者将字符串【str】的前【count】个字符进行赋值
+  basic_string(const_pointer str)
+    :buffer_(nullptr), size_(0), cap_(0)
+  &#123;
+    init_from(str, 0, char_traits::length(str));
+  &#125;
+  basic_string(const_pointer str, size_type count)
+    :buffer_(nullptr), size_(0), cap_(0)
+  &#123;
+    init_from(str, 0, count);
+  &#125;
+
+  // 利用迭代器进行构造
+  // copy_init函数将[first,last)区间内的字符串进行赋值
+  template &lt;class Iter, typename std::enable_if&lt;
+    mystl::is_input_iterator&lt;Iter&gt;::value, int&gt;::type = 0&gt;
+  basic_string(Iter first, Iter last)
+  &#123; copy_init(first, last, iterator_category(first)); &#125;
+
+  // 利用同一个模板类【rhs】进行构造
+  // 左值引用就采用【init_from】函数
+  // 右值引用则直接赋值，并且需要将右值引用的字符串进行销毁
+  basic_string(const basic_string&amp; rhs) 
+    :buffer_(nullptr), size_(0), cap_(0)
+  &#123;
+    init_from(rhs.buffer_, 0, rhs.size_);
+  &#125;
+  basic_string(basic_string&amp;&amp; rhs) noexcept
+    :buffer_(rhs.buffer_), size_(rhs.size_), cap_(rhs.cap_)
+  &#123;
+    rhs.buffer_ = nullptr;
+    rhs.size_ = 0;
+    rhs.cap_ = 0;
+  &#125;
+
+  // 声明运算符重载
+  basic_string&amp; operator=(const basic_string&amp; rhs);
+  basic_string&amp; operator=(basic_string&amp;&amp; rhs) noexcept;
+
+  basic_string&amp; operator=(const_pointer str);
+  basic_string&amp; operator=(value_type ch);
+  
+  // 析构函数
+  ~basic_string() &#123; destroy_buffer(); &#125;
+</code></pre>
+<h2 id="迭代器相关操作"><a href="#迭代器相关操作" class="headerlink" title="迭代器相关操作"></a>迭代器相关操作</h2><p>包括有</p>
+<ol>
+<li>【begin()】函数和【end()】函数，返回字符串的首尾</li>
+<li>对应的反向迭代器的首尾【rbegin()】函数和【rend()】函数</li>
+<li>以及常量迭代器的首尾【cbegin()】函数和【cend()】函数</li>
+</ol>
+<pre><code class="c++">public:
+  // 迭代器相关操作
+  iterator               begin()         noexcept
+  &#123; return buffer_; &#125;
+  const_iterator         begin()   const noexcept
+  &#123; return buffer_; &#125;
+  iterator               end()           noexcept
+  &#123; return buffer_ + size_; &#125;
+  const_iterator         end()     const noexcept
+  &#123; return buffer_ + size_; &#125;
+
+  reverse_iterator       rbegin()        noexcept
+  &#123; return reverse_iterator(end()); &#125;
+  const_reverse_iterator rbegin()  const noexcept
+  &#123; return const_reverse_iterator(end()); &#125;
+  reverse_iterator       rend()          noexcept
+  &#123; return reverse_iterator(begin()); &#125;
+  const_reverse_iterator rend()    const noexcept
+  &#123; return const_reverse_iterator(begin()); &#125;
+
+  const_iterator         cbegin()  const noexcept
+  &#123; return begin(); &#125;
+  const_iterator         cend()    const noexcept
+  &#123; return end(); &#125;
+  const_reverse_iterator crbegin() const noexcept
+  &#123; return rbegin(); &#125;
+  const_reverse_iterator crend()   const noexcept
+  &#123; return rend(); &#125;
+</code></pre>
+<h2 id="容量相关操作"><a href="#容量相关操作" class="headerlink" title="容量相关操作"></a>容量相关操作</h2><p>返回字符串是否为空、大小、长度和容量</p>
+<pre><code class="c++">  // 容量相关操作
+  bool      empty()    const noexcept
+  &#123; return size_ == 0; &#125;
+
+  size_type size()     const noexcept
+  &#123; return size_; &#125;
+  size_type length()   const noexcept
+  &#123; return size_; &#125;
+  size_type capacity() const noexcept
+  &#123; return cap_; &#125;
+  size_type max_size() const noexcept
+  &#123; return static_cast&lt;size_type&gt;(-1); &#125;
+
+  void      reserve(size_type n);
+  void      shrink_to_fit();
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/08/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C1.2/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>计算机网络1.2【TCP和UDP】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/08/03/MyTinySTL-6.1.9%E3%80%90algo.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-6.1.9【algo.h】【unique】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+
