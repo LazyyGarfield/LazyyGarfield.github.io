@@ -466,8 +466,7 @@ private:
   size_type size_;    // 大小
   size_type cap_;     // 容量
 </code></pre>
-<h2 id="构造、析构、复制、移动函数"><a href="#构造、析构、复制、移动函数" class="headerlink" title="构造、析构、复制、移动函数"></a>构造、析构、复制、移动函数</h2><p>其中所用到的一些函数如【try_init】，【fill_init】，【init_from】等均在后续的【help函数】中定义</p>
-<p>构造的方式分为</p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>构造的方式分为</p>
 <ol>
 <li>利用常量字符【ch】构造</li>
 <li>利用同一个模板类构造</li>
@@ -537,16 +536,204 @@ private:
     rhs.size_ = 0;
     rhs.cap_ = 0;
   &#125;
+</code></pre>
+<h2 id="构造辅助函数"><a href="#构造辅助函数" class="headerlink" title="构造辅助函数"></a>构造辅助函数</h2><p>使用【try_init】函数尝试初始化一个最小的字符串</p>
+<pre><code class="c++">// 尝试初始化一段 buffer，若分配失败则忽略，不会抛出异常
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+try_init() noexcept
+&#123;
+  try
+  &#123;
+    buffer_ = data_allocator::allocate(static_cast&lt;size_type&gt;(STRING_INIT_SIZE));
+    size_ = 0;
+    cap_ = 0;
+  &#125;
+  catch (...)
+  &#123;
+    buffer_ = nullptr;
+    size_ = 0;
+    cap_ = 0;
+    // no throw
+  &#125;
+&#125;
+</code></pre>
+<p>使用【fill_init】函数进行初始化的填充字符，输入参数为字符【ch】和填充数量【n】</p>
+<pre><code class="c++">// fill_init 函数
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+fill_init(size_type n, value_type ch)
+&#123;
+  const auto init_size = mystl::max(static_cast&lt;size_type&gt;(STRING_INIT_SIZE), n + 1);
+  buffer_ = data_allocator::allocate(init_size);
+  char_traits::fill(buffer_, ch, n);
+  size_ = n;
+  cap_ = init_size;
+&#125;
+</code></pre>
+<p>使用【init_from】函数进行赋值，输入参数为另一个模板类【other】，位置【pos】，以及一个具有默认参数的位置【count】，将【other】从位置【pos】之后进行赋值</p>
+<ol>
+<li>如果不传入参数【count】，则后续所有字符都赋值</li>
+<li>如果传入参数【count】，则赋值后续的【count】个字符</li>
+</ol>
+<pre><code class="c++">// init_from 函数
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+init_from(const_pointer src, size_type pos, size_type count)
+&#123;
+  const auto init_size = mystl::max(static_cast&lt;size_type&gt;(STRING_INIT_SIZE), count + 1);
+  buffer_ = data_allocator::allocate(init_size);
+  char_traits::copy(buffer_, src + pos, count);
+  size_ = count;
+  cap_ = init_size;
+&#125;
+</code></pre>
+<p>使用【copy_init】函数将【[first,last)】区间内的字符串进行赋值，与迭代器相关</p>
+<p>具有两个版本，分别为【input_iterator_tag】版本和【forward_iterator_tag】版本</p>
+<pre><code class="c++">// copy_init 函数
+template &lt;class CharType, class CharTraits&gt;
+template &lt;class Iter&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+copy_init(Iter first, Iter last, mystl::input_iterator_tag)
+&#123;
+  size_type n = mystl::distance(first, last);
+  const auto init_size = mystl::max(static_cast&lt;size_type&gt;(STRING_INIT_SIZE), n + 1);
+  try
+  &#123;
+    buffer_ = data_allocator::allocate(init_size);
+    size_ = n;
+    cap_ = init_size;
+  &#125;
+  catch (...)
+  &#123;
+    buffer_ = nullptr;
+    size_ = 0;
+    cap_ = 0;
+    throw;
+  &#125;
+  for (; n &gt; 0; --n, ++first)
+    append(*first);
+&#125;
 
-  // 声明运算符重载
+template &lt;class CharType, class CharTraits&gt;
+template &lt;class Iter&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+copy_init(Iter first, Iter last, mystl::forward_iterator_tag)
+&#123;
+  const size_type n = mystl::distance(first, last);
+  const auto init_size = mystl::max(static_cast&lt;size_type&gt;(STRING_INIT_SIZE), n + 1);
+  try
+  &#123;
+    buffer_ = data_allocator::allocate(init_size);
+    size_ = n;
+    cap_ = init_size;
+    mystl::uninitialized_copy(first, last, buffer_);
+  &#125;
+  catch (...)
+  &#123;
+    buffer_ = nullptr;
+    size_ = 0;
+    cap_ = 0;
+    throw;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="运算符【-】重载"><a href="#运算符【-】重载" class="headerlink" title="运算符【&#x3D;】重载"></a>运算符【&#x3D;】重载</h2><p>声明如下</p>
+<pre><code class="c++">  // 声明运算符重载
   basic_string&amp; operator=(const basic_string&amp; rhs);
   basic_string&amp; operator=(basic_string&amp;&amp; rhs) noexcept;
 
   basic_string&amp; operator=(const_pointer str);
   basic_string&amp; operator=(value_type ch);
-  
-  // 析构函数
+</code></pre>
+<p><strong>复制赋值操作符</strong>实现如下</p>
+<pre><code class="c++">// 复制赋值操作符
+template &lt;class CharType, class CharTraits&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp;
+basic_string&lt;CharType, CharTraits&gt;::
+operator=(const basic_string&amp; rhs)
+&#123;
+  if (this != &amp;rhs)
+  &#123;
+    basic_string tmp(rhs);
+    swap(tmp); // 其中【swap】函数表示将【*this】和【tmp】交换
+  &#125;
+  return *this;
+&#125;
+</code></pre>
+<p><strong>移动赋值操作符</strong>实现如下</p>
+<pre><code class="c++">// 移动赋值操作符
+template &lt;class CharType, class CharTraits&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp;
+basic_string&lt;CharType, CharTraits&gt;::
+operator=(basic_string&amp;&amp; rhs) noexcept
+&#123;
+  destroy_buffer();
+  buffer_ = rhs.buffer_;
+  size_ = rhs.size_;
+  cap_ = rhs.cap_;
+  rhs.buffer_ = nullptr;
+  rhs.size_ = 0;
+  rhs.cap_ = 0;
+  return *this;
+&#125;
+</code></pre>
+<p>复制赋值操作符和移动赋值操作符均采用另一个【basic_string】进行赋值，区别在于一个是常量左值引用，另一个是右值引用</p>
+<p><strong>通过一个字符串进行赋值</strong>的函数实现如下，该字符串为指向字符的指针</p>
+<pre><code class="c++">// 用一个字符串赋值
+template &lt;class CharType, class CharTraits&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp;
+basic_string&lt;CharType, CharTraits&gt;::
+operator=(const_pointer str)
+&#123;
+  const size_type len = char_traits::length(str);
+  if (cap_ &lt; len)
+  &#123;
+    auto new_buffer = data_allocator::allocate(len + 1);
+    data_allocator::deallocate(buffer_);
+    buffer_ = new_buffer;
+    cap_ = len + 1;
+  &#125;
+  char_traits::copy(buffer_, str, len);
+  size_ = len;
+  return *this;
+&#125;
+</code></pre>
+<p><strong>通过一个字符进行赋值</strong>的函数实现如下</p>
+<pre><code class="c++">// 用一个字符赋值
+template &lt;class CharType, class CharTraits&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp;
+basic_string&lt;CharType, CharTraits&gt;::
+operator=(value_type ch)
+&#123;
+  if (cap_ &lt; 1)
+  &#123;
+    auto new_buffer = data_allocator::allocate(2);
+    data_allocator::deallocate(buffer_);
+    buffer_ = new_buffer;
+    cap_ = 2;
+  &#125;
+  *buffer_ = ch;
+  size_ = 1;
+  return *this;
+&#125;
+</code></pre>
+<h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><pre><code class="c++">// 析构函数
   ~basic_string() &#123; destroy_buffer(); &#125;
+
+// destroy_buffer 函数
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+destroy_buffer()
+&#123;
+  if (buffer_ != nullptr)
+  &#123;
+    data_allocator::deallocate(buffer_, cap_);
+    buffer_ = nullptr;
+    size_ = 0;
+    cap_ = 0;
+  &#125;
+&#125;
 </code></pre>
 <h2 id="迭代器相关操作"><a href="#迭代器相关操作" class="headerlink" title="迭代器相关操作"></a>迭代器相关操作</h2><p>包括有</p>
 <ol>
@@ -599,6 +786,55 @@ private:
 
   void      reserve(size_type n);
   void      shrink_to_fit();
+</code></pre>
+<p>使用【reserve】函数预留储存空间，输入的形参为容量大小【n】</p>
+<pre><code class="c++">// 预留储存空间
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+reserve(size_type n)
+&#123;
+  if (cap_ &lt; n)
+  &#123;
+    THROW_LENGTH_ERROR_IF(n &gt; max_size(), &quot;n can not larger than max_size()&quot;
+                          &quot;in basic_string&lt;Char,Traits&gt;::reserve(n)&quot;);
+    auto new_buffer = data_allocator::allocate(n);
+    char_traits::move(new_buffer, buffer_, size_);
+    buffer_ = new_buffer;
+    cap_ = n;
+  &#125;
+&#125;
+</code></pre>
+<p>使用【shrink_to_fit】函数减少不用的空间，当大小和容量不等时，需要用到【reinsert】函数</p>
+<p>【reinsert】函数的作用是，重建【basic_string】，使得大小和容量相等</p>
+<pre><code class="c++">// 减少不用的空间
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+shrink_to_fit()
+&#123;
+  if (size_ != cap_)
+  &#123;
+    reinsert(size_);
+  &#125;
+&#125;
+
+// reinsert 函数
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+reinsert(size_type size)
+&#123;
+  auto new_buffer = data_allocator::allocate(size);
+  try
+  &#123;
+    char_traits::move(new_buffer, buffer_, size);
+  &#125;
+  catch (...)
+  &#123;
+    data_allocator::deallocate(new_buffer);
+  &#125;
+  buffer_ = new_buffer;
+  size_ = size;
+  cap_ = size;
+&#125;
 </code></pre>
 <hr>
 <script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>

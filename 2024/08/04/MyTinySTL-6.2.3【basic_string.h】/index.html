@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.2.3【basic_string.h】【字符串操作】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.2.3【basic_string.h】【字符串操作】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-04 23:48:35</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="basic-string-h【字符串操作】"><a href="#basic-string-h【字符串操作】" class="headerlink" title="basic_string.h【字符串操作】"></a>basic_string.h【字符串操作】</h1><h2 id="compare"><a href="#compare" class="headerlink" title="compare"></a>compare</h2><p><strong>第一种</strong>，与另一个模板类【other】比较，传入形参有</p>
+<ol>
+<li>另一个模板类【other】</li>
+<li>从原字符串的位置【pos1】开始的【count1】个字符，跟另一个模板类【other】比较</li>
+<li>从原字符串的位置【pos1】开始的【count1】个字符，另一个模板类【other】从位置【pos2】开始的【count2】个字符，两个字符串进行比较</li>
+</ol>
+<pre><code class="c++">// 声明
+// compare
+  int compare(const basic_string&amp; other) const;
+  int compare(size_type pos1, size_type count1, const basic_string&amp; other) const;
+  int compare(size_type pos1, size_type count1, const basic_string&amp; other,
+              size_type pos2, size_type count2 = npos) const;
+
+// 比较两个 basic_string，小于返回 -1，大于返回 1，等于返回 0
+template &lt;class CharType, class CharTraits&gt;
+int basic_string&lt;CharType, CharTraits&gt;::
+compare(const basic_string&amp; other) const
+&#123;
+  return compare_cstr(buffer_, size_, other.buffer_, other.size_);
+&#125;
+
+// 从 pos1 下标开始的 count1 个字符跟另一个 basic_string 比较
+template &lt;class CharType, class CharTraits&gt;
+int basic_string&lt;CharType, CharTraits&gt;::
+compare(size_type pos1, size_type count1, const basic_string&amp; other) const
+&#123;
+  auto n1 = mystl::min(count1, size_ - pos1);
+  return compare_cstr(buffer_ + pos1, n1, other.buffer_, other.size_);
+&#125;
+
+// 从 pos1 下标开始的 count1 个字符跟另一个 basic_string 下标 pos2 开始的 count2 个字符比较
+template &lt;class CharType, class CharTraits&gt;
+int basic_string&lt;CharType, CharTraits&gt;::
+compare(size_type pos1, size_type count1, const basic_string&amp; other,
+        size_type pos2, size_type count2) const
+&#123;
+  auto n1 = mystl::min(count1, size_ - pos1);
+  auto n2 = mystl::min(count2, other.size_ - pos2);
+  return compare_cstr(buffer_, n1, other.buffer_, n2);
+&#125;
+  
+</code></pre>
+<p><strong>第二种，</strong>与字符指针比较，传入形参有</p>
+<ol>
+<li>指向字符的指针【s】</li>
+<li>从原字符串的位置【pos1】开始的【count1】个字符，跟字符指针【s】比较</li>
+<li>从原字符串的位置【pos1】开始的【count1】个字符，跟字符指针【s】的前【count2】个字符比较</li>
+</ol>
+<pre><code class="c++">// 声明
+  int compare(const_pointer s) const;
+  int compare(size_type pos1, size_type count1, const_pointer s) const;
+  int compare(size_type pos1, size_type count1, const_pointer s, size_type count2) const;
+
+// 实现
+// 跟一个字符串比较
+template &lt;class CharType, class CharTraits&gt;
+int basic_string&lt;CharType, CharTraits&gt;::
+compare(const_pointer s) const
+&#123;
+  auto n2 = char_traits::length(s);
+  return compare_cstr(buffer_, size_, s, n2);
+&#125;
+
+// 从下标 pos1 开始的 count1 个字符跟另一个字符串比较
+template &lt;class CharType, class CharTraits&gt;
+int basic_string&lt;CharType, CharTraits&gt;::
+compare(size_type pos1, size_type count1, const_pointer s) const
+&#123;
+  auto n1 = mystl::min(count1, size_ - pos1);
+  auto n2 = char_traits::length(s);
+  return compare_cstr(buffer_, n1, s, n2);
+&#125;
+
+// 从下标 pos1 开始的 count1 个字符跟另一个字符串的前 count2 个字符比较
+template &lt;class CharType, class CharTraits&gt;
+int basic_string&lt;CharType, CharTraits&gt;::
+compare(size_type pos1, size_type count1, const_pointer s, size_type count2) const
+&#123;
+  auto n1 = mystl::min(count1, size_ - pos1);
+  return compare_cstr(buffer_, n1, s, count2);
+&#125;
+</code></pre>
+<p>上述的【compare_cstr】函数实现如下，利用了6.2.1节中【char_traits】的【compare】函数，而当二者前缀字符相同时，长度较长的字符认定较大</p>
+<pre><code class="c++">template &lt;class CharType, class CharTraits&gt;
+int basic_string&lt;CharType, CharTraits&gt;::
+compare_cstr(const_pointer s1, size_type n1, const_pointer s2, size_type n2) const
+&#123;
+  auto rlen = mystl::min(n1, n2);
+  auto res = char_traits::compare(s1, s2, rlen);
+  if (res != 0) return res;
+  if (n1 &lt; n2) return -1;
+  if (n1 &gt; n2) return 1;
+  return 0;
+&#125;
+</code></pre>
+<h2 id="substr"><a href="#substr" class="headerlink" title="substr"></a>substr</h2><p>取出字符串的子串，传入的形参为位置【index】和数量【count】，数量【count】默认为剩余全长</p>
+<p>利用构造函数即可得到字符串的子串</p>
+<pre><code class="c++"> // substr
+  basic_string substr(size_type index, size_type count = npos)
+  &#123;
+    count = mystl::min(count, size_ - index);
+    return basic_string(buffer_ + index, buffer_ + index + count);
+  &#125;
+</code></pre>
+<h2 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h2><p>将字符串的某些子串进行替换</p>
+<p><strong>第一种，</strong>利用另一个模板类【str】进行替换，传入形参有</p>
+<ol>
+<li>源字符串的位置【pos】，替换数量【count】，模板类【str】</li>
+<li>源字符串的区间【[first,last)】，模板类【str】</li>
+<li>源字符串的位置【pos1】，替换数量【count1】，模板类【str】，模板类的位置【pos2】，替换数量【count2】</li>
+</ol>
+<pre><code class="c++">// replace
+  basic_string&amp; replace(size_type pos, size_type count, const basic_string&amp; str)
+  &#123;
+    THROW_OUT_OF_RANGE_IF(pos &gt; size_, &quot;basic_string&lt;Char, Traits&gt;::replace&#39;s pos out of range&quot;);
+    return replace_cstr(buffer_ + pos, count, str.buffer_, str.size_);
+  &#125;
+
+  basic_string&amp; replace(const_iterator first, const_iterator last, const basic_string&amp; str)
+  &#123;
+    MYSTL_DEBUG(begin() &lt;= first &amp;&amp; last &lt;= end() &amp;&amp; first &lt;= last);
+    return replace_cstr(first, static_cast&lt;size_type&gt;(last - first), str.buffer_, str.size_);
+  &#125;
+
+  basic_string&amp; replace(size_type pos1, size_type count1, const basic_string&amp; str,
+                        size_type pos2, size_type count2 = npos)
+  &#123;
+    THROW_OUT_OF_RANGE_IF(pos1 &gt; size_ || pos2 &gt; str.size_,
+                          &quot;basic_string&lt;Char, Traits&gt;::replace&#39;s pos out of range&quot;);
+    return replace_cstr(buffer_ + pos1, count1, str.buffer_ + pos2, count2);
+  &#125;
+</code></pre>
+<p><strong>第二种，</strong>利用字符指针【str】进行替换，传入形参有</p>
+<ol>
+<li>源字符串的位置【pos】，替换数量【count】，字符指针【str】</li>
+<li>源字符串的区间【[first,last)】，字符指针【str】</li>
+<li>源字符串的位置【pos】，替换数量【count】，字符指针【str】，【str】中用来替换的数量【count2】</li>
+<li>源字符串的区间【[first,last)】，字符指针【str】，【str】中用来替换的数量【count】</li>
+</ol>
+<pre><code class="c++">basic_string&amp; replace(size_type pos, size_type count, const_pointer str)
+  &#123;
+    THROW_OUT_OF_RANGE_IF(pos &gt; size_, &quot;basic_string&lt;Char, Traits&gt;::replace&#39;s pos out of range&quot;);
+    return replace_cstr(buffer_ + pos, count, str, char_traits::length(str));
+  &#125;
+  basic_string&amp; replace(const_iterator first, const_iterator last, const_pointer str)
+  &#123;
+    MYSTL_DEBUG(begin() &lt;= first &amp;&amp; last &lt;= end() &amp;&amp; first &lt;= last);
+    return replace_cstr(first, static_cast&lt;size_type&gt;(last - first), str, char_traits::length(str));
+  &#125;
+
+  basic_string&amp; replace(size_type pos, size_type count, const_pointer str, size_type count2)
+  &#123;
+    THROW_OUT_OF_RANGE_IF(pos &gt; size_, &quot;basic_string&lt;Char, Traits&gt;::replace&#39;s pos out of range&quot;);
+    return replace_cstr(buffer_ + pos, count, str, count2);
+  &#125;
+  basic_string&amp; replace(const_iterator first, const_iterator last, const_pointer str, size_type count)
+  &#123;
+    MYSTL_DEBUG(begin() &lt;= first &amp;&amp; last &lt;= end() &amp;&amp; first &lt;= last);
+    return replace_cstr(first, static_cast&lt;size_type&gt;(last - first), str, count);
+
+  &#125;
+</code></pre>
+<p>前两种需要用到【replace_cstr】函数，实现如下</p>
+<ol>
+<li><p>需要判断<strong>新替换的字符数量</strong>会不会超过<strong>原有替换位置的字符数量</strong></p>
+</li>
+<li><p>如果超过，则需要新增</p>
+<p>1）新增之后，将源字符串【first+count1】之后的字符通过【move】函数移动到【first+count2】的位置</p>
+<p>2）然后，通过【copy】函数将目的字符【str】的【count2】个字符复制到【first】的位置上</p>
+</li>
+<li><p>如果没有超过，则直接在源字符串上修改，与上述同理，直接通过【move】函数和【copy】函数实现</p>
+</li>
+</ol>
+<pre><code class="c++">// 把 first 开始的 count1 个字符替换成 str 开始的 count2 个字符
+template &lt;class CharType, class CharTraits&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp; 
+basic_string&lt;CharType, CharTraits&gt;::
+replace_cstr(const_iterator first, size_type count1, const_pointer str, size_type count2)
+&#123;
+  if (static_cast&lt;size_type&gt;(cend() - first) &lt; count1)
+  &#123;
+    count1 = cend() - first;
+  &#125;
+  if (count1 &lt; count2)
+  &#123;
+    const size_type add = count2 - count1;
+    THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - add,
+                          &quot;basic_string&lt;Char, Traits&gt;&#39;s size too big&quot;);
+    if (size_ &gt; cap_ - add)
+    &#123;
+      reallocate(add);
+    &#125;
+    pointer r = const_cast&lt;pointer&gt;(first);
+    char_traits::move(r + count2, first + count1, end() - (first + count1));
+    char_traits::copy(r, str, count2);
+    size_ += add;
+  &#125;
+  else
+  &#123;
+    pointer r = const_cast&lt;pointer&gt;(first);
+    char_traits::move(r + count2, first + count1, end() - (first + count1));
+    char_traits::copy(r, str, count2);
+    size_ -= (count1 - count2);
+  &#125;
+  return *this;
+&#125;
+</code></pre>
+<p><strong>第三种，</strong>用若干个字符【ch】进行替换，传入形参有</p>
+<ol>
+<li>源字符串的位置【pos】，替换数量【count】，字符【ch】和字符【ch】的数量</li>
+<li>源字符串的区间【[first,last)】，字符【ch】和字符【ch】的数量</li>
+</ol>
+<pre><code class="c++">  basic_string&amp; replace(size_type pos, size_type count, size_type count2, value_type ch)
+  &#123;
+    THROW_OUT_OF_RANGE_IF(pos &gt; size_, &quot;basic_string&lt;Char, Traits&gt;::replace&#39;s pos out of range&quot;);
+    return replace_fill(buffer_ + pos, count, count2, ch);
+  &#125;
+
+  basic_string&amp; replace(const_iterator first, const_iterator last, size_type count, value_type ch)
+  &#123;
+    MYSTL_DEBUG(begin() &lt;= first &amp;&amp; last &lt;= end() &amp;&amp; first &lt;= last);
+    return replace_fill(first, static_cast&lt;size_type&gt;(last - first), count, ch);
+  &#125;
+</code></pre>
+<p>其中，【replace_fill】函数如下，与【replace_cstr】同理，将【copy】函数换成【fill】函数即可</p>
+<pre><code class="c++">// 把 first 开始的 count1 个字符替换成 count2 个 ch 字符
+template &lt;class CharType, class CharTraits&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp;
+basic_string&lt;CharType, CharTraits&gt;::
+replace_fill(const_iterator first, size_type count1, size_type count2, value_type ch)
+&#123;
+  if (static_cast&lt;size_type&gt;(cend() - first) &lt; count1)
+  &#123;
+    count1 = cend() - first;
+  &#125;
+  if (count1 &lt; count2)
+  &#123;
+    const size_type add = count2 - count1;
+    THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - add,
+                          &quot;basic_string&lt;Char, Traits&gt;&#39;s size too big&quot;);
+    if (size_ &gt; cap_ - add)
+    &#123;
+      reallocate(add);
+    &#125;
+    pointer r = const_cast&lt;pointer&gt;(first);
+    char_traits::move(r + count2, first + count1, end() - (first + count1));
+    char_traits::fill(r, ch, count2);
+    size_ += add;
+  &#125;
+  else
+  &#123;
+    pointer r = const_cast&lt;pointer&gt;(first);
+    char_traits::move(r + count2, first + count1, end() - (first + count1));
+    char_traits::fill(r, ch, count2);
+    size_ -= (count1 - count2);
+  &#125;
+  return *this;
+&#125;
+</code></pre>
+<p><strong>第四种，</strong>用区间【[first2,last2)】代替源字符串的区间【[first1,last1)】</p>
+<pre><code class="c++">  template &lt;class Iter, typename std::enable_if&lt;
+    mystl::is_input_iterator&lt;Iter&gt;::value, int&gt;::type = 0&gt;
+  basic_string&amp; replace(const_iterator first, const_iterator last, Iter first2, Iter last2)
+  &#123;
+    MYSTL_DEBUG(begin() &lt;= first &amp;&amp; last &lt;= end() &amp;&amp; first &lt;= last);
+    return replace_copy(first, last, first2, last2);
+  &#125;
+</code></pre>
+<p>其中【replace_copy】函数如下，与【replace_cstr】函数同理</p>
+<pre><code class="c++">// 把 [first, last) 的字符替换成 [first2, last2)
+template &lt;class CharType, class CharTraits&gt;
+template &lt;class Iter&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp;
+basic_string&lt;CharType, CharTraits&gt;::
+replace_copy(const_iterator first, const_iterator last, Iter first2, Iter last2)
+&#123;
+  size_type len1 = last - first;
+  size_type len2 = last2 - first2;
+  if (len1 &lt; len2)
+  &#123;
+    const size_type add = len2 - len1;
+    THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - add,
+                          &quot;basic_string&lt;Char, Traits&gt;&#39;s size too big&quot;);
+    if (size_ &gt; cap_ - add)
+    &#123;
+      reallocate(add);
+    &#125;
+    pointer r = const_cast&lt;pointer&gt;(first);
+    char_traits::move(r + len2, first + len1, end() - (first + len1));
+    char_traits::copy(r, first2, len2);
+    size_ += add;
+  &#125;
+  else
+  &#123;
+    pointer r = const_cast&lt;pointer&gt;(first);
+    char_traits::move(r + len2, first + len1, end() - (first + len1));
+    char_traits::copy(r, first2, len2);
+    size_ -= (len1 - len2);
+  &#125;
+  return *this;
+&#125;
+</code></pre>
+<h2 id="reverse"><a href="#reverse" class="headerlink" title="reverse"></a>reverse</h2><p>反转【basic_string】中的字符串</p>
+<pre><code class="c++">// 反转 basic_string
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+reverse() noexcept
+&#123;
+  for (auto i = begin(), j = end(); i &lt; j;)
+  &#123;
+    mystl::iter_swap(i++, --j);
+  &#125;
+&#125;
+</code></pre>
+<h2 id="swap"><a href="#swap" class="headerlink" title="swap"></a>swap</h2><p>交换两个【basic_string】</p>
+<pre><code class="c++">// 交换两个 basic_string
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+swap(basic_string&amp; rhs) noexcept
+&#123;
+  if (this != &amp;rhs)
+  &#123;
+    mystl::swap(buffer_, rhs.buffer_);
+    mystl::swap(size_, rhs.size_);
+    mystl::swap(cap_, rhs.cap_);
+  &#125;
+&#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/08/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C1.3/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>计算机网络1.3【IP】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/08/04/MyTinySTL-6.2.2%E3%80%90basic_string.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-6.2.2【basic_string.h】【访问、添加、删除】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

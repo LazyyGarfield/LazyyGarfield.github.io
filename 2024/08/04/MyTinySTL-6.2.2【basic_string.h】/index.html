@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.2.2【basic_string.h】【访问、添加、删除】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.2.2【basic_string.h】【访问、添加、删除】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-04 23:48:32</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="basic-string-h【访问、添加、删除】"><a href="#basic-string-h【访问、添加、删除】" class="headerlink" title="basic_string.h【访问、添加、删除】"></a>basic_string.h【访问、添加、删除】</h1><h2 id="访问元素"><a href="#访问元素" class="headerlink" title="访问元素"></a>访问元素</h2><p>使用【运算符[]重载】或者【at函数】访问第n个元素</p>
+<pre><code class="c++">  // 访问元素相关操作
+  reference       operator[](size_type n) 
+  &#123;
+    MYSTL_DEBUG(n &lt;= size_);
+    if (n == size_)
+      *(buffer_ + n) = value_type();
+    return *(buffer_ + n); 
+  &#125;
+  const_reference operator[](size_type n) const
+  &#123; 
+    MYSTL_DEBUG(n &lt;= size_);
+    if (n == size_)
+      *(buffer_ + n) = value_type();
+    return *(buffer_ + n);
+  &#125;
+
+  reference       at(size_type n) 
+  &#123; 
+    THROW_OUT_OF_RANGE_IF(n &gt;= size_, &quot;basic_string&lt;Char, Traits&gt;::at()&quot;
+                          &quot;subscript out of range&quot;);
+    return (*this)[n]; 
+  &#125;
+  const_reference at(size_type n) const 
+  &#123;
+    THROW_OUT_OF_RANGE_IF(n &gt;= size_, &quot;basic_string&lt;Char, Traits&gt;::at()&quot;
+                          &quot;subscript out of range&quot;);
+    return (*this)[n]; 
+  &#125;
+</code></pre>
+<p>使用【front】函数和【back】函数来访问头尾元素</p>
+<pre><code class="c++">  reference       front() 
+  &#123; 
+    MYSTL_DEBUG(!empty());
+    return *begin(); 
+  &#125;
+  const_reference front() const 
+  &#123; 
+    MYSTL_DEBUG(!empty());
+    return *begin(); 
+  &#125;
+
+  reference       back() 
+  &#123;
+    MYSTL_DEBUG(!empty()); 
+    return *(end() - 1); 
+  &#125;
+  const_reference back()  const
+  &#123;
+    MYSTL_DEBUG(!empty()); 
+    return *(end() - 1);
+  &#125;
+
+  const_pointer   data()  const noexcept
+  &#123; return to_raw_pointer(); &#125;
+  const_pointer   c_str() const noexcept
+  &#123; return to_raw_pointer(); &#125;
+</code></pre>
+<p>其中【to_raw_pointer】函数实现如下，将类型信息存储在字符串的末尾</p>
+<pre><code class="c++">// to_raw_pointer 函数
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::const_pointer
+basic_string&lt;CharType, CharTraits&gt;::
+to_raw_pointer() const
+&#123;
+  *(buffer_ + size_) = value_type();
+  return buffer_;
+&#125;
+</code></pre>
+<h2 id="添加删除"><a href="#添加删除" class="headerlink" title="添加删除"></a>添加删除</h2><h3 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h3><p>使用【insert】函数添加元素</p>
+<ol>
+<li>传入形参为位置【pos】、字符【ch】和字符数量【count】</li>
+<li>传入形参也可以是位置【pos】和一段需要插入的区间【[first,last)】</li>
+</ol>
+<p>实现如下：</p>
+<ol>
+<li>首先需要判断此时容量是否足够添加元素，如果不足够，则使用【reallocate_and_fill】函数或者【reallocate_and_copy】函数进行扩展和填充，即可</li>
+<li>如果足够的话，则将【pos】后续的元素依次移动【count】个位置，然后再将字符【ch】或者区间【[first,last)】填充到位置【pos】上</li>
+</ol>
+<pre><code class="c++">// 声明
+  // insert
+  iterator insert(const_iterator pos, value_type ch);
+  iterator insert(const_iterator pos, size_type count, value_type ch);
+
+  template &lt;class Iter&gt;
+  iterator insert(const_iterator pos, Iter first, Iter last);
+
+// 实现
+// 在 pos 处插入一个元素
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::iterator
+basic_string&lt;CharType, CharTraits&gt;::
+insert(const_iterator pos, value_type ch)
+&#123;
+  iterator r = const_cast&lt;iterator&gt;(pos);
+  if (size_ == cap_)
+  &#123;
+    return reallocate_and_fill(r, 1, ch);
+  &#125;
+  char_traits::move(r + 1, r, end() - r);
+  ++size_;
+  *r = ch;
+  return r;
+&#125;
+
+// 在 pos 处插入 n 个元素
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::iterator
+basic_string&lt;CharType, CharTraits&gt;::
+insert(const_iterator pos, size_type count, value_type ch)
+&#123;
+  iterator r = const_cast&lt;iterator&gt;(pos);
+  if (count == 0)
+    return r;
+  if (cap_ - size_ &lt; count)
+  &#123;
+    return reallocate_and_fill(r, count, ch);
+  &#125;
+  if (pos == end())
+  &#123;
+    char_traits::fill(end(), ch, count);
+    size_ += count;
+    return r;
+  &#125;
+  char_traits::move(r + count, r, count);
+  char_traits::fill(r, ch, count);
+  size_ += count;
+  return r;
+&#125;
+
+// 在 pos 处插入 [first, last) 内的元素
+template &lt;class CharType, class CharTraits&gt;
+template &lt;class Iter&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::iterator
+basic_string&lt;CharType, CharTraits&gt;::
+insert(const_iterator pos, Iter first, Iter last)
+&#123;
+  iterator r = const_cast&lt;iterator&gt;(pos);
+  const size_type len = mystl::distance(first, last);
+  if (len == 0)
+    return r;
+  if (cap_ - size_ &lt; len)
+  &#123;
+    return reallocate_and_copy(r, first, last);
+  &#125;
+  if (pos == end())
+  &#123;
+    mystl::uninitialized_copy(first, last, end());
+    size_ += len;
+    return r;
+  &#125;
+  char_traits::move(r + len, r, len);
+  mystl::uninitialized_copy(first, last, r);
+  size_ += len;
+  return r;
+&#125;
+</code></pre>
+<p>其中【reallocate_and_fill】函数和【reallocate_and_copy】函数如下。本质相同，均是建立一个新的字符串，然后分成三段填充</p>
+<pre><code class="c++">// reallocate_and_fill 函数
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::iterator
+basic_string&lt;CharType, CharTraits&gt;::
+reallocate_and_fill(iterator pos, size_type n, value_type ch)
+&#123;
+  const auto r = pos - buffer_;
+  const auto old_cap = cap_;
+  const auto new_cap = mystl::max(old_cap + n, old_cap + (old_cap &gt;&gt; 1));
+  auto new_buffer = data_allocator::allocate(new_cap);
+  auto e1 = char_traits::move(new_buffer, buffer_, r) + r;
+  auto e2 = char_traits::fill(e1, ch, n) + n;
+  char_traits::move(e2, buffer_ + r, size_ - r);
+  data_allocator::deallocate(buffer_, old_cap);
+  buffer_ = new_buffer;
+  size_ += n;
+  cap_ = new_cap;
+  return buffer_ + r;
+&#125;
+
+// reallocate_and_copy 函数
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::iterator
+basic_string&lt;CharType, CharTraits&gt;::
+reallocate_and_copy(iterator pos, const_iterator first, const_iterator last)
+&#123;
+  const auto r = pos - buffer_;
+  const auto old_cap = cap_;
+  const size_type n = mystl::distance(first, last);
+  const auto new_cap = mystl::max(old_cap + n, old_cap + (old_cap &gt;&gt; 1));
+  auto new_buffer = data_allocator::allocate(new_cap);
+  auto e1 = char_traits::move(new_buffer, buffer_, r) + r;
+  auto e2 = mystl::uninitialized_copy_n(first, n, e1) + n;
+  char_traits::move(e2, buffer_ + r, size_ - r);
+  data_allocator::deallocate(buffer_, old_cap);
+  buffer_ = new_buffer;
+  size_ += n;
+  cap_ = new_cap;
+  return buffer_ + r;
+&#125;
+</code></pre>
+<p>上述还需要用到4.2节【uninitialized.h】中的【uninitialized_copy】函数和【uninitialized_copy_n】函数</p>
+<h3 id="push-back和pop-back"><a href="#push-back和pop-back" class="headerlink" title="push_back和pop_back"></a>push_back和pop_back</h3><p>使用【push_back】函数使用【append】函数在字符串的末尾加入一个【ch】，【append】函数均在后续定义</p>
+<p>而【pop_back】函数则直接使字符串的长度size减1即可</p>
+<pre><code class="c++">  // push_back / pop_back
+  void     push_back(value_type ch)
+  &#123; append(1, ch); &#125;
+  void     pop_back()
+  &#123;
+    MYSTL_DEBUG(!empty());
+    --size_;
+  &#125;
+</code></pre>
+<h3 id="append"><a href="#append" class="headerlink" title="append"></a>append</h3><p>使用【append】函数</p>
+<ol>
+<li>传入的参数可以是字符、起始位置和复制个数，起始位置和复制个数具有默认参数</li>
+<li>可以是另一个模板类【basic_string】</li>
+<li>也可以是指向字符的指针</li>
+<li>还可以是迭代器</li>
+</ol>
+<p><strong>第一种，</strong>形参为字符【ch】和字符数量【count】，其中如果容量不够的话，使用【reallocate】函数扩充容量</p>
+<pre><code class="c++">// 声明
+  basic_string&amp; append(size_type count, value_type ch);
+
+// 实现
+// 在末尾添加 count 个 ch
+template &lt;class CharType, class CharTraits&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp; 
+basic_string&lt;CharType, CharTraits&gt;::
+append(size_type count, value_type ch)
+&#123;
+  THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - count,
+                        &quot;basic_string&lt;Char, Tratis&gt;&#39;s size too big&quot;);
+  if (cap_ - size_ &lt; count)
+  &#123;
+    reallocate(count);
+  &#125;
+  char_traits::fill(buffer_ + size_, ch, count);
+  size_ += count;
+  return *this;
+&#125;
+
+// reallocate 函数
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+reallocate(size_type need)
+&#123;
+  const auto new_cap = mystl::max(cap_ + need, cap_ + (cap_ &gt;&gt; 1));
+  auto new_buffer = data_allocator::allocate(new_cap);
+  char_traits::move(new_buffer, buffer_, size_);
+  data_allocator::deallocate(buffer_);
+  buffer_ = new_buffer;
+  cap_ = new_cap;
+&#125;
+</code></pre>
+<p><strong>第二种，</strong>形参是另一个模板类【str】，默认参数有位置【pos】和复制个数【count】</p>
+<pre><code class="c++">// 声明
+  basic_string&amp; append(const basic_string&amp; str)
+  &#123; return append(str, 0, str.size_); &#125;
+  basic_string&amp; append(const basic_string&amp; str, size_type pos)
+  &#123; return append(str, pos, str.size_ - pos); &#125;
+  basic_string&amp; append(const basic_string&amp; str, size_type pos, size_type count);
+
+// 实现
+// 在末尾添加 [str[pos] str[pos+count]) 一段
+template &lt;class CharType, class CharTraits&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp; 
+basic_string&lt;CharType, CharTraits&gt;::
+append(const basic_string&amp; str, size_type pos, size_type count)
+&#123;
+  THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - count,
+                        &quot;basic_string&lt;Char, Tratis&gt;&#39;s size too big&quot;);
+  if (count == 0)
+    return *this;
+  if (cap_ - size_ &lt; count)
+  &#123;
+    reallocate(count);
+  &#125;
+  char_traits::copy(buffer_ + size_, str.buffer_ + pos, count);
+  size_ += count;
+  return *this;
+&#125;
+</code></pre>
+<p><strong>第三种，</strong>形参是字符串（指向字符的指针）【str】和默认参数增加数量【count】</p>
+<pre><code class="c++">// 声明
+  basic_string&amp; append(const_pointer s)
+  &#123; return append(s, char_traits::length(s)); &#125;
+  basic_string&amp; append(const_pointer s, size_type count);
+
+// 实现
+// 在末尾添加 [s, s+count) 一段
+template &lt;class CharType, class CharTraits&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp; 
+basic_string&lt;CharType, CharTraits&gt;::
+append(const_pointer s, size_type count)
+&#123;
+  THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - count,
+                        &quot;basic_string&lt;Char, Tratis&gt;&#39;s size too big&quot;);
+  if (cap_ - size_ &lt; count)
+  &#123;
+    reallocate(count);
+  &#125;
+  char_traits::copy(buffer_ + size_, s, count);
+  size_ += count;
+  return *this;
+&#125;
+</code></pre>
+<p><strong>第四种，</strong>形参是迭代器【[first,last)】，需要用到4.2节【uninitialized.h】中的【uninitialized_copy_n】函数</p>
+<pre><code class="c++">// 声明
+  template &lt;class Iter, typename std::enable_if&lt;
+    mystl::is_input_iterator&lt;Iter&gt;::value, int&gt;::type = 0&gt;
+  basic_string&amp; append(Iter first, Iter last)
+  &#123; return append_range(first, last); &#125;
+
+// 函数
+// append_range，末尾追加一段 [first, last) 内的字符
+template &lt;class CharType, class CharTraits&gt;
+template &lt;class Iter&gt;
+basic_string&lt;CharType, CharTraits&gt;&amp;
+basic_string&lt;CharType, CharTraits&gt;::
+append_range(Iter first, Iter last)
+&#123;
+  const size_type n = mystl::distance(first, last);
+  THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - n,
+                        &quot;basic_string&lt;Char, Tratis&gt;&#39;s size too big&quot;);
+  if (cap_ - size_ &lt; n)
+  &#123;
+    reallocate(n);
+  &#125;
+  mystl::uninitialized_copy_n(first, n, buffer_ + size_);
+  size_ += n;
+  return *this;
+&#125;
+</code></pre>
+<h3 id="erase"><a href="#erase" class="headerlink" title="erase"></a>erase</h3><p>通过【erase】函数删除某个位置【pos】的元素或者某个区间【[first,last)】，都是通过【move】函数实现</p>
+<pre><code class="c++">// 声明
+  // erase /clear
+  iterator erase(const_iterator pos);
+  iterator erase(const_iterator first, const_iterator last);
+
+// 实现
+// 删除 pos 处的元素
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::iterator
+basic_string&lt;CharType, CharTraits&gt;::
+erase(const_iterator pos)
+&#123;
+  MYSTL_DEBUG(pos != end());
+  iterator r = const_cast&lt;iterator&gt;(pos);
+  char_traits::move(r, pos + 1, end() - pos - 1);
+  --size_;
+  return r;
+&#125;
+
+// 删除 [first, last) 的元素
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::iterator
+basic_string&lt;CharType, CharTraits&gt;::
+erase(const_iterator first, const_iterator last)
+&#123;
+  if (first == begin() &amp;&amp; last == end())
+  &#123;
+    clear();
+    return end();
+  &#125;
+  const size_type n = end() - last;
+  iterator r = const_cast&lt;iterator&gt;(first);
+  char_traits::move(r, last, n);
+  size_ -= (last - first);
+  return r;
+&#125;
+</code></pre>
+<h3 id="resize和clear"><a href="#resize和clear" class="headerlink" title="resize和clear"></a>resize和clear</h3><p>【resize】函数中，如果新的大小【count】比原来的【size】小，则擦除一部分元素；如果【count】&gt;【size】，则使用【append】函数填充</p>
+<pre><code class="c++">// 声明
+  // resize
+  void resize(size_type count)
+  &#123; resize(count, value_type()); &#125;
+  void resize(size_type count, value_type ch);
+
+// 实现
+// 重置容器大小
+template &lt;class CharType, class CharTraits&gt;
+void basic_string&lt;CharType, CharTraits&gt;::
+resize(size_type count, value_type ch)
+&#123;
+  if (count &lt; size_)
+  &#123;
+    erase(buffer_ + count, buffer_ + size_);
+  &#125;
+  else
+  &#123;
+    append(count - size_, ch);
+  &#125;
+&#125;
+
+  void clear() noexcept
+  &#123; size_ = 0; &#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/08/04/MyTinySTL-6.2.3%E3%80%90basic_string.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-6.2.3【basic_string.h】【字符串操作】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/08/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C1.2/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>计算机网络1.2【TCP和UDP】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+
