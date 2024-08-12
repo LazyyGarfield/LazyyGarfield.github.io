@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>计算机网络1.3【IP】-lazyy</title>
+<title>MyTinySTL-6.3.1【deque.h】【iterator】-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,7 +12,7 @@
 
 
 
-<meta name="keywords" content="Code,">
+<meta name="keywords" content="Code,STL,">
 <meta name="description" content="">
 
 
@@ -286,10 +286,12 @@
             
             <li><a href="/tags/Code">Code</a></li>
             
+            <li><a href="/tags/STL">STL</a></li>
+            
             
         </ul>
         
-        <h1>计算机网络1.3【IP】</h1>
+        <h1>MyTinySTL-6.3.1【deque.h】【iterator】</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -304,10 +306,10 @@
                 <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
                 <div class="post-header-info-author-categories">
                     
-                         <a href="../../../../categories/Code/" target="_blank" >Code</a>
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
                     
                 </div>
-                <p>2024-08-04 23:48:42</p>
+                <p>2024-08-12 23:06:22</p>
             </div>
         </div>
     </div>
@@ -317,62 +319,213 @@
   <div id="article" class="post-content-info">
     
 
-    <h1 id="计算机网络1-3【IP】"><a href="#计算机网络1-3【IP】" class="headerlink" title="计算机网络1.3【IP】"></a>计算机网络1.3【IP】</h1><h2 id="DNS查询服务器的基本流程是什么？"><a href="#DNS查询服务器的基本流程是什么？" class="headerlink" title="DNS查询服务器的基本流程是什么？"></a>DNS查询服务器的基本流程是什么？</h2><ol>
-<li>客户向<strong>本地域名服务器</strong>发起DNS请求报文</li>
-<li><strong>本地域名服务器</strong>收到请求后，查询本地缓存，如果没有该记录，则以客户机的身份向<strong>根域名服务器</strong>发起解析请求</li>
-<li><strong>根域名服务器</strong>收到请求后，将对应的<strong>顶级域名服务器</strong>的IP地址返回给<strong>本地域名服务器</strong></li>
-<li><strong>本地域名服务器</strong>向<strong>顶级域名服务器</strong>发起解析请求</li>
-<li><strong>顶级域名服务器</strong>将对应的<strong>授权域名服务器</strong>的IP地址返回给<strong>本地域名服务器</strong></li>
-<li><strong>本地域名服务器</strong>向<strong>授权域名服务器</strong>发起解析请求</li>
-<li><strong>授权域名服务器</strong>将查询结果返回给<strong>本地域名服务器</strong></li>
-<li><strong>本地域名服务器</strong>将查询结果保存到本地缓存，同时返回给客户</li>
-</ol>
-<h2 id="DNS采用TCP还是UDP？"><a href="#DNS采用TCP还是UDP？" class="headerlink" title="DNS采用TCP还是UDP？"></a>DNS采用TCP还是UDP？</h2><p>DNS在区域传输时使用TCP协议，其他时刻使用UDP协议。TCP与UDP传送的字节长度限制不同</p>
-<p>在区域传输使用TCP协议的原因是：</p>
+    <h1 id="deque-h【iterator】"><a href="#deque-h【iterator】" class="headerlink" title="deque.h【iterator】"></a>deque.h【iterator】</h1><p>【deque.h】介绍了一个模板类deque，表示<strong>双端队列</strong></p>
+<p>第一节6.3.1节介绍【deque】的迭代器【deque_iterator】</p>
+<h2 id="初始化大小"><a href="#初始化大小" class="headerlink" title="初始化大小"></a>初始化大小</h2><p>首先定义deque map的初始化大小，定义初始化大小为8</p>
+<pre><code class="c++">// deque map 初始化的大小
+#ifndef DEQUE_MAP_INIT_SIZE
+#define DEQUE_MAP_INIT_SIZE 8
+#endif
+</code></pre>
+<p>定义一个结构，表示deque的缓冲区大小，缓冲区大小不能超过【4096个字节】</p>
+<p>如果deque中存放的数据【T】的大小小于【256字节】时，则可以存放【4096&#x2F;sizeof(T)】个，即超过16个；但是，当【T】的大小超过【256字节】时，最多存放16个</p>
+<pre><code class="c++">template &lt;class T&gt;
+struct deque_buf_size
+&#123;
+  static constexpr size_t value = sizeof(T) &lt; 256 ? 4096 / sizeof(T) : 16;
+&#125;;
+</code></pre>
+<h2 id="迭代器设计"><a href="#迭代器设计" class="headerlink" title="迭代器设计"></a>迭代器设计</h2><p>成员数据，其中包括</p>
 <ol>
-<li>区域传输的数据量较大</li>
-<li>区域传输对数据的可靠性和准确性要求高</li>
+<li>具有三个参数的迭代器，分别为数据，引用和指针</li>
+<li>具有三个参数的常量迭代器，分别为数据，常量引用和常量指针</li>
+<li>没有参数的自迭代器</li>
+<li>数据、指针、引用、数据数量【size_t】，距离，指针和二级指针</li>
+<li>定义缓冲区大小</li>
+<li>定义指针分别指向缓冲区的当前元素、头元素、尾元素</li>
+<li>定义指向缓冲区的二级指针</li>
 </ol>
-<p>一般来说，域名解析DNS的数据量较少，首选UDP协议。UDP不需要经过TCP的三次握手和四次挥手，传输效率高，耗费资源少</p>
-<h2 id="浏览器输入一个URL到显示器显示的过程？"><a href="#浏览器输入一个URL到显示器显示的过程？" class="headerlink" title="浏览器输入一个URL到显示器显示的过程？"></a>浏览器输入一个URL到显示器显示的过程？</h2><ol>
-<li>URL输入之后，浏览器从本地缓存中查找记录是否存在域名，如果存在就直接取出对应的IP地址。如果不存在，则开启一个DNS域名解析器，DNS域名解析器依次访问根域名服务器、顶级域名服务器、授权域名服务器、本地域名服务器，从而获得对应的IP地址</li>
-<li>获得IP地址之后，由于HTTP协议是基于TCP协议的应用层协议，于是通过TCP三次握手建立TCP连接</li>
-<li>建立连接之后，浏览器通过TCP连接向服务器发送HTTP请求，本质是基于HTTP标准的索要网页的请求，有GET和POST等方法</li>
-<li>服务器收到请求后，返回HTTP响应</li>
-<li>浏览器接收到HTTP响应后，根据内容渲染页面，最终显示器进行显示</li>
-<li>最后，通过TCP四次挥手断开TCP连接</li>
-</ol>
-<h2 id="PING是怎么工作的？"><a href="#PING是怎么工作的？" class="headerlink" title="PING是怎么工作的？"></a>PING是怎么工作的？</h2><p>PING命令是基于ICMP协议（因特网控制报文协议）进行工作的。ICMP协议的作用是确认发送的IP数据包能否到达主机，报告IP数据包因丢失没有到达主机的原因以及改善网络质量等等。</p>
+<pre><code class="c++">// deque 的迭代器设计
+template &lt;class T, class Ref, class Ptr&gt;
+struct deque_iterator : public iterator&lt;random_access_iterator_tag, T&gt;
+&#123;
+  typedef deque_iterator&lt;T, T&amp;, T*&gt;             iterator;
+  typedef deque_iterator&lt;T, const T&amp;, const T*&gt; const_iterator;
+  typedef deque_iterator                        self;
+
+  typedef T            value_type;
+  typedef Ptr          pointer;
+  typedef Ref          reference;
+  typedef size_t       size_type;
+  typedef ptrdiff_t    difference_type;
+  typedef T*           value_pointer;
+  typedef T**          map_pointer;
+
+  static const size_type buffer_size = deque_buf_size&lt;T&gt;::value;
+
+  // 迭代器所含成员数据
+  value_pointer cur;    // 指向所在缓冲区的当前元素
+  value_pointer first;  // 指向所在缓冲区的头部
+  value_pointer last;   // 指向所在缓冲区的尾部
+  map_pointer   node;   // 缓冲区所在节点
+</code></pre>
+<h2 id="迭代器的构造函数"><a href="#迭代器的构造函数" class="headerlink" title="迭代器的构造函数"></a>迭代器的构造函数</h2><p>传入形参可以为</p>
 <ol>
-<li>PING命令先发出一个ICMP请求，与服务端的IP地址一起交给IP层，然后IP层将服务端IP作为目的地址，主机IP作为源地址，构建为一个IP数据包</li>
-<li>到达链路层，根据服务端IP地址解析MAC地址，将其作为帧的主机地址，并将主机的MAC地址作为源地址，封装成帧，然后在物理层通过处理之后，经传输媒介进行发送</li>
-<li>目的主机收到数据帧之后，比对帧的目的MAC地址和主机B的MAC地址是否相同，不同则丢弃该帧，相同则解析该帧</li>
-<li>将其中的IP数据包传输到IP层，IP层提取有用的信息交给ICMP协议，主机B发送一个ICMP响应给源主机</li>
-<li>如果在规定的时间内，源主机可以收到这个ICMP响应，则说明主机B可达；如果没有收到，则说明主机B不可达</li>
+<li>空</li>
+<li>指向当前元素的指针和指向缓冲区的二级指针</li>
+<li>另一个迭代器</li>
 </ol>
-<h2 id="Cookie和Session的关系和区别？"><a href="#Cookie和Session的关系和区别？" class="headerlink" title="Cookie和Session的关系和区别？"></a>Cookie和Session的关系和区别？</h2><p><strong>Cookie</strong>是服务器发送给客户端并保存在本地的一小块数据，它会在下一次客户端给同一服务器发送数据时被携带并发送到服务器上。通常，它用来告知服务器两次请求是否来自于同一浏览器。</p>
-<p><strong>Cookie作用：</strong></p>
+<pre><code class="c++">deque_iterator() noexcept
+    :cur(nullptr), first(nullptr), last(nullptr), node(nullptr) &#123;&#125;
+
+  deque_iterator(value_pointer v, map_pointer n)
+    :cur(v), first(*n), last(*n + buffer_size), node(n) &#123;&#125;
+
+  deque_iterator(const iterator&amp; rhs)
+    :cur(rhs.cur), first(rhs.first), last(rhs.last), node(rhs.node)
+  &#123;
+  &#125;
+  deque_iterator(iterator&amp;&amp; rhs) noexcept
+    :cur(rhs.cur), first(rhs.first), last(rhs.last), node(rhs.node)
+  &#123;
+    rhs.cur = nullptr;
+    rhs.first = nullptr;
+    rhs.last = nullptr;
+    rhs.node = nullptr;
+  &#125;
+
+  deque_iterator(const const_iterator&amp; rhs)
+    :cur(rhs.cur), first(rhs.first), last(rhs.last), node(rhs.node)
+  &#123;
+  &#125;
+</code></pre>
+<h2 id="迭代器的复制函数和移动函数"><a href="#迭代器的复制函数和移动函数" class="headerlink" title="迭代器的复制函数和移动函数"></a>迭代器的复制函数和移动函数</h2><p>复制函数，即重载运算符【&#x3D;】</p>
+<pre><code class="c++">self&amp; operator=(const iterator&amp; rhs)
+  &#123;
+    if (this != &amp;rhs)
+    &#123;
+      cur = rhs.cur;
+      first = rhs.first;
+      last = rhs.last;
+      node = rhs.node;
+    &#125;
+    return *this;
+  &#125;
+</code></pre>
+<p>移动函数【set_node】，转移到另一个缓冲区</p>
+<pre><code class="c++">// 转到另一个缓冲区
+  void set_node(map_pointer new_node)
+  &#123;
+    node = new_node;
+    first = *new_node;
+    last = first + buffer_size;
+  &#125;
+</code></pre>
+<h2 id="取值运算符【-】和【-】"><a href="#取值运算符【-】和【-】" class="headerlink" title="取值运算符【-&gt;】和【*】"></a>取值运算符【-&gt;】和【*】</h2><pre><code class="c++">  reference operator*()  const &#123; return *cur; &#125;
+  pointer   operator-&gt;() const &#123; return cur; &#125;
+</code></pre>
+<h2 id="算术运算符【-】"><a href="#算术运算符【-】" class="headerlink" title="算术运算符【-】"></a>算术运算符【-】</h2><p>计算与另一个迭代器的距离，由三部分组成</p>
 <ol>
-<li>会话状态管理（保持登录状态、购物车等）</li>
-<li>个性化设置（用户自定义设置、网页主题）</li>
-<li>浏览器行为跟踪（分析用户行为）</li>
+<li>两个二级指针【node】的距离</li>
+<li>加上当前迭代器里【cur】和【first】的距离</li>
+<li>减去另一个迭代器里【cur】和【first】的距离</li>
 </ol>
-<p><strong>Session</strong>用来表示一次服务器和客户端的会话过程，保存在服务器上，用于存储特定用户与服务器会话所需的属性及配置信息，可以使用户在不同Web页跳转时，仍然保存有这些属性和配置信息，不会丢失，在整个会话过程中存在。Session会在客户端关闭会话或者Session超时失效时结束</p>
-<p><strong>区别：</strong></p>
+<pre><code class="c++">  difference_type operator-(const self&amp; x) const
+  &#123;
+    return static_cast&lt;difference_type&gt;(buffer_size) * (node - x.node)
+      + (cur - first) - (x.cur - x.first);
+  &#125;
+</code></pre>
+<h2 id="自增运算符【-】"><a href="#自增运算符【-】" class="headerlink" title="自增运算符【++】"></a>自增运算符【++】</h2><p><strong>知识点：</strong>【operator++(int)】中传入形参为【int】，因此【++】为后缀，先返回值再进行自增操作</p>
+<pre><code class="c++">self&amp; operator++()
+  &#123;
+    ++cur;
+    if (cur == last)
+    &#123; // 如果到达缓冲区的尾
+      set_node(node + 1);
+      cur = first;
+    &#125;
+    return *this;
+  &#125;
+  self operator++(int)
+  &#123;
+    self tmp = *this;
+    ++*this;
+    return tmp;
+  &#125;
+</code></pre>
+<h2 id="自减运算符【–】"><a href="#自减运算符【–】" class="headerlink" title="自减运算符【–】"></a>自减运算符【–】</h2><p>与自增运算符【++】相同，如果形参为【int】，则为后缀操作</p>
+<pre><code class="c++">self&amp; operator--()
+  &#123;
+    if (cur == first)
+    &#123; // 如果到达缓冲区的头
+      set_node(node - 1);
+      cur = last;
+    &#125;
+    --cur;
+    return *this;
+  &#125;
+  self operator--(int)
+  &#123;
+    self tmp = *this;
+    --*this;
+    return tmp;
+  &#125;
+</code></pre>
+<h2 id="其他算术运算符"><a href="#其他算术运算符" class="headerlink" title="其他算术运算符"></a>其他算术运算符</h2><p>运算符【+&#x3D;】，需要对传入参数【n】进行判断</p>
 <ol>
-<li>作用范围：Cookie存储于客户端，而Session存储于服务器</li>
-<li>存储方式：Cookie只能保存ASCII码，而Session可以保存任意形式的数据</li>
-<li>存活时间：Cookie可以长时间保持，如默认登陆；而Session存活时间较短，会在客户端关闭会话或者Session超时失效后结束</li>
-<li>存储数据量：Cookie存储数据量较少，而Session存储数据量较多</li>
-<li>安全性：Cookie存储于客户端，有一定的安全风险；而Session存储于服务器，安全系数较高</li>
+<li>如果当前位置【cur】加完【n】之后仍然在缓冲区内，则直接【cur+&#x3D;n】即可</li>
+<li>否则，需要判定后续位置在缓冲区前面或者后面，并且计算前面多少或者后面多少，进行移动</li>
 </ol>
-<h2 id="iPv4和iPv6的区别？"><a href="#iPv4和iPv6的区别？" class="headerlink" title="iPv4和iPv6的区别？"></a>iPv4和iPv6的区别？</h2><ol>
-<li>iPv6的首部为40个字节，比iPv4首部的24个字节要长，且首部结构更加简单</li>
-<li>iPv6可选择不放入报头，而是放在一个个独立的扩展头部</li>
-<li>iPv6的IP地址从32位扩展到128位，增加了地址空间</li>
-<li>iPv6支持地址自动配置，这是一种即插即用的机制，并且支持无状态地址自动配置和状态地址自动配置两种方式</li>
-<li>iPv6增加了一些关于身份验证、数据一致性和保密性的内容</li>
-</ol>
+<pre><code class="c++">  self&amp; operator+=(difference_type n)
+  &#123;
+    const auto offset = n + (cur - first);
+    if (offset &gt;= 0 &amp;&amp; offset &lt; static_cast&lt;difference_type&gt;(buffer_size))
+    &#123; // 仍在当前缓冲区
+      cur += n;
+    &#125;
+    else
+    &#123; // 要跳到其他的缓冲区
+      const auto node_offset = offset &gt; 0
+        ? offset / static_cast&lt;difference_type&gt;(buffer_size)
+        : -static_cast&lt;difference_type&gt;((-offset - 1) / buffer_size) - 1;
+      set_node(node + node_offset);
+      cur = first + (offset - node_offset * static_cast&lt;difference_type&gt;(buffer_size));
+    &#125;
+    return *this;
+  &#125;
+</code></pre>
+<p>运算符【+】</p>
+<pre><code class="c++">  self operator+(difference_type n) const
+  &#123;
+    self tmp = *this;
+    return tmp += n;
+  &#125;
+</code></pre>
+<p>运算符【-&#x3D;】和运算符【-】，利用上面定义的运算符【+&#x3D;】即可</p>
+<pre><code class="c++">  self&amp; operator-=(difference_type n)
+  &#123;
+    return *this += -n;
+  &#125;
+  self operator-(difference_type n) const
+  &#123;
+    self tmp = *this;
+    return tmp -= n;
+  &#125;
+</code></pre>
+<h2 id="访问运算符【-】"><a href="#访问运算符【-】" class="headerlink" title="访问运算符【[]】"></a>访问运算符【[]】</h2><p>【operator[]】函数</p>
+<pre><code class="c++">  reference operator[](difference_type n) const &#123; return *(*this + n); &#125;
+</code></pre>
+<h2 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h2><p>只需要定义比较运算符【&#x3D;&#x3D;】和【&lt;】即可，后续比较运算符【!&#x3D;】、【&gt;】、【&lt;&#x3D;】、【&gt;&#x3D;】均可以变种得来</p>
+<pre><code class="c++">  // 重载比较操作符
+  bool operator==(const self&amp; rhs) const &#123; return cur == rhs.cur; &#125;
+  bool operator&lt; (const self&amp; rhs) const
+  &#123; return node == rhs.node ? (cur &lt; rhs.cur) : (node &lt; rhs.node); &#125;
+  bool operator!=(const self&amp; rhs) const &#123; return !(*this == rhs); &#125;
+  bool operator&gt; (const self&amp; rhs) const &#123; return rhs &lt; *this; &#125;
+  bool operator&lt;=(const self&amp; rhs) const &#123; return !(rhs &lt; *this); &#125;
+  bool operator&gt;=(const self&amp; rhs) const &#123; return !(*this &lt; rhs); &#125;
+</code></pre>
 <hr>
 <script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
 </script>
@@ -438,19 +591,19 @@ Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
 
     <div class="post-paging">
     
-    <a href="/2024/08/06/MyTinySTL-6.2.4%E3%80%90basic_string.h%E3%80%91/">
+    <a href="/2024/08/12/MyTinySTL-6.3.2%E3%80%90deque.h%E3%80%91/">
         <div class="post-paging-last">
             <span>上一篇</span>
-            <p>MyTinySTL-6.2.4【basic_string.h】【查找】</p>
+            <p>MyTinySTL-6.3.2【deque.h】【init】</p>
         </div>
     </a>
     
 
     
-    <a href="/2024/08/04/MyTinySTL-6.2.3%E3%80%90basic_string.h%E3%80%91/">
+    <a href="/2024/08/11/MT%E7%BC%96%E7%A8%8B%E9%A2%98%E7%BB%83%E6%89%8B/">
         <div class="post-paging-next">
             <span>下一篇</span>
-            <p>MyTinySTL-6.2.3【basic_string.h】【字符串操作】</p>
+            <p>MT编程题练手</p>
         </div>
     </a>
     

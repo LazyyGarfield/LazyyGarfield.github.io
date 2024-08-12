@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.3.2【deque.h】【init】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.3.2【deque.h】【init】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-12 23:08:19</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="6-3-2【deque-h】【init】"><a href="#6-3-2【deque-h】【init】" class="headerlink" title="6.3.2【deque.h】【init】"></a>6.3.2【deque.h】【init】</h1><p>6.3.2节开始介绍【deque】，先介绍初始化部分</p>
+<p>定义了一个模板类【deque】</p>
+<h2 id="公共public属性"><a href="#公共public属性" class="headerlink" title="公共public属性"></a>公共public属性</h2><p>包含了一些空间分配器【allocator】属性和迭代器【deque_iterator】属性</p>
+<pre><code class="c++">template &lt;class T&gt;
+class deque
+&#123;
+public:
+  // deque 的型别定义
+  typedef mystl::allocator&lt;T&gt;                      allocator_type;
+  typedef mystl::allocator&lt;T&gt;                      data_allocator;
+  typedef mystl::allocator&lt;T*&gt;                     map_allocator;
+
+  typedef typename allocator_type::value_type      value_type;
+  typedef typename allocator_type::pointer         pointer;
+  typedef typename allocator_type::const_pointer   const_pointer;
+  typedef typename allocator_type::reference       reference;
+  typedef typename allocator_type::const_reference const_reference;
+  typedef typename allocator_type::size_type       size_type;
+  typedef typename allocator_type::difference_type difference_type;
+  typedef pointer*                                 map_pointer;
+  typedef const_pointer*                           const_map_pointer;
+
+  typedef deque_iterator&lt;T, T&amp;, T*&gt;                iterator;
+  typedef deque_iterator&lt;T, const T&amp;, const T*&gt;    const_iterator;
+  typedef mystl::reverse_iterator&lt;iterator&gt;        reverse_iterator;
+  typedef mystl::reverse_iterator&lt;const_iterator&gt;  const_reverse_iterator;
+
+  allocator_type get_allocator() &#123; return allocator_type(); &#125;
+
+  static const size_type buffer_size = deque_buf_size&lt;T&gt;::value;
+</code></pre>
+<h2 id="私有private属性"><a href="#私有private属性" class="headerlink" title="私有private属性"></a>私有private属性</h2><p>通过以下四个数据来表现一个双向队列【deque】</p>
+<ol>
+<li>【map_】指向一块中控区，是中控区的地址，中控区的每个节点是一个指针，这个指针指向一个缓冲区，其中存放元素。指针的地址是连续的，但缓冲区的地址不是连续的</li>
+<li>【<code>begin_</code>】是中控区的其中一个指针，【<code>begin_.cur</code>】代表【deque】的头部</li>
+<li>【<code>end_</code>】是中控区的另一个指针，【<code>end_cur</code>】代表【deque】的尾部</li>
+</ol>
+<pre><code class="c++">private:
+  // 用以下四个数据来表现一个 deque
+  iterator       begin_;     // 指向第一个节点
+  iterator       end_;       // 指向最后一个结点
+  map_pointer    map_;       // 指向一块 map，map 中的每个元素都是一个指针，指向一个缓冲区
+  size_type      map_size_;  // map 内指针的数目
+</code></pre>
+<h2 id="构造函数（使用value构造）"><a href="#构造函数（使用value构造）" class="headerlink" title="构造函数（使用value构造）"></a>构造函数（使用value构造）</h2><p>需要利用【fill_init】和【map_init】函数，传入形参分别如下</p>
+<ol>
+<li>不传入参数，初始化一个双向队列为空</li>
+<li>传入参数【size_type n】，代表数据的数量，初始化一个长度为n的空双向队列</li>
+<li>传入参数【size_type n】和【const value_type&amp; value】，初始化一个长度为n，且数值都为value的双向队列</li>
+</ol>
+<pre><code class="c++">  deque()
+  &#123; fill_init(0, value_type()); &#125;
+
+  explicit deque(size_type n)
+  &#123; fill_init(n, value_type()); &#125;
+
+  deque(size_type n, const value_type&amp; value)
+  &#123; fill_init(n, value); &#125;
+
+  template &lt;class IIter, typename std::enable_if&lt;
+    mystl::is_input_iterator&lt;IIter&gt;::value, int&gt;::type = 0&gt;
+  deque(IIter first, IIter last)
+  &#123; copy_init(first, last, iterator_category(first)); &#125;
+</code></pre>
+<p>【fill_init】函数如下，其中需要【map_init】函数开创空间</p>
+<pre><code class="c++">// fill_init 函数
+template &lt;class T&gt;
+void deque&lt;T&gt;::
+fill_init(size_type n, const value_type&amp; value)
+&#123;
+  map_init(n);
+  if (n != 0)
+  &#123;
+    for (auto cur = begin_.node; cur &lt; end_.node; ++cur)
+    &#123;
+      mystl::uninitialized_fill(*cur, *cur + buffer_size, value);
+    &#125;
+    mystl::uninitialized_fill(end_.first, end_.cur, value);
+  &#125;
+&#125;
+</code></pre>
+<p>【map_init】函数</p>
+<pre><code class="c++">// map_init 函数
+template &lt;class T&gt;
+void deque&lt;T&gt;::
+map_init(size_type nElem)
+&#123;
+  const size_type nNode = nElem / buffer_size + 1;  // 需要分配的缓冲区个数
+  map_size_ = mystl::max(static_cast&lt;size_type&gt;(DEQUE_MAP_INIT_SIZE), nNode + 2);
+  try
+  &#123;
+    map_ = create_map(map_size_);
+  &#125;
+  catch (...)
+  &#123;
+    map_ = nullptr;
+    map_size_ = 0;
+    throw;
+  &#125;
+
+  // 让 nstart 和 nfinish 都指向 map_ 最中央的区域，方便向头尾扩充
+  map_pointer nstart = map_ + (map_size_ - nNode) / 2;
+  map_pointer nfinish = nstart + nNode - 1;
+  try
+  &#123;
+    create_buffer(nstart, nfinish);
+  &#125;
+  catch (...)
+  &#123;
+    map_allocator::deallocate(map_, map_size_);
+    map_ = nullptr;
+    map_size_ = 0;
+    throw;
+  &#125;
+  begin_.set_node(nstart);
+  end_.set_node(nfinish);
+  begin_.cur = begin_.first;
+  end_.cur = end_.first + (nElem % buffer_size);
+&#125;
+</code></pre>
+<p>辅助函数【create_map】和【create_buffer】如下</p>
+<pre><code class="c++">// create_map 函数
+template &lt;class T&gt;
+typename deque&lt;T&gt;::map_pointer
+deque&lt;T&gt;::create_map(size_type size)
+&#123;
+  map_pointer mp = nullptr;
+  mp = map_allocator::allocate(size);
+  for (size_type i = 0; i &lt; size; ++i)
+    *(mp + i) = nullptr;
+  return mp;
+&#125;
+
+// create_buffer 函数
+template &lt;class T&gt;
+void deque&lt;T&gt;::
+create_buffer(map_pointer nstart, map_pointer nfinish)
+&#123;
+  map_pointer cur;
+  try
+  &#123;
+    for (cur = nstart; cur &lt;= nfinish; ++cur)
+    &#123;
+      *cur = data_allocator::allocate(buffer_size);
+    &#125;
+  &#125;
+  catch (...)
+  &#123;
+    while (cur != nstart)
+    &#123;
+      --cur;
+      data_allocator::deallocate(*cur, buffer_size);
+      *cur = nullptr;
+    &#125;
+    throw;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="构造函数（使用迭代器构造）"><a href="#构造函数（使用迭代器构造）" class="headerlink" title="构造函数（使用迭代器构造）"></a>构造函数（使用迭代器构造）</h2><p>传入形参为迭代器的首尾</p>
+<pre><code class="c++">  template &lt;class IIter, typename std::enable_if&lt;
+    mystl::is_input_iterator&lt;IIter&gt;::value, int&gt;::type = 0&gt;
+  deque(IIter first, IIter last)
+  &#123; copy_init(first, last, iterator_category(first)); &#125;
+
+  deque(std::initializer_list&lt;value_type&gt; ilist)
+  &#123;
+    copy_init(ilist.begin(), ilist.end(), mystl::forward_iterator_tag());
+  &#125;
+</code></pre>
+<p>其中的【copy_init】函数如下，输入迭代器和前向迭代器所使用的方法不同</p>
+<ol>
+<li>输入迭代器使用【emplace_back】函数在尾部添加元素</li>
+<li>前向迭代器依次将每个缓冲区进行填充</li>
+</ol>
+<pre><code class="c++">// copy_init 函数
+template &lt;class T&gt;
+template &lt;class IIter&gt;
+void deque&lt;T&gt;::
+copy_init(IIter first, IIter last, input_iterator_tag)
+&#123;
+  const size_type n = mystl::distance(first, last);
+  map_init(n);
+  for (; first != last; ++first)
+    emplace_back(*first);
+&#125;
+
+template &lt;class T&gt;
+template &lt;class FIter&gt;
+void deque&lt;T&gt;::
+copy_init(FIter first, FIter last, forward_iterator_tag)
+&#123;
+  const size_type n = mystl::distance(first, last);
+  map_init(n);
+  for (auto cur = begin_.node; cur &lt; end_.node; ++cur)
+  &#123;
+    auto next = first;
+    mystl::advance(next, buffer_size);
+    mystl::uninitialized_copy(first, next, *cur);
+    first = next;
+  &#125;
+  mystl::uninitialized_copy(first, last, end_.first);
+&#125;
+</code></pre>
+<p>【emplace_back】函数，直接在尾部添加元素，但需要判断添加元素后，尾部的缓冲区是否满了</p>
+<ol>
+<li>如果添加元素之后刚好满了，则只需要使用【require_capacity】函数扩充区间，然后添加元素之后使【++end_】</li>
+<li>如果添加元素之后不满，则直接添加，然后【++end_.cur】</li>
+</ol>
+<pre><code class="c++">// 在尾部就地构建元素
+template &lt;class T&gt;
+template &lt;class ...Args&gt;
+void deque&lt;T&gt;::emplace_back(Args&amp;&amp; ...args)
+&#123;
+  if (end_.cur != end_.last - 1)
+  &#123;
+    data_allocator::construct(end_.cur, mystl::forward&lt;Args&gt;(args)...);
+    ++end_.cur;
+  &#125;
+  else
+  &#123;
+    require_capacity(1, false);
+    data_allocator::construct(end_.cur, mystl::forward&lt;Args&gt;(args)...);
+    ++end_;
+  &#125;
+&#125;
+</code></pre>
+<p>【require_capacity】函数，其中传入两个参数【n】和【front】</p>
+<ol>
+<li>【front】参数为true时，表示需要往前扩充空间；【front】参数为false时，需要往后扩充空间</li>
+<li>扩充空间则使用【需要扩充的空间&#x2F;缓冲区大小】计算得到【需要扩充的缓冲区数量】</li>
+<li>判断【需要扩充的缓冲区数量】是否会超出【剩余可扩充的数量】，如果不会则直接扩充，如果会的话需要利用【reallocate_map_at_front】函数或者【reallocate_map_at_back】函数对【map】扩充</li>
+</ol>
+<pre><code class="c++">// require_capacity 函数
+template &lt;class T&gt;
+void deque&lt;T&gt;::require_capacity(size_type n, bool front)
+&#123;
+  if (front &amp;&amp; (static_cast&lt;size_type&gt;(begin_.cur - begin_.first) &lt; n))
+  &#123;
+    const size_type need_buffer = (n - (begin_.cur - begin_.first)) / buffer_size + 1;
+    if (need_buffer &gt; static_cast&lt;size_type&gt;(begin_.node - map_))
+    &#123;
+      reallocate_map_at_front(need_buffer);
+      return;
+    &#125;
+    create_buffer(begin_.node - need_buffer, begin_.node - 1);
+  &#125;
+  else if (!front &amp;&amp; (static_cast&lt;size_type&gt;(end_.last - end_.cur - 1) &lt; n))
+  &#123;
+    const size_type need_buffer = (n - (end_.last - end_.cur - 1)) / buffer_size + 1;
+    if (need_buffer &gt; static_cast&lt;size_type&gt;((map_ + map_size_) - end_.node - 1))
+    &#123;
+      reallocate_map_at_back(need_buffer);
+      return;
+    &#125;
+    create_buffer(end_.node + 1, end_.node + need_buffer);
+  &#125;
+&#125;
+</code></pre>
+<p>【reallocate_map_at_front】函数和【reallocate_map_at_back】函数</p>
+<pre><code class="c++">// reallocate_map_at_front 函数
+template &lt;class T&gt;
+void deque&lt;T&gt;::reallocate_map_at_front(size_type need_buffer)
+&#123;
+  const size_type new_map_size = mystl::max(map_size_ &lt;&lt; 1,
+                                            map_size_ + need_buffer + DEQUE_MAP_INIT_SIZE);
+  map_pointer new_map = create_map(new_map_size);
+  const size_type old_buffer = end_.node - begin_.node + 1;
+  const size_type new_buffer = old_buffer + need_buffer;
+
+  // 另新的 map 中的指针指向原来的 buffer，并开辟新的 buffer
+  auto begin = new_map + (new_map_size - new_buffer) / 2;
+  auto mid = begin + need_buffer;
+  auto end = mid + old_buffer;
+  create_buffer(begin, mid - 1);
+  for (auto begin1 = mid, begin2 = begin_.node; begin1 != end; ++begin1, ++begin2)
+    *begin1 = *begin2;
+
+  // 更新数据
+  map_allocator::deallocate(map_, map_size_);
+  map_ = new_map;
+  map_size_ = new_map_size;
+  begin_ = iterator(*mid + (begin_.cur - begin_.first), mid);
+  end_ = iterator(*(end - 1) + (end_.cur - end_.first), end - 1);
+&#125;
+
+// reallocate_map_at_back 函数
+template &lt;class T&gt;
+void deque&lt;T&gt;::reallocate_map_at_back(size_type need_buffer)
+&#123;
+  const size_type new_map_size = mystl::max(map_size_ &lt;&lt; 1,
+                                            map_size_ + need_buffer + DEQUE_MAP_INIT_SIZE);
+  map_pointer new_map = create_map(new_map_size);
+  const size_type old_buffer = end_.node - begin_.node + 1;
+  const size_type new_buffer = old_buffer + need_buffer;
+
+  // 另新的 map 中的指针指向原来的 buffer，并开辟新的 buffer
+  auto begin = new_map + ((new_map_size - new_buffer) / 2);
+  auto mid = begin + old_buffer;
+  auto end = mid + need_buffer;
+  for (auto begin1 = begin, begin2 = begin_.node; begin1 != mid; ++begin1, ++begin2)
+    *begin1 = *begin2;
+  create_buffer(mid, end - 1);
+
+  // 更新数据
+  map_allocator::deallocate(map_, map_size_);
+  map_ = new_map;
+  map_size_ = new_map_size;
+  begin_ = iterator(*begin + (begin_.cur - begin_.first), begin);
+  end_ = iterator(*(mid - 1) + (end_.cur - end_.first), mid - 1);
+&#125;
+</code></pre>
+<h2 id="构造函数（用另一个deque构造）"><a href="#构造函数（用另一个deque构造）" class="headerlink" title="构造函数（用另一个deque构造）"></a>构造函数（用另一个deque构造）</h2><p>用另一个deque来进行构造</p>
+<ol>
+<li>左值引用，利用【copy_init】函数，输入形参为迭代器的首尾，进行构造。构造结束之后，不需要对左值引用的deque进行销毁</li>
+<li>右值引用，直接进行赋值，并且构造之后需要对右值引用进行销毁</li>
+</ol>
+<pre><code class="c++">  deque(const deque&amp; rhs)
+  &#123;
+    copy_init(rhs.begin(), rhs.end(), mystl::forward_iterator_tag());
+  &#125;
+  deque(deque&amp;&amp; rhs) noexcept
+    :begin_(mystl::move(rhs.begin_)),
+    end_(mystl::move(rhs.end_)),
+    map_(rhs.map_),
+    map_size_(rhs.map_size_)
+  &#123;
+    rhs.map_ = nullptr;
+    rhs.map_size_ = 0;
+  &#125;
+</code></pre>
+<h2 id="复制赋值运算符"><a href="#复制赋值运算符" class="headerlink" title="复制赋值运算符"></a>复制赋值运算符</h2><p>对复制运算符【&#x3D;】进行重载，输入参数为【常量deque &amp;rhs】</p>
+<ol>
+<li>首先判断【源deque】的长度和【rhs】的长度，如果【源deque】的长度较大，则需要利用【erase】函数进行元素的删减</li>
+<li>如果【源deque】的长度较小，则先把【rhs】相同长度的前半部分赋值到【源deque】，然后利用【insert】函数将【rhs】的后半部分插入到【源deque】的尾部</li>
+<li>此处的【erase】函数和【insert】函数在6.3.3节中给出</li>
+</ol>
+<pre><code class="c++">// 复制赋值运算符
+template &lt;class T&gt;
+deque&lt;T&gt;&amp; deque&lt;T&gt;::operator=(const deque&amp; rhs)
+&#123;
+  if (this != &amp;rhs)
+  &#123;
+    const auto len = size();
+    if (len &gt;= rhs.size())
+    &#123;
+      erase(mystl::copy(rhs.begin_, rhs.end_, begin_), end_);
+    &#125;
+    else
+    &#123;
+      iterator mid = rhs.begin() + static_cast&lt;difference_type&gt;(len);
+      mystl::copy(rhs.begin_, mid, begin_);
+      insert(end_, mid, rhs.end_);
+    &#125;
+  &#125;
+  return *this;
+&#125;
+</code></pre>
+<h2 id="移动赋值运算符"><a href="#移动赋值运算符" class="headerlink" title="移动赋值运算符"></a>移动赋值运算符</h2><p>对复制运算符【&#x3D;】进行重载，输入参数为右值引用【常量deque &amp;&amp;rhs】，在开始时需要利用【clear】函数清空【源deque】，然后利用【copy】函数将【rhs】进行赋值即可</p>
+<pre><code class="c++">// 移动赋值运算符
+template &lt;class T&gt;
+deque&lt;T&gt;&amp; deque&lt;T&gt;::operator=(deque&amp;&amp; rhs)
+&#123;
+  clear();
+  begin_ = mystl::move(rhs.begin_);
+  end_ = mystl::move(rhs.end_);
+  map_ = rhs.map_;
+  map_size_ = rhs.map_size_;
+  rhs.map_ = nullptr;
+  rhs.map_size_ = 0;
+  return *this;
+&#125;
+</code></pre>
+<h2 id="使用swap函数赋值"><a href="#使用swap函数赋值" class="headerlink" title="使用swap函数赋值"></a>使用swap函数赋值</h2><p>使用【swap】函数交换两个deque，从而进行赋值</p>
+<pre><code class="c++">deque&amp; operator=(std::initializer_list&lt;value_type&gt; ilist)
+&#123;
+  deque tmp(ilist);
+  swap(tmp);
+  return *this;
+&#125;
+
+// 交换两个 deque
+template &lt;class T&gt;
+void deque&lt;T&gt;::swap(deque&amp; rhs) noexcept
+&#123;
+  if (this != &amp;rhs)
+  &#123;
+    mystl::swap(begin_, rhs.begin_);
+    mystl::swap(end_, rhs.end_);
+    mystl::swap(map_, rhs.map_);
+    mystl::swap(map_size_, rhs.map_size_);
+  &#125;
+&#125;
+</code></pre>
+<h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><ol>
+<li>先使用【clear】函数清空数据部分，但是需要保留头部的缓冲区和【map_】</li>
+<li>对头部的缓冲区【begin_】进行销毁</li>
+<li>对【map_】进行销毁</li>
+</ol>
+<pre><code class="c++">~deque()
+&#123;
+  if (map_ != nullptr)
+  &#123;
+    clear();
+    data_allocator::deallocate(*begin_.node, buffer_size);
+    *begin_.node = nullptr;
+    map_allocator::deallocate(map_, map_size_);
+    map_ = nullptr;
+  &#125;
+&#125;
+
+// 清空 deque
+template &lt;class T&gt;
+void deque&lt;T&gt;::clear()
+&#123;
+  // clear 会保留头部的缓冲区
+  for (map_pointer cur = begin_.node + 1; cur &lt; end_.node; ++cur)
+  &#123;
+    data_allocator::destroy(*cur, *cur + buffer_size);
+  &#125;
+  if (begin_.node != end_.node)
+  &#123; // 有两个以上的缓冲区
+    mystl::destroy(begin_.cur, begin_.last);
+    mystl::destroy(end_.first, end_.cur);
+  &#125;
+  else
+  &#123;
+    mystl::destroy(begin_.cur, end_.cur);
+  &#125;
+  shrink_to_fit();
+  end_ = begin_;
+&#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+
+    
+    <a href="/2024/08/12/MyTinySTL-6.3.1%E3%80%90deque.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-6.3.1【deque.h】【iterator】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

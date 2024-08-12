@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>标签:STL-lazyy</title>
+<title>MyTinySTL-6.2.5【basic_string.h】【运算符重载】-lazyy</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="/css/index.css">
 
 
-<meta name="keywords" content="LazyGarfield,blog,hexo,Quiet">
-<meta name="description" content="描述">
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
 
 
 <script src="/js/jquery.min.js"></script>
@@ -38,7 +39,6 @@
 
 	<body>
 		
-
 	<div class="header">
 		<div class="header-top" id="header-top">
 			<div class="h-left">
@@ -77,13 +77,13 @@
 								
 									
 						
-							<li class="select">
-								<a href="/tags">
-									TAGS
-								</a>
-								<span class="dot"></span>
-							</li>
-							
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
 									
 						
 								<li>
@@ -276,78 +276,160 @@
 
 </script>
 
-
-
-
-<div class="tag">
-    <div class="header-body-background">
-    <div class="header-body-background-content">
-        <span>
-            <img src="/image/logo.png" alt="Quiet">
-        </span>
-
-        <h2>文章标签：STL</h2>
-    </div>
-</div>
-    <div class="tag-content" id="content">
-        <div class="tag-content-data">
-            <div class="grouping">
-    
-        <p>
-            2024
-        </p>
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
         
-        <a href="/2024/07/19/MyTinySTL-4.1【allocator.h】/">
-            <span>MyTinySTL-4.1【allocator.h】</span>
-            <time>07-19</time>
-        </a>
-        
-        <a href="/2024/07/15/MyTinySTL-3.3【construct.h】/">
-            <span>MyTinySTL-3.3【construct.h】</span>
-            <time>07-15</time>
-        </a>
-        
-        <a href="/2024/07/12/MyTinySTL-3.2【heap_alog.h】和【set_alog.h】/">
-            <span>MyTinySTL-3.2【heap_alog.h】和【set_alog.h】</span>
-            <time>07-12</time>
-        </a>
-        
-        <a href="/2024/07/11/MyTinySTL-3.1【algobase.h】和【numeric.h】/">
-            <span>MyTinySTL-3.1【algobase.h】和【numeric.h】</span>
-            <time>07-11</time>
-        </a>
-        
-        <a href="/2024/07/08/MyTinySTL-2.2【util.h】/">
-            <span>MyTinySTL-2.2【util.h】</span>
-            <time>07-08</time>
-        </a>
-        
-        <a href="/2024/07/06/MyTinySTL-2.1【iterator.h】/">
-            <span>MyTinySTL-2.1【iterator.h】</span>
-            <time>07-06</time>
-        </a>
-        
-        <a href="/2024/07/04/MyTinySTL-1.2【functional.h】/">
-            <span>MyTinySTL-1.2【functional.h】</span>
-            <time>07-04</time>
-        </a>
-        
-        <a href="/2024/07/04/MyTinySTL-1.1【exceptdef.h】和【type_traits.h】/">
-            <span>MyTinySTL-1.1【exceptdef.h】和【type_traits.h】</span>
-            <time>07-04</time>
-        </a>
-        
-        <a href="/2024/07/01/MyTinySTL-0/">
-            <span>MyTinySTL-0</span>
-            <time>07-01</time>
-        </a>
-        
-        
-</div>
+        <h1>MyTinySTL-6.2.5【basic_string.h】【运算符重载】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-08 22:58:14</p>
+            </div>
         </div>
     </div>
 </div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
 
+    <h1 id="basic-string-h【运算符重载】"><a href="#basic-string-h【运算符重载】" class="headerlink" title="basic_string.h【运算符重载】"></a>basic_string.h【运算符重载】</h1><h2 id="operator"><a href="#operator" class="headerlink" title="operator+&#x3D;"></a>operator+&#x3D;</h2><p>重载字符串中的【+&#x3D;】函数，无论传入形参为模板类【str】，字符【ch】或者字符串【str】，都可以利用【append】的重载函数</p>
+<pre><code class="c++">  // 重载 operator+= 
+  basic_string&amp; operator+=(const basic_string&amp; str)
+  &#123; return append(str); &#125;
+  basic_string&amp; operator+=(value_type ch)
+  &#123; return append(1, ch); &#125;
+  basic_string&amp; operator+=(const_pointer str)
+  &#123; return append(str, str + char_traits::length(str)); &#125;
+</code></pre>
+<h2 id="operator-1"><a href="#operator-1" class="headerlink" title="operator&gt;&gt;"></a>operator&gt;&gt;</h2><p>重载输入运算符，属于友元函数</p>
+<pre><code class="c++">  friend std::istream&amp; operator &gt;&gt; (std::istream&amp; is, basic_string&amp; str)
+  &#123;
+    value_type* buf = new value_type[4096];
+    is &gt;&gt; buf;
+    basic_string tmp(buf);
+    str = std::move(tmp);
+    delete[]buf;
+    return is;
+  &#125;
+</code></pre>
+<h2 id="operator-2"><a href="#operator-2" class="headerlink" title="operator&lt;&lt;"></a>operator&lt;&lt;</h2><p>重载输出运算符，属于友元函数</p>
+<pre><code class="c++">  friend std::ostream&amp; operator &lt;&lt; (std::ostream&amp; os, const basic_string&amp; str)
+  &#123;
+    for (size_type i = 0; i &lt; str.size_; ++i)
+      os &lt;&lt; *(str.buffer_ + i);
+    return os;
+  &#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/08/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C1.4/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>计算机网络1.4【HTTP】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/08/06/MyTinySTL-6.2.4%E3%80%90basic_string.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-6.2.4【basic_string.h】【查找】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
 		
 <div class="footer">
 	<div class="Copyright">
@@ -451,7 +533,7 @@
             distractionFreeMode:false
         })
         
-        if(Boolean('')){
+        if(Boolean('false')){
             gitalk.render('gitalk-container')
         }
     </script>

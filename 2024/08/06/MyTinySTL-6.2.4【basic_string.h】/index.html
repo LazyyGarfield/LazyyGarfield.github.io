@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.2.4【basic_string.h】【查找】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.2.4【basic_string.h】【查找】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-06 22:55:14</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="basic-string-h【查找】"><a href="#basic-string-h【查找】" class="headerlink" title="basic_string.h【查找】"></a>basic_string.h【查找】</h1><h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p>在源字符串中进行查找，传入形参可以为</p>
+<p><strong>第一种，</strong>传入参数为位置【pos】和字符【ch】，位置【pos】默认为0。函数从下标 【pos】 开始查找字符为 【ch】 的元素，若找到返回其下标，否则返回 【npos】</p>
+<pre><code class="c++">// 从下标 pos 开始查找字符为 ch 的元素，若找到返回其下标，否则返回 npos
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find(value_type ch, size_type pos) const noexcept
+&#123;
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    if (*(buffer_ + i) == ch)
+      return i;
+  &#125;
+  return npos;
+&#125;
+</code></pre>
+<p><strong>第二种，</strong>传入参数为位置【pos】和字符串【str】，位置【pos】默认为0。函数从下标【pos】 开始查找字符串 【str】，若找到返回起始位置的下标，否则返回 【npos】</p>
+<pre><code class="c++">// 从下标 pos 开始查找字符串 str，若找到返回起始位置的下标，否则返回 npos
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find(const_pointer str, size_type pos) const noexcept
+&#123;
+  const auto len = char_traits::length(str);
+  if (len == 0)
+    return pos;
+  if (size_ - pos &lt; len)
+    return npos;
+  const auto left = size_ - len;
+  for (auto i = pos; i &lt;= left; ++i)
+  &#123;
+    if (*(buffer_ + i) == *str)
+    &#123;
+      size_type j = 1;
+      for (; j &lt; len; ++j)
+      &#123;
+        if (*(buffer_ + i + j) != *(str + j))
+          break;
+      &#125;
+      if (j == len)
+        return i;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+</code></pre>
+<p><strong>第三种，</strong>传入参数为位置【pos】，字符串【str】和字符数量【count】。函数从下标 【pos】 开始查找字符串 【str】 的前 【count】 个字符，若找到返回起始位置的下标，否则返回 【npos】</p>
+<pre><code class="c++">// 从下标 pos 开始查找字符串 str 的前 count 个字符，若找到返回起始位置的下标，否则返回 npos
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find(const_pointer str, size_type pos, size_type count) const noexcept
+&#123;
+  if (count == 0)
+    return pos;
+  if (size_ - pos &lt; count)
+    return npos;
+  const auto left = size_ - count;
+  for (auto i = pos; i &lt;= left; ++i)
+  &#123;
+    if (*(buffer_ + i) == *str)
+    &#123;
+      size_type j = 1;
+      for (; j &lt; count; ++j)
+      &#123;
+        if (*(buffer_ + i + j) != *(str + j))
+          break;
+      &#125;
+      if (j == count)
+        return i;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+</code></pre>
+<p><strong>第四种，</strong>传入参数为位置【pos】和另一个模板类【str】，位置【pos】默认为0。函数从下标 【pos】 开始查找字符串 【str】，若找到返回起始位置的下标，否则返回 【npos】</p>
+<pre><code class="c++">// 从下标 pos 开始查找字符串 str，若找到返回起始位置的下标，否则返回 npos
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find(const basic_string&amp; str, size_type pos) const noexcept
+&#123;
+  const size_type count = str.size_;
+  if (count == 0)
+    return pos;
+  if (size_ - pos &lt; count)
+    return npos;
+  const auto left = size_ - count;
+  for (auto i = pos; i &lt;= left; ++i)
+  &#123;
+    if (*(buffer_ + i) == str.front())
+    &#123;
+      size_type j = 1;
+      for (; j &lt; count; ++j)
+      &#123;
+        if (*(buffer_ + i + j) != str[j])
+          break;
+      &#125;
+      if (j == count)
+        return i;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+</code></pre>
+<h2 id="rfind"><a href="#rfind" class="headerlink" title="rfind"></a>rfind</h2><p>与【find】函数类似，但是从后往前找</p>
+<p><strong>第一种，</strong>传入参数为位置【pos】和字符【ch】，位置【pos】默认为0。函数从下标 【pos】 开始<strong>反向</strong>查找字符为 【ch】 的元素，若找到返回其下标，否则返回 【npos】</p>
+<pre><code class="c++">// 从下标 pos 开始反向查找值为 ch 的元素，与 find 类似
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+rfind(value_type ch, size_type pos) const noexcept
+&#123;
+  if (pos &gt;= size_)
+    pos = size_ - 1;
+  for (auto i = pos; i != 0; --i)
+  &#123;
+    if (*(buffer_ + i) == ch)
+      return i;
+  &#125;
+  return front() == ch ? 0 : npos;
+&#125;
+</code></pre>
+<p><strong>第二种，</strong>传入参数为位置【pos】和字符串【str】，位置【pos】默认为0。函数从下标【pos】 开始<strong>反向</strong>查找字符串 【str】，若找到返回起始位置的下标，否则返回 【npos】</p>
+<p>需要注意的是，字符串【str】是也是反向匹配的，并且返回的是起始位置的下标（靠前的下标）</p>
+<pre><code class="c++">// 从下标 pos 开始反向查找字符串 str，与 find 类似
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+rfind(const_pointer str, size_type pos) const noexcept
+&#123;
+  if (pos &gt;= size_)
+    pos = size_ - 1;
+  const size_type len = char_traits::length(str);
+  switch (len)
+  &#123;
+    case 0: 
+      return pos;
+    case 1: 
+    &#123;
+      for (auto i = pos; i != 0; --i)
+      &#123;
+        if (*(buffer_ + i) == *str)
+          return i;
+      &#125;
+      return front() == *str ? 0 : npos;
+    &#125;
+    default:
+    &#123; // len &gt;= 2
+      for (auto i = pos; i &gt;= len - 1; --i)
+      &#123;
+        if (*(buffer_ + i) == *(str + len - 1))
+        &#123;
+          size_type j = 1;
+          for (; j &lt; len; ++j)
+          &#123;
+            if (*(buffer_ + i - j) != *(str + len - j - 1))
+              break;
+          &#125;
+          if (j == len)
+            return i - len + 1;
+        &#125;
+      &#125;
+      break;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+</code></pre>
+<p><strong>第三种，</strong>传入参数为位置【pos】，字符串【str】和字符数量【count】。函数从下标 【pos】 开始<strong>反向</strong>查找字符串 【str】 的前 【count】 个字符，若找到返回起始位置的下标，否则返回 【npos】</p>
+<pre><code class="c++">// 从下标 pos 开始反向查找字符串 str 前 count 个字符，与 find 类似
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+rfind(const_pointer str, size_type pos, size_type count) const noexcept
+&#123;
+  if (count == 0)
+    return pos;
+  if (pos &gt;= size_)
+    pos = size_ - 1;
+  if (pos &lt; count - 1)
+    return npos;
+  for (auto i = pos; i &gt;= count - 1; --i)
+  &#123;
+    if (*(buffer_ + i) == *(str + count - 1))
+    &#123;
+      size_type j = 1;
+      for (; j &lt; count; ++j)
+      &#123;
+        if (*(buffer_ + i - j) != *(str + count - j - 1))
+          break;
+      &#125;
+      if (j == count)
+        return i - count + 1;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+</code></pre>
+<p><strong>第四种，</strong>传入参数为位置【pos】和另一个模板类【str】，位置【pos】默认为0。函数从下标 【pos】 开始查找字符串 【str】，若找到返回起始位置的下标，否则返回 【npos】</p>
+<pre><code class="c++">// 从下标 pos 开始反向查找字符串 str，与 find 类似
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+rfind(const basic_string&amp; str, size_type pos) const noexcept
+&#123;
+  const size_type count = str.size_;
+  if (pos &gt;= size_)
+    pos = size_ - 1;
+  if (count == 0)
+    return pos;
+  if (pos &lt; count - 1)
+    return npos;
+  for (auto i = pos; i &gt;= count - 1; --i)
+  &#123;
+    if (*(buffer_ + i) == str[count - 1])
+    &#123;
+      size_type j = 1;
+      for (; j &lt; count; ++j)
+      &#123;
+        if (*(buffer_ + i - j) != str[count - j - 1])
+          break;
+      &#125;
+      if (j == count)
+        return i - count + 1;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+</code></pre>
+<h2 id="find-first-of"><a href="#find-first-of" class="headerlink" title="find_first_of"></a>find_first_of</h2><p>输入形参为一个字符串【str】或字符【ch】，从位置【pos】开始寻找字符串【str】中任意一个元素或者字符【ch】出现的第一个位置</p>
+<p>因此，无论输入形参为字符【ch】，字符串【str】，或者模板类【str】，以及是否输入字符数量【count】，均是寻找输入字符串中<strong>任意一个字符</strong>在【源字符】中第一次出现的位置</p>
+<pre><code class="c++">// 从下标 pos 开始查找 ch 出现的第一个位置
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find_first_of(value_type ch, size_type pos) const noexcept
+&#123;
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    if (*(buffer_ + i) == ch)
+      return i;
+  &#125;
+  return npos;
+&#125;
+
+// 从下标 pos 开始查找字符串 s 其中的一个字符出现的第一个位置
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find_first_of(const_pointer s, size_type pos) const noexcept
+&#123;
+  const size_type len = char_traits::length(s);
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    value_type ch = *(buffer_ + i);
+    for (size_type j = 0; j &lt; len; ++j)
+    &#123;
+      if (ch == *(s + j))
+        return i;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+
+// 从下标 pos 开始查找字符串 s 
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find_first_of(const_pointer s, size_type pos, size_type count) const noexcept
+&#123;
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    value_type ch = *(buffer_ + i);
+    for (size_type j = 0; j &lt; count; ++j)
+    &#123;
+      if (ch == *(s + j))
+        return i;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+
+// 从下标 pos 开始查找字符串 str 其中一个字符出现的第一个位置
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find_first_of(const basic_string&amp; str, size_type pos) const noexcept
+&#123;
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    value_type ch = *(buffer_ + i);
+    for (size_type j = 0; j &lt; str.size_; ++j)
+    &#123;
+      if (ch == str[j])
+        return i;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+</code></pre>
+<h2 id="find-first-not-of"><a href="#find-first-not-of" class="headerlink" title="find_first_not_of"></a>find_first_not_of</h2><p>与【find_first_of】函数同理，但是寻找字符串【str】中任意一个字符不相等的第一个位置</p>
+<pre><code class="c++">// 从下标 pos 开始查找与 ch 不相等的第一个位置
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find_first_not_of(value_type ch, size_type pos) const noexcept
+&#123;
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    if (*(buffer_ + i) != ch)
+      return i;
+  &#125;
+  return npos;
+&#125;
+
+// 从下标 pos 开始查找与字符串 s 其中一个字符不相等的第一个位置
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find_first_not_of(const_pointer s, size_type pos) const noexcept
+&#123;
+  const size_type len = char_traits::length(s);
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    value_type ch = *(buffer_ + i);
+    for (size_type j = 0; j &lt; len; ++j)
+    &#123;
+      if (ch != *(s + j))
+        return i;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+
+// 从下标 pos 开始查找与字符串 s 前 count 个字符中不相等的第一个位置
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find_first_not_of(const_pointer s, size_type pos, size_type count) const noexcept
+&#123;
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    value_type ch = *(buffer_ + i);
+    for (size_type j = 0; j &lt; count; ++j)
+    &#123;
+      if (ch != *(s + j))
+        return i;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+
+// 从下标 pos 开始查找与字符串 str 的字符中不相等的第一个位置
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+find_first_not_of(const basic_string&amp; str, size_type pos) const noexcept
+&#123;
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    value_type ch = *(buffer_ + i);
+    for (size_type j = 0; j &lt; str.size_; ++j)
+    &#123;
+      if (ch != str[j])
+        return i;
+    &#125;
+  &#125;
+  return npos;
+&#125;
+</code></pre>
+<p>这里忽略【find_last_of】函数和【find_last_not_of】函数，与上述两个函数的区别在于他们是从后往前遍历</p>
+<h2 id="count"><a href="#count" class="headerlink" title="count"></a>count</h2><p>计数函数，输入形参为字符【ch】和位置【pos】，位置【pos】默认为0</p>
+<pre><code class="c++">// 返回从下标 pos 开始字符为 ch 的元素出现的次数
+template &lt;class CharType, class CharTraits&gt;
+typename basic_string&lt;CharType, CharTraits&gt;::size_type
+basic_string&lt;CharType, CharTraits&gt;::
+count(value_type ch, size_type pos) const noexcept
+&#123;
+  size_type n = 0;
+  for (auto i = pos; i &lt; size_; ++i)
+  &#123;
+    if (*(buffer_ + i) == ch)
+      ++n;
+  &#125;
+  return n;
+&#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/08/08/MyTinySTL-6.2.5%E3%80%90basic_string.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-6.2.5【basic_string.h】【运算符重载】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/08/04/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C1.3/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>计算机网络1.3【IP】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

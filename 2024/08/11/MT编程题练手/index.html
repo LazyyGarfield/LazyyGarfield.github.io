@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MT编程题练手-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            
+        </ul>
+        
+        <h1>MT编程题练手</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/Code/" target="_blank" >Code</a>
+                    
+                </div>
+                <p>2024-08-11 23:04:31</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="1-大富翁游戏"><a href="#1-大富翁游戏" class="headerlink" title="1.大富翁游戏"></a>1.大富翁游戏</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>小美在玩大富翁游戏，游戏中有n+1个城市排成一排，编号从0到n，第i个城市有一个数字ai，表示到达第i个城市可以获得ai枚金币</p>
+<p>每一轮开始时小美会获得四张卡牌，分别可以跳跃1、2、3、4个城市，例如小美可以从城市1跳跃3个城市到达城市4。当小美使用完这4张卡牌后，会开启新的一轮</p>
+<p>初始时，小美拥有0枚金币，在任意时刻，小美的金币数量都必须大于等于0，小美想知道她从第0个城市出发，到达第n个城市最多可以获得多少枚金币</p>
+<h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>输入描述</p>
+<ol>
+<li>第一行输入一个整数n，表示城市个数</li>
+<li>第二个输入n个整数，表示到达城市1到n可以获得的金币数量</li>
+</ol>
+<p>输出描述</p>
+<ol>
+<li>在一行上输出一个整数表示答案，如果无法到达第n个城市，则输出-1</li>
+</ol>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>输入</p>
+<pre><code>10
+-1 2 3 4 -9 -9 -1 3 -1 -1
+</code></pre>
+<p>输出</p>
+<pre><code>9
+</code></pre>
+<p>解释</p>
+<ol>
+<li>第一步使用跳跃3的卡牌，从0跳到3，获得3枚金币</li>
+<li>第二步使用跳跃1的卡牌，从3跳到4，获得4枚金币</li>
+<li>第三步使用跳跃4的卡牌，从4跳到8，获得3枚金币</li>
+<li>第四步使用跳跃2的卡牌，从8跳到10，获得-1枚金币</li>
+<li>一共是9枚金币</li>
+</ol>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>因为小美在每一轮中只能获得四张卡牌，分别跳跃1、2、3、4个城市，只有使用完这4张卡牌后，才会开启新的一轮</li>
+<li>因此，可以以十个城市为一轮，小美每一轮的最后一定会到达第10个城市（或10个城市的整数倍）</li>
+<li>当然，在最后一轮时，小美无需走完这一轮</li>
+</ol>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ol>
+<li>首先，利用<strong>回溯</strong>得到一个<code>map&lt;int,vector&lt;vector&lt;int&gt;&gt;&gt;</code>，其中【map的第i个二维数组】对应【行走到第i格的方法】，举例</li>
+</ol>
+<pre><code class="c++">步长4:3 1
+步长4:4
+步长5:1 4
+步长5:2 3
+步长5:3 2
+步长5:4 1
+步长6:1 2 3
+步长6:1 3 2
+步长6:2 1 3
+步长6:2 3 1
+</code></pre>
+<ol start="2">
+<li>在得到以上map后，基于<strong>动态规划</strong>定义一个【数组dp】，【dp[i]】为到达第i个城市时的最大金币数量</li>
+<li>其实在每一轮中，对于任何步长的城市，都可以根据map计算其最大金币数量。举例，如果当前城市为15，则我们需要【dp[10]】，然后寻找map中步长为5的走法，分别为<code>&#123;1，4&#125;、&#123;2，3&#125;、&#123;3，2&#125;、&#123;4，1&#125;</code>，对这些走法依次计算金币数量，则可以得到【dp[15]】</li>
+<li>代码如下：</li>
+</ol>
+<pre><code class="c++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+using namespace std;
+
+// 得到map
+void fun(map&lt;int, vector&lt;vector&lt;int&gt;&gt;&gt;&amp; jump, vector&lt;int&gt; memory, vector&lt;int&gt; res, int step, int cur) &#123;
+    if (cur == step) &#123;
+        jump[step].push_back(res);
+    &#125;
+    for (int i = 1; i &lt;= min(step, 4); i++) &#123;
+        if (memory[i] == 0) &#123;
+            memory[i] = 1;
+            res.push_back(i);
+            fun(jump, memory, res, step, cur + i);
+            res.pop_back();
+            memory[i] = 0;
+        &#125;
+    &#125;
+&#125;
+
+int main() &#123;
+
+    // 初始化城市数量和金币数量
+    cout &lt;&lt; &quot;城市数量：&quot;;
+    int n;
+    cin &gt;&gt; n;
+    cout &lt;&lt; endl &lt;&lt; &quot;各个城市的金币数量：&quot;;
+    vector&lt;int&gt; gold(n + 1);
+    for (int i = 1; i &lt;= n; i++) &#123;
+        cin &gt;&gt; gold[i];
+    &#125;
+
+    // 创建10步以内的所有走法
+    map&lt;int, vector&lt;vector&lt;int&gt;&gt;&gt; jump;
+    for (int i = 1; i &lt;= 10; i++) &#123;
+        vector&lt;int&gt; memory(5);
+        vector&lt;int&gt; res;
+        fun(jump, memory, res, i, 0);
+    &#125;
+
+    // 定义一个数组dp，dp[i]表示到达第i个城市时的最大金币数量
+    vector&lt;int&gt; dp(n + 1);
+
+    // 定义一个结果存放走法
+    vector&lt;vector&lt;int&gt;&gt; res;
+
+    // 计算
+    for (int i = 1; i &lt;= n; i++) &#123;
+        // idx表示与上一轮的差
+        int idx = i % 10;
+        if (idx == 0) &#123;
+            idx = 10;
+        &#125;
+        // nfront表示上一轮的终点
+        int nfront = i - idx;
+
+        // 计算金币数量
+        // jump[idx]代表走idx的走法有多少种，计算这些走法的金币数量
+        vector&lt;int&gt; tmp;
+        for (int j = 0; j &lt; jump[idx].size(); j++) &#123;
+            int num = dp[nfront];
+            int step = 0;
+            for (int t = 0; t &lt; jump[idx][j].size(); t++) &#123;
+                step += jump[idx][j][t];
+                num += gold[nfront + step];
+            &#125;
+            // 更新dp
+            if (num &gt; dp[i]) &#123;
+                dp[i] = num;
+                tmp = jump[idx][j];
+            &#125;
+        &#125;
+        // 存放结果
+        if (idx == 10 || i == n) &#123;
+            res.push_back(tmp);
+        &#125;
+    &#125;
+
+    cout &lt;&lt; endl &lt;&lt; &quot;金币数量：&quot; &lt;&lt; dp[n] &lt;&lt; endl;
+    cout &lt;&lt; endl &lt;&lt; &quot;走法为：&quot; &lt;&lt; endl;
+    for (int i = 0; i &lt; res.size(); i++) &#123;
+        cout &lt;&lt; &quot;第&quot; &lt;&lt; i + 1 &lt;&lt; &quot;轮：&quot;;
+        for (int j = 0; j &lt; res[i].size(); j++) &#123;
+            cout &lt;&lt; res[i][j] &lt;&lt; &quot; &quot;;
+        &#125;
+        cout &lt;&lt; endl;
+    &#125;
+    system(&quot;pause&quot;);
+    return 0;
+&#125;
+</code></pre>
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>以上题解没有经过案例通过，可能存在错误，请见谅</p>
+<p>可能存在错误：</p>
+<ol>
+<li>金币数量需要用【long long】定义，【int】定义可能会溢出</li>
+<li>可以删除输出中的【走法】，题目只需要输出【最大金币数量】</li>
+<li>没有进行【金币数量少于0】的判断，当i为10的整数倍且【dp[i]&lt;0】时，无法到达目标城市，可以直接返回-1</li>
+</ol>
+<h1 id="2-剪彩带"><a href="#2-剪彩带" class="headerlink" title="2.剪彩带"></a>2.剪彩带</h1><h2 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h2><p>小美的彩带是由一条长度为n的彩带一直无限循环得到的，彩带的每一个位置都有一个颜色，用ai表示。因此当i&gt;n时，ai&#x3D;a(i-n)</p>
+<p>小美每次会从左往后或从右往左剪一段长度为x的彩带，她想知道她每次剪下来的彩带有多少种颜色</p>
+<h2 id="描述-1"><a href="#描述-1" class="headerlink" title="描述"></a>描述</h2><p>输入描述</p>
+<ol>
+<li>第一行输入两个整数n，q代表彩带长度和剪彩带次数</li>
+<li>第二行输入n个整数代表彩带每一个位置的颜色</li>
+<li>此后q行，每行输入一个字符c和一个整数x，代表裁剪方向和裁剪长度，其中字符【’L’】说明从左往右剪，字符【’R’】说明从右往左剪</li>
+</ol>
+<p>输出描述</p>
+<ol>
+<li>对于每一次裁剪彩带，在一行上输出一个整数代表颜色数量</li>
+</ol>
+<h2 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h2><p>输入</p>
+<pre><code>6 3
+1 1 4 5 1 4
+L 2
+L 3
+R 12
+</code></pre>
+<p>输出</p>
+<pre><code>1
+3
+3
+</code></pre>
+<p>解释</p>
+<ol>
+<li>第一次剪彩带，剪下来的是【1，1】，只有1种颜色</li>
+<li>第二次剪彩带，剪下来的是【4，5，1】，有3种颜色</li>
+<li>第三次剪彩带，剪的长度超出彩带长度，包含彩带所有颜色，有3种颜色</li>
+</ol>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><ol>
+<li>需要注意的是，在输入时，我们即可以记录【彩带包含的所有颜色数量sum】；且当剪彩带的长度超出彩带原长度时，可以直接返回【sum】，但是需要更新剪彩带的位置</li>
+<li>首先，我们可以将彩带扩展为【长度为2n的两段一模一样的彩带】，然后定义一个指针【cur】指向上一次剪完彩带的位置</li>
+<li>如果是从左往右剪，则将【cur】置于左段，然后往右判断剪下来的长度中有多少种颜色，从右往左剪同理，将【cur】置于右段</li>
+</ol>
+<h2 id="解决-1"><a href="#解决-1" class="headerlink" title="解决"></a>解决</h2><p>代码如下</p>
+<pre><code class="c++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;unordered_set&gt;
+using namespace std;
+
+int fun(vector&lt;int&gt; color, int sum, int n, int&amp; cur, char ch, int num) &#123;
+    // n表示彩带长度，cur表示当前彩带位置
+    // ch表示左右，num表示剪彩带的长度
+    if (ch == &#39;L&#39;) &#123;
+        cur %= n;
+        unordered_set&lt;int&gt; memory;
+        for (int i = cur; i &lt; cur + num; i++) &#123;
+            memory.insert(color[i]);
+        &#125;
+        cur += num;
+        return memory.size();
+    &#125;
+    else if (ch == &#39;R&#39;) &#123;
+        cur = cur % n + n;
+        unordered_set&lt;int&gt; memory;
+        for (int i = cur; i &gt; cur - num; i--) &#123;
+            memory.insert(color[i]);
+        &#125;
+        cur -= num;
+        return memory.size();
+    &#125;
+&#125;
+
+int main() &#123;
+
+    // 初始化
+    // 第一行，彩带长度和剪彩带次数
+    int n, q;
+    cin &gt;&gt; n &gt;&gt; q;
+
+    // 第二行，彩带每个位置的颜色，顺便记录彩带包含的所有颜色数量
+    vector&lt;int&gt; color(2*n);
+    unordered_set&lt;int&gt; memory;
+    for (int i = 0; i &lt; n; i++) &#123;
+        cin &gt;&gt; color[i];
+        memory.insert(color[i]);
+    &#125;
+    int sum = memory.size();
+
+    // 拓展为两段彩带
+    for (int i = n; i &lt; 2 * n; i++) &#123;
+        color[i] = color[i - n];
+    &#125;
+    // 初始位置为0
+    int cur = 0;
+    
+    // 之后q行输入，并且记录结果
+    vector&lt;int&gt; result;
+    for (int i = 0; i &lt; q; i++) &#123;
+        char ch;
+        int num;
+        cin &gt;&gt; ch &gt;&gt; num;
+        if (num &gt;= n) &#123;
+            result.push_back(sum);
+            cur = ch == &#39;L&#39; ? (cur + sum) % n : (cur - sum) % n;
+        &#125;
+        else &#123;
+            int res = fun(color, sum, n, cur, ch, num);
+            result.push_back(res);
+        &#125;
+    &#125;
+
+    // 输出
+    for (int i = 0; i &lt; q; i++) &#123;
+        cout &lt;&lt; result[i] &lt;&lt; endl;
+    &#125;
+
+    system(&quot;pause&quot;);
+    return 0;
+&#125;
+</code></pre>
+<h2 id="备注-1"><a href="#备注-1" class="headerlink" title="备注"></a>备注</h2><p>本题解同样没有经过案例测试，请见谅</p>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/08/12/MyTinySTL-6.3.1%E3%80%90deque.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-6.3.1【deque.h】【iterator】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/08/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C1.4/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>计算机网络1.4【HTTP】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+
