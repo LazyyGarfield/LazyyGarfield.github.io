@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.3.4【deque.h】【insert,erase,clear】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.3.4【deque.h】【insert,erase,clear】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-15 23:04:02</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="6-3-4【deque-h】【insert-erase-clear】"><a href="#6-3-4【deque-h】【insert-erase-clear】" class="headerlink" title="6.3.4【deque.h】【insert,erase,clear】"></a>6.3.4【deque.h】【insert,erase,clear】</h1><p>6.3.4节主要介绍【deque】的【insert】,【erase】和【clear】函数</p>
+<h2 id="插入：insert"><a href="#插入：insert" class="headerlink" title="插入：insert"></a>插入：insert</h2><p>在【pos】处插入元素【value】，返回【value】所在的节点【node】</p>
+<pre><code class="c++">// 在 position 处插入元素
+template &lt;class T&gt;
+typename deque&lt;T&gt;::iterator
+deque&lt;T&gt;::insert(iterator position, const value_type&amp; value)
+&#123;
+  if (position.cur == begin_.cur)
+  &#123;
+    push_front(value);
+    return begin_;
+  &#125;
+  else if (position.cur == end_.cur)
+  &#123;
+    push_back(value);
+    auto tmp = end_;
+    --tmp;
+    return tmp;
+  &#125;
+  else
+  &#123;
+    return insert_aux(position, value);
+  &#125;
+&#125;
+
+template &lt;class T&gt;
+typename deque&lt;T&gt;::iterator
+deque&lt;T&gt;::insert(iterator position, value_type&amp;&amp; value)
+&#123;
+  if (position.cur == begin_.cur)
+  &#123;
+    emplace_front(mystl::move(value));
+    return begin_;
+  &#125;
+  else if (position.cur == end_.cur)
+  &#123;
+    emplace_back(mystl::move(value));
+    auto tmp = end_;
+    --tmp;
+    return tmp;
+  &#125;
+  else
+  &#123;
+    return insert_aux(position, mystl::move(value));
+  &#125;
+&#125;
+</code></pre>
+<p>辅助函数【insert_aux】，先计算插入点之前的元素个数，分为两种情况</p>
+<ol>
+<li>插入点之前的元素个数少于一半，则在最前端加入与第一元素同值的元素，然后进行元素移动</li>
+<li>反之，插入点之前的元素多于一半，则在最后端加入与最后元素同值的元素，然后进行元素移动</li>
+</ol>
+<pre><code class="c++">// insert_aux 函数
+template &lt;class T&gt;
+template &lt;class... Args&gt;
+typename deque&lt;T&gt;::iterator
+deque&lt;T&gt;::
+insert_aux(iterator position, Args&amp;&amp; ...args)
+&#123;
+  const size_type elems_before = position - begin_;
+  value_type value_copy = value_type(mystl::forward&lt;Args&gt;(args)...);
+  if (elems_before &lt; (size() / 2))
+  &#123; // 在前半段插入
+    emplace_front(front());
+    auto front1 = begin_;
+    ++front1;
+    auto front2 = front1;
+    ++front2;
+    position = begin_ + elems_before;
+    auto pos = position;
+    ++pos;
+    mystl::copy(front2, pos, front1);
+  &#125;
+  else
+  &#123; // 在后半段插入
+    emplace_back(back());
+    auto back1 = end_;
+    --back1;
+    auto back2 = back1;
+    --back2;
+    position = begin_ + elems_before;
+    mystl::copy_backward(position, back2, back1);
+  &#125;
+  *position = mystl::move(value_copy);
+  return position;
+&#125;
+</code></pre>
+<h2 id="插入n个元素：insert"><a href="#插入n个元素：insert" class="headerlink" title="插入n个元素：insert"></a>插入n个元素：insert</h2><p>在【pos】处插入n个【value】，同样判断【pos】是否位于最前端或最后端，否则利用【fill_insert】函数</p>
+<pre><code class="c++">// 在 position 位置插入 n 个元素
+template &lt;class T&gt;
+void deque&lt;T&gt;::insert(iterator position, size_type n, const value_type&amp; value)
+&#123;
+  if (position.cur == begin_.cur)
+  &#123;
+    require_capacity(n, true);
+    auto new_begin = begin_ - n;
+    mystl::uninitialized_fill_n(new_begin, n, value);
+    begin_ = new_begin;
+  &#125;
+  else if (position.cur == end_.cur)
+  &#123;
+    require_capacity(n, false);
+    auto new_end = end_ + n;
+    mystl::uninitialized_fill_n(end_, n, value);
+    end_ = new_end;
+  &#125;
+  else
+  &#123;
+    fill_insert(position, n, value);
+  &#125;
+&#125;
+</code></pre>
+<p>【fill_insert】函数如下，同理，先分为两种情况</p>
+<ol>
+<li>【pos】靠前，则在前面操作。然后再判断【pos】与【<code>begin_</code>】的距离【<code>elems_before</code>】和【n】的大小，进行元素移动</li>
+<li>【pos】靠后，则在后面操作，同样需要判断【<code>elems_before</code>】和【n】的大小，再进行元素移动</li>
+</ol>
+<pre><code class="c++">// fill_insert 函数
+template &lt;class T&gt;
+void deque&lt;T&gt;::
+fill_insert(iterator position, size_type n, const value_type&amp; value)
+&#123;
+  const size_type elems_before = position - begin_;
+  const size_type len = size();
+  auto value_copy = value;
+  if (elems_before &lt; (len / 2))
+  &#123;
+    require_capacity(n, true);
+    // 原来的迭代器可能会失效
+    auto old_begin = begin_;
+    auto new_begin = begin_ - n;
+    position = begin_ + elems_before;
+    try
+    &#123;
+      if (elems_before &gt;= n)
+      &#123;
+        auto begin_n = begin_ + n;
+        mystl::uninitialized_copy(begin_, begin_n, new_begin);
+        begin_ = new_begin;
+        mystl::copy(begin_n, position, old_begin);
+        mystl::fill(position - n, position, value_copy);
+      &#125;
+      else
+      &#123;
+        mystl::uninitialized_fill(
+          mystl::uninitialized_copy(begin_, position, new_begin), begin_, value_copy);
+        begin_ = new_begin;
+        mystl::fill(old_begin, position, value_copy);
+      &#125;
+    &#125;
+    catch (...)
+    &#123;
+      if (new_begin.node != begin_.node)
+        destroy_buffer(new_begin.node, begin_.node - 1);
+      throw;
+    &#125;
+  &#125;
+  else
+  &#123;
+    require_capacity(n, false);
+    // 原来的迭代器可能会失效
+    auto old_end = end_;
+    auto new_end = end_ + n;
+    const size_type elems_after = len - elems_before;
+    position = end_ - elems_after;
+    try
+    &#123;
+      if (elems_after &gt; n)
+      &#123;
+        auto end_n = end_ - n;
+        mystl::uninitialized_copy(end_n, end_, end_);
+        end_ = new_end;
+        mystl::copy_backward(position, end_n, old_end);
+        mystl::fill(position, position + n, value_copy);
+      &#125;
+      else
+      &#123;
+        mystl::uninitialized_fill(end_, position + n, value_copy);
+        mystl::uninitialized_copy(position, end_, position + n);
+        end_ = new_end;
+        mystl::fill(position, old_end, value_copy);
+      &#125;
+    &#125;
+    catch (...)
+    &#123;
+      if(new_end.node != end_.node)
+        destroy_buffer(end_.node + 1, new_end.node);
+      throw;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="删除：erase"><a href="#删除：erase" class="headerlink" title="删除：erase"></a>删除：erase</h2><p>删除【pos】的元素，先计算插入点之前的元素个数【elems】，分为两种情况</p>
+<ol>
+<li>【elems】少于一半，则将【<code>begin_</code>】到【pos】之间的元素全部向后移动，然后利用【pop_front】函数删去最前面</li>
+<li>反之，【elems】多于一半，则将【pos】到【<code>end_</code>】之间的元素全部向前移动，然后利用【pop_back】函数删去最后面</li>
+</ol>
+<pre><code class="c++">// 删除 position 处的元素
+template &lt;class T&gt;
+typename deque&lt;T&gt;::iterator
+deque&lt;T&gt;::erase(iterator position)
+&#123;
+  auto next = position;
+  ++next;
+  const size_type elems_before = position - begin_;
+  if (elems_before &lt; (size() / 2))
+  &#123;
+    mystl::copy_backward(begin_, position, next);
+    pop_front();
+  &#125;
+  else
+  &#123;
+    mystl::copy(next, end_, position);
+    pop_back();
+  &#125;
+  return begin_ + elems_before;
+&#125;
+</code></pre>
+<p>利用【erase】函数删除[first, last)上的元素</p>
+<ol>
+<li>首先，先判断【first】和【last】是否为首尾的迭代器，如果是的话，则利用【clear】函数清空即可</li>
+<li>同样判断删除的区间比较靠前还是靠后，再进行元素移动即可</li>
+</ol>
+<pre><code class="c++">// 删除[first, last)上的元素
+template &lt;class T&gt;
+typename deque&lt;T&gt;::iterator
+deque&lt;T&gt;::erase(iterator first, iterator last)
+&#123;
+  if (first == begin_ &amp;&amp; last == end_)
+  &#123;
+    clear();
+    return end_;
+  &#125;
+  else
+  &#123;
+    const size_type len = last - first;
+    const size_type elems_before = first - begin_;
+    if (elems_before &lt; ((size() - len) / 2))
+    &#123;
+      mystl::copy_backward(begin_, first, last);
+      auto new_begin = begin_ + len;
+      data_allocator::destroy(begin_.cur, new_begin.cur);
+      begin_ = new_begin;
+    &#125;
+    else
+    &#123;
+      mystl::copy(last, end_, first);
+      auto new_end = end_ - len;
+      data_allocator::destroy(new_end.cur, end_.cur);
+      end_ = new_end;
+    &#125;
+    return begin_ + elems_before;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="清空：clear"><a href="#清空：clear" class="headerlink" title="清空：clear"></a>清空：clear</h2><p>【clear】函数，保留头部缓冲区到最后才删除</p>
+<pre><code class="c++">// 清空 deque
+template &lt;class T&gt;
+void deque&lt;T&gt;::clear()
+&#123;
+  // clear 会保留头部的缓冲区
+  for (map_pointer cur = begin_.node + 1; cur &lt; end_.node; ++cur)
+  &#123;
+    data_allocator::destroy(*cur, *cur + buffer_size);
+  &#125;
+  if (begin_.node != end_.node)
+  &#123; // 有两个以上的缓冲区
+    mystl::destroy(begin_.cur, begin_.last);
+    mystl::destroy(end_.first, end_.cur);
+  &#125;
+  else
+  &#123;
+    mystl::destroy(begin_.cur, end_.cur);
+  &#125;
+  shrink_to_fit();
+  end_ = begin_;
+&#125;
+</code></pre>
+<h2 id="交换：swap"><a href="#交换：swap" class="headerlink" title="交换：swap"></a>交换：swap</h2><p>交换两个双端队列【deque】</p>
+<pre><code class="c++">// 交换两个 deque
+template &lt;class T&gt;
+void deque&lt;T&gt;::swap(deque&amp; rhs) noexcept
+&#123;
+  if (this != &amp;rhs)
+  &#123;
+    mystl::swap(begin_, rhs.begin_);
+    mystl::swap(end_, rhs.end_);
+    mystl::swap(map_, rhs.map_);
+    mystl::swap(map_size_, rhs.map_size_);
+  &#125;
+&#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/08/17/MyTinySTL-6.4.1%E3%80%90list.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-6.4.1【list.h】【node,iterator】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/08/14/MyTinySTL-6.3.3%E3%80%90deque.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-6.3.3【deque.h】【function】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

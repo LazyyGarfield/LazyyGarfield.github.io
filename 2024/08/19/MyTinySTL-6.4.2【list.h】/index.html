@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.4.2【list.h】【init】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.4.2【list.h】【init】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-19 23:08:10</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="6-4-2【list-h】【init】"><a href="#6-4-2【list-h】【init】" class="headerlink" title="6.4.2【list.h】【init】"></a>6.4.2【list.h】【init】</h1><p>6.4.2节开始介绍模板类【list】</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>成员变量，定义了allocator的一些变量名，迭代器的变量名，和两种指针</p>
+<p>最重要的两个变量为【<code>指向末尾节点的node_</code>】和【<code>记录大小的size_</code>】，尾节点【<code>node_</code>】不存放数据</p>
+<pre><code class="c++">// 模板类: list
+// 模板参数 T 代表数据类型
+template &lt;class T&gt;
+class list
+&#123;
+public:
+  // list 的嵌套型别定义
+  typedef mystl::allocator&lt;T&gt;                      allocator_type;
+  typedef mystl::allocator&lt;T&gt;                      data_allocator;
+  typedef mystl::allocator&lt;list_node_base&lt;T&gt;&gt;      base_allocator;
+  typedef mystl::allocator&lt;list_node&lt;T&gt;&gt;           node_allocator;
+
+  typedef typename allocator_type::value_type      value_type;
+  typedef typename allocator_type::pointer         pointer;
+  typedef typename allocator_type::const_pointer   const_pointer;
+  typedef typename allocator_type::reference       reference;
+  typedef typename allocator_type::const_reference const_reference;
+  typedef typename allocator_type::size_type       size_type;
+  typedef typename allocator_type::difference_type difference_type;
+
+  typedef list_iterator&lt;T&gt;                         iterator;
+  typedef list_const_iterator&lt;T&gt;                   const_iterator;
+  typedef mystl::reverse_iterator&lt;iterator&gt;        reverse_iterator;
+  typedef mystl::reverse_iterator&lt;const_iterator&gt;  const_reverse_iterator;
+
+  typedef typename node_traits&lt;T&gt;::base_ptr        base_ptr;
+  typedef typename node_traits&lt;T&gt;::node_ptr        node_ptr;
+
+  allocator_type get_allocator() &#123; return node_allocator(); &#125;
+
+private:
+  base_ptr  node_;  // 指向末尾节点
+  size_type size_;  // 大小
+</code></pre>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>可以通过以下方式构造</p>
+<ol>
+<li>空构造</li>
+<li>大小为【n】</li>
+<li>构造为【n】个【value】</li>
+<li>用【first,last】，【ilist.begin(),ilist.end()】，【rhs.cbegin(),rhs.cend()】区间内的元素进行构造</li>
+<li>右值引用</li>
+</ol>
+<pre><code class="c++">  list() 
+  &#123; fill_init(0, value_type()); &#125;
+
+  explicit list(size_type n) 
+  &#123; fill_init(n, value_type()); &#125;
+
+  list(size_type n, const T&amp; value)
+  &#123; fill_init(n, value); &#125;
+
+  template &lt;class Iter, typename std::enable_if&lt;
+    mystl::is_input_iterator&lt;Iter&gt;::value, int&gt;::type = 0&gt;
+  list(Iter first, Iter last)
+  &#123; copy_init(first, last); &#125;
+
+  list(std::initializer_list&lt;T&gt; ilist)
+  &#123; copy_init(ilist.begin(), ilist.end()); &#125;
+
+  list(const list&amp; rhs)
+  &#123; copy_init(rhs.cbegin(), rhs.cend()); &#125;
+
+  list(list&amp;&amp; rhs) noexcept
+    :node_(rhs.node_), size_(rhs.size_)
+  &#123;
+    rhs.node_ = nullptr;
+    rhs.size_ = 0;
+  &#125;
+</code></pre>
+<p>辅助函数【fill_init】和【copy_init】如下</p>
+<pre><code class="c++">// 用 n 个元素初始化容器
+template &lt;class T&gt;
+void list&lt;T&gt;::fill_init(size_type n, const value_type&amp; value)
+&#123;
+  node_ = base_allocator::allocate(1);
+  node_-&gt;unlink();
+  size_ = n;
+  try
+  &#123;
+    for (; n &gt; 0; --n)
+    &#123;
+      auto node = create_node(value);
+      link_nodes_at_back(node-&gt;as_base(), node-&gt;as_base());
+    &#125;
+  &#125;
+  catch (...)
+  &#123;
+    clear();
+    base_allocator::deallocate(node_);
+    node_ = nullptr;
+    throw;
+  &#125;
+&#125;
+
+// 以 [first, last) 初始化容器
+template &lt;class T&gt;
+template &lt;class Iter&gt;
+void list&lt;T&gt;::copy_init(Iter first, Iter last)
+&#123;
+  node_ = base_allocator::allocate(1);
+  node_-&gt;unlink();
+  size_type n = mystl::distance(first, last);
+  size_ = n;
+  try
+  &#123;
+    for (; n &gt; 0; --n, ++first)
+    &#123;
+      auto node = create_node(*first);
+      link_nodes_at_back(node-&gt;as_base(), node-&gt;as_base());
+    &#125;
+  &#125;
+  catch (...)
+  &#123;
+    clear();
+    base_allocator::deallocate(node_);
+    node_ = nullptr;
+    throw;
+  &#125;
+&#125;
+</code></pre>
+<p>其中【create_node】函数用来创建结点</p>
+<pre><code class="c++">// 创建结点
+template &lt;class T&gt;
+template &lt;class ...Args&gt;
+typename list&lt;T&gt;::node_ptr 
+list&lt;T&gt;::create_node(Args&amp;&amp; ...args)
+&#123;
+  node_ptr p = node_allocator::allocate(1);
+  try
+  &#123;
+    data_allocator::construct(mystl::address_of(p-&gt;value), mystl::forward&lt;Args&gt;(args)...);
+    p-&gt;prev = nullptr;
+    p-&gt;next = nullptr;
+  &#125;
+  catch (...)
+  &#123;
+    node_allocator::deallocate(p);
+    throw;
+  &#125;
+  return p;
+&#125;
+</code></pre>
+<p>【link_nodes_at_back】函数，传入形参为【first,last】，用于在链表的尾部连接【first,last】结点</p>
+<pre><code class="c++">// 在尾部连接 [first, last] 结点
+template &lt;class T&gt;
+void list&lt;T&gt;::link_nodes_at_back(base_ptr first, base_ptr last)
+&#123;
+  last-&gt;next = node_;
+  first-&gt;prev = node_-&gt;prev;
+  first-&gt;prev-&gt;next = first;
+  node_-&gt;prev = last;
+&#125;
+</code></pre>
+<h2 id="重载运算符复制函数"><a href="#重载运算符复制函数" class="headerlink" title="重载运算符复制函数"></a>重载运算符复制函数</h2><pre><code class="c++">  list&amp; operator=(const list&amp; rhs)
+  &#123;
+    if (this != &amp;rhs)
+    &#123;
+      assign(rhs.begin(), rhs.end());
+    &#125;
+    return *this;
+  &#125;
+
+  list&amp; operator=(list&amp;&amp; rhs) noexcept
+  &#123;
+    clear();
+    splice(end(), rhs);
+    return *this;
+  &#125;
+
+  list&amp; operator=(std::initializer_list&lt;T&gt; ilist)
+  &#123;
+    list tmp(ilist.begin(), ilist.end());
+    swap(tmp);
+    return *this;
+  &#125;
+</code></pre>
+<h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><pre><code class="c++">  ~list()
+  &#123;
+    if (node_)
+    &#123;
+      clear();
+      base_allocator::deallocate(node_);
+      node_ = nullptr;
+      size_ = 0;
+    &#125;
+  &#125;
+</code></pre>
+<h2 id="迭代器相关函数"><a href="#迭代器相关函数" class="headerlink" title="迭代器相关函数"></a>迭代器相关函数</h2><p>返回头节点的函数【begin()】和返回尾节点的函数【end()】</p>
+<pre><code class="c++">  // 迭代器相关操作
+  iterator               begin()         noexcept
+  &#123; return node_-&gt;next; &#125;
+  const_iterator         begin()   const noexcept
+  &#123; return node_-&gt;next; &#125;
+  iterator               end()           noexcept 
+  &#123; return node_; &#125;
+  const_iterator         end()     const noexcept
+  &#123; return node_; &#125;
+
+  reverse_iterator       rbegin()        noexcept
+  &#123; return reverse_iterator(end()); &#125;
+  const_reverse_iterator rbegin()  const noexcept
+  &#123; return reverse_iterator(end()); &#125;
+  reverse_iterator       rend()          noexcept
+  &#123; return reverse_iterator(begin()); &#125;
+  const_reverse_iterator rend()    const noexcept
+  &#123; return reverse_iterator(begin()); &#125;
+
+  const_iterator         cbegin()  const noexcept
+  &#123; return begin(); &#125;
+  const_iterator         cend()    const noexcept
+  &#123; return end(); &#125;
+  const_reverse_iterator crbegin() const noexcept
+  &#123; return rbegin(); &#125;
+  const_reverse_iterator crend()   const noexcept
+  &#123; return rend(); &#125;
+</code></pre>
+<h2 id="容量"><a href="#容量" class="headerlink" title="容量"></a>容量</h2><pre><code class="c++">  // 容量相关操作
+  bool      empty()    const noexcept 
+  &#123; return node_-&gt;next == node_; &#125;
+
+  size_type size()     const noexcept 
+  &#123; return size_; &#125;
+
+  size_type max_size() const noexcept 
+  &#123; return static_cast&lt;size_type&gt;(-1); &#125;
+</code></pre>
+<h2 id="访问元素"><a href="#访问元素" class="headerlink" title="访问元素"></a>访问元素</h2><p>【front()】函数访问头节点，【back()】函数访问尾节点</p>
+<pre><code class="c++">  // 访问元素相关操作
+  reference       front() 
+  &#123; 
+    MYSTL_DEBUG(!empty());
+    return *begin();
+  &#125;
+
+  const_reference front() const 
+  &#123; 
+    MYSTL_DEBUG(!empty()); 
+    return *begin(); 
+  &#125;
+
+  reference       back() 
+  &#123; 
+    MYSTL_DEBUG(!empty());
+    return *(--end());
+  &#125;
+
+  const_reference back()  const 
+  &#123; 
+    MYSTL_DEBUG(!empty()); 
+    return *(--end());
+  &#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/08/20/MyTinySTL-6.4.3%E3%80%90list.h%E3%80%91/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>MyTinySTL-6.4.3【list.h】【基础函数】</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/08/17/MyTinySTL-6.4.1%E3%80%90list.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-6.4.1【list.h】【node,iterator】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+

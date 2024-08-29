@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>MyTinySTL-6.4.4【list.h】【相关函数】-lazyy</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/bitbug_favicon.ico">
+
+<link rel="stylesheet" href="/css/index.css">
+
+
+
+<meta name="keywords" content="Code,STL,">
+<meta name="description" content="">
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+<script src="/js/index.js"></script>
+
+
+<script src="/js/fancybox.umd.js"></script>
+
+
+<script src="/js/fancybox-images.js"></script>
+
+
+<script src="/js/gitalk.min.js"></script>
+
+
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>LazyGarfield</h2>
+    </div>
+    <ul>
+        
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
+        </li>
+        
+    </ul>
+    <div class="my_foot">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+            <img src="/image/logo.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
+        right: 0;
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
+    }
+
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
+    }
+
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
+    }
+
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
+    }
+
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
+    }
+</style>
+
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-color"
+    style="background: url('')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/Code">Code</a></li>
+            
+            <li><a href="/tags/STL">STL</a></li>
+            
+            
+        </ul>
+        
+        <h1>MyTinySTL-6.4.4【list.h】【相关函数】</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <g>
+                            <path fill="#12183A"
+                                d="M6.187 15.265A6.47 6.47 0 0 0 10 16.5a6.47 6.47 0 0 0 3.813-1.235A4.99 4.99 0 0 0 10 13.5a4.99 4.99 0 0 0-3.813 1.765zM5.082 14.25A6.485 6.485 0 0 1 10 12c1.965 0 3.726.872 4.918 2.25a6.5 6.5 0 1 0-9.836 0zM10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z">
+                            </path>
+                        </g>
+                    </svg>
+                
+                <span class="post-header-info-author-text"> <a href="https://lazyygarfield.github.io/">LazyGarfield</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../../../categories/MyTinySTL/" target="_blank" >MyTinySTL</a>
+                    
+                </div>
+                <p>2024-08-21 23:08:22</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
+    
+
+    <h1 id="6-4-4【list-h】【相关函数】"><a href="#6-4-4【list-h】【相关函数】" class="headerlink" title="6.4.4【list.h】【相关函数】"></a>6.4.4【list.h】【相关函数】</h1><p>6.4.4节介绍【list】的更复杂的功能和操作</p>
+<h2 id="接合：splice"><a href="#接合：splice" class="headerlink" title="接合：splice"></a>接合：splice</h2><p>第一个版本，将【list&amp; x】接合于【pos】之前，具体实现为</p>
+<ol>
+<li>利用【unlink_nodes】函数将【list&amp; x】的首尾断开连接</li>
+<li>利用【link_nodes】函数将【list&amp; x】接在【pos.node_】处</li>
+<li>需要注意的是，要调整容器和【list&amp; x】的size大小</li>
+</ol>
+<pre><code class="c++">// 将 list x 接合于 pos 之前
+template &lt;class T&gt;
+void list&lt;T&gt;::splice(const_iterator pos, list&amp; x)
+&#123;
+  MYSTL_DEBUG(this != &amp;x);
+  if (!x.empty())
+  &#123;
+    THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - x.size_, &quot;list&lt;T&gt;&#39;s size too big&quot;);
+
+    auto f = x.node_-&gt;next;
+    auto l = x.node_-&gt;prev;
+
+    x.unlink_nodes(f, l);
+    link_nodes(pos.node_, f, l);
+
+    size_ += x.size_;
+    x.size_ = 0;
+  &#125;
+&#125;
+</code></pre>
+<p>第二个版本，将【list&amp; x】中【const_iterator it】所指的节点接合到【pos】之前，与第一个版本相比，只接合了一个节点</p>
+<pre><code class="c++">// 将 it 所指的节点接合于 pos 之前
+template &lt;class T&gt;
+void list&lt;T&gt;::splice(const_iterator pos, list&amp; x, const_iterator it)
+&#123;
+  if (pos.node_ != it.node_ &amp;&amp; pos.node_ != it.node_-&gt;next)
+  &#123;
+    THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - 1, &quot;list&lt;T&gt;&#39;s size too big&quot;);
+
+    auto f = it.node_;
+
+    x.unlink_nodes(f, f);
+    link_nodes(pos.node_, f, f);
+
+    ++size_;
+    --x.size_;
+  &#125;
+&#125;
+</code></pre>
+<p>第三个版本，将【list&amp; x】中的【first,last】内的节点接合到【pos】之前</p>
+<pre><code class="c++">// 将 list x 的 [first, last) 内的节点接合于 pos 之前
+template &lt;class T&gt;
+void list&lt;T&gt;::splice(const_iterator pos, list&amp; x, const_iterator first, const_iterator last)
+&#123;
+  if (first != last &amp;&amp; this != &amp;x)
+  &#123;
+    size_type n = mystl::distance(first, last);
+    THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - n, &quot;list&lt;T&gt;&#39;s size too big&quot;);
+    auto f = first.node_;
+    auto l = last.node_-&gt;prev;
+
+    x.unlink_nodes(f, l);
+    link_nodes(pos.node_, f, l);
+
+    size_ += n;
+    x.size_ -= n;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="移除：remove"><a href="#移除：remove" class="headerlink" title="移除：remove"></a>移除：remove</h2><p>第一个版本，移除掉值为【value】的节点</p>
+<pre><code class="c++">  void remove(const value_type&amp; value)
+  &#123; remove_if([&amp;](const value_type&amp; v) &#123;return v == value; &#125;); &#125;
+</code></pre>
+<p>第二个版本，移除掉满足一元条件的节点</p>
+<pre><code class="c++">// 将另一元操作 pred 为 true 的所有元素移除
+template &lt;class T&gt;
+template &lt;class UnaryPredicate&gt;
+void list&lt;T&gt;::remove_if(UnaryPredicate pred)
+&#123;
+  auto f = begin();
+  auto l = end();
+  for (auto next = f; f != l; f = next)
+  &#123;
+    ++next;
+    if (pred(*f))
+    &#123;
+      erase(f);
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="去重：unique"><a href="#去重：unique" class="headerlink" title="去重：unique"></a>去重：unique</h2><p>移除两个相邻元素满足二元条件中的后一个元素</p>
+<pre><code class="c++">  void unique()
+  &#123; unique(mystl::equal_to&lt;T&gt;()); &#125;
+  template &lt;class BinaryPredicate&gt;
+  void unique(BinaryPredicate pred);
+
+
+// 移除 list 中满足 pred 为 true 重复元素
+template &lt;class T&gt;
+template &lt;class BinaryPredicate&gt;
+void list&lt;T&gt;::unique(BinaryPredicate pred)
+&#123;
+  auto i = begin();
+  auto e = end();
+  auto j = i;
+  ++j;
+  while (j != e)
+  &#123;
+    if (pred(*i, *j))
+    &#123;
+      erase(j);
+    &#125;
+    else
+    &#123;
+      i = j;
+    &#125;
+    j = i;
+    ++j;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="合并：merge"><a href="#合并：merge" class="headerlink" title="合并：merge"></a>合并：merge</h2><p>第一个版本，按升序排列将容器和【list&amp; x】合并起来</p>
+<pre><code class="c++">  void merge(list&amp; x)
+  &#123; merge(x, mystl::less&lt;T&gt;()); &#125;
+</code></pre>
+<p>第二个版本，按自定义的【Compare comp】排列将容器和【list&amp; x】合并起来，具体实现为：</p>
+<ol>
+<li>定义两个指针【f1】、【f2】分别为容器和【list&amp; x】的当前节点，比较当前两个节点满足条件</li>
+<li>如果满足条件的话，则【f2】继续往下判断，直到不满足条件，此时将该区间内的节点都插入到容器中，然后【f1++】，继续判断节点是否满足条件</li>
+<li>如果不满足条件的话，则【f1++】，继续判断节点是否满足条件</li>
+<li>直到【f1】到达容器的末尾或者【f2】到达【list&amp; x】的末尾</li>
+<li>如果【list&amp; x】还有剩余，则将其插入到容器的尾部</li>
+</ol>
+<pre><code class="c++">// 与另一个 list 合并，按照 comp 为 true 的顺序
+template &lt;class T&gt;
+template &lt;class Compare&gt;
+void list&lt;T&gt;::merge(list&amp; x, Compare comp)
+&#123;
+  if (this != &amp;x)
+  &#123;
+    THROW_LENGTH_ERROR_IF(size_ &gt; max_size() - x.size_, &quot;list&lt;T&gt;&#39;s size too big&quot;);
+
+    auto f1 = begin();
+    auto l1 = end();
+    auto f2 = x.begin();
+    auto l2 = x.end();
+
+    while (f1 != l1 &amp;&amp; f2 != l2)
+    &#123;
+      if (comp(*f2, *f1))
+      &#123;
+        // 使 comp 为 true 的一段区间
+        auto next = f2;
+        ++next;
+        for (; next != l2 &amp;&amp; comp(*next, *f1); ++next)
+          ;
+        auto f = f2.node_;
+        auto l = next.node_-&gt;prev;
+        f2 = next;
+
+        // link node
+        x.unlink_nodes(f, l);
+        link_nodes(f1.node_, f, l);
+        ++f1;
+      &#125;
+      else
+      &#123;
+        ++f1;
+      &#125;
+    &#125;
+    // 连接剩余部分
+    if (f2 != l2)
+    &#123;
+      auto f = f2.node_;
+      auto l = l2.node_-&gt;prev;
+      x.unlink_nodes(f, l);
+      link_nodes(l1.node_, f, l);
+    &#125;
+
+    size_ += x.size_;
+    x.size_ = 0;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="排序：sort"><a href="#排序：sort" class="headerlink" title="排序：sort"></a>排序：sort</h2><p>利用【list_sort】函数，传入参数分别为表示区间首尾的两个迭代器，区间的大小以及排序的方式【Compared comp】</p>
+<pre><code class="c++">  void sort()
+  &#123; list_sort(begin(), end(), size(), mystl::less&lt;T&gt;()); &#125;
+  template &lt;class Compared&gt;
+  void sort(Compared comp)
+  &#123; list_sort(begin(), end(), size(), comp); &#125;
+</code></pre>
+<p>【list_sort】函数如下（基于<strong>归并排序</strong>思想）</p>
+<ol>
+<li>先讨论区间大小是否为1，如果为1的话直接返回【f1】</li>
+<li>讨论区间大小是否为2，如果为2的话直接比较【f1】和【–l2】，然后进行排序</li>
+<li>当区间长度大于2时，将区间切分为两部分，递归使用【list_sort】函数</li>
+<li>对两部分进行合并，即【merge】算法</li>
+</ol>
+<pre><code class="c++">// 对 list 进行归并排序，返回一个迭代器指向区间最小元素的位置
+template &lt;class T&gt;
+template &lt;class Compared&gt;
+typename list&lt;T&gt;::iterator 
+list&lt;T&gt;::list_sort(iterator f1, iterator l2, size_type n, Compared comp)
+&#123;
+  if (n &lt; 2)
+    return f1;
+
+  if (n == 2)
+  &#123;
+    if (comp(*--l2, *f1))
+    &#123;
+      auto ln = l2.node_;
+      unlink_nodes(ln, ln);
+      link_nodes(f1.node_, ln, ln);
+      return l2;
+    &#125;
+    return f1;
+  &#125;
+
+  auto n2 = n / 2;
+  auto l1 = f1;
+  mystl::advance(l1, n2);
+  auto result = f1 = list_sort(f1, l1, n2, comp);  // 前半段的最小位置
+  auto f2 = l1 = list_sort(l1, l2, n - n2, comp);  // 后半段的最小位置
+
+  // 合并两段有序区间
+  while (f1 != l1 &amp;&amp; f2 != l2)
+  &#123;
+    if (comp(*f2, *f1))
+    &#123;
+      auto m = f2;
+      ++m;
+      for (; m != l2 &amp;&amp; comp(*m, *f1); ++m)
+        ;
+      auto f = f2.node_;
+      auto l = m.node_-&gt;prev;
+      if (l1 == f2)
+        l1 = m;
+      f2 = m;
+      unlink_nodes(f, l);
+      m = f1;
+      ++m;
+      link_nodes(f1.node_, f, l);
+      f1 = m;
+    &#125;
+    else
+    &#123;
+      ++f1;
+    &#125;
+  &#125;
+  return result;
+&#125;
+</code></pre>
+<h2 id="反转：reverse"><a href="#反转：reverse" class="headerlink" title="反转：reverse"></a>反转：reverse</h2><p>将链表反转</p>
+<pre><code class="c++">// 将 list 反转
+template &lt;class T&gt;
+void list&lt;T&gt;::reverse()
+&#123;
+  if (size_ &lt;= 1)
+  &#123;
+    return;
+  &#125;
+  auto i = begin();
+  auto e = end();
+  while (i.node_ != e.node_)
+  &#123;
+    mystl::swap(i.node_-&gt;prev, i.node_-&gt;next);
+    i.node_ = i.node_-&gt;prev;
+  &#125;
+  mystl::swap(e.node_-&gt;prev, e.node_-&gt;next);
+&#125;
+</code></pre>
+<hr>
+<script src="https://utteranc.es/client.js" repo="LazyyGarfield/LazyyGarfield.github.io" issue-term="pathname" label="Comment" theme="github-light" crossorigin="anonymous" async>
+</script>
+
+<hr>
+
+  </div>
+  <div id=""></div>
+</div>
+
+<script>
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
+});
+</script>
+
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+
+    
+    <a href="/2024/08/20/MyTinySTL-6.4.3%E3%80%90list.h%E3%80%91/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>MyTinySTL-6.4.3【list.h】【基础函数】</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By LazyGarfield. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/LazyyGarfield/LazyyGarfield.github.io">
+			<img src="/image/logo.png" alt="Quiet主题">
+		</a>
+		
+	</div>
+</div>
+
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+    }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
+</script>
+
+
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"Ov23liIpBixSuB9Lylfq","clientSecret":"91c22ed4df314a3257c531830bc61db47c591573","repo":"LazyyGarfield.github.io","owner":"LazyyGarfield","admin":"LazyyGarfield"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('false')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
+
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
+</html>
+
